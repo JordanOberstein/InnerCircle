@@ -2,6 +2,8 @@
 #By Jordan Oberstein
 
 import random
+import math
+
 from board1 import B1
 from board2 import B2
 from board3 import B3
@@ -9,7 +11,10 @@ from board4 import B4
 
 #currently uneeded
 #from board1 import O1
-#from board1 import O2
+#from board2 import O2
+#from board3 import O3
+#from board4 import O4
+
 
 #Empty board for rotation assignments
 empty_board = [[(), (), (), ()], \
@@ -31,7 +36,7 @@ def create_board(r1, r2, r3, c): #create board using rings
 	nb[3][3] = c
 	return nb
 
-class Helpers(object):
+class Display(object):
 	def __init__(self, board, args=[]):
 		self.board = board
 		self.args = args
@@ -58,6 +63,11 @@ class Helpers(object):
 				DATA += "\n"
 		return DATA
 
+
+class Setup(object):
+	def __init__(self, board): #should only be B4
+		self.board = board
+
 	def rotate(self, r=1): #default 1 rotation clockwise
 		new_board = self.board #prevents glitches where whole board is written over with one sextant
 		for k in range(r):
@@ -74,50 +84,115 @@ class Helpers(object):
 			new_board = create_board(nr1, nr2, nr3, c)
 		return new_board
 
+	def check_if_complete(self):
+		flat_board = [item for sublist in self.board for item in sublist] #flatten rotated upper board
+		return (all([space["has_piece"] for space in flat_board if space["starting_space"]])) #if all starting spaces have a piece
+
+	def add_pieces(self):
+		players = ["P2", "P1"] #index 0, 2, 4 is P2, index 1, 3, 5 is P1
+		turn = 1
+		while not Setup(self.board).check_if_complete():
+			CP = players[turn%2]
+			print(Display(self.board, ["dots", "has_piece"]))
+			flat_board = [item for sublist in self.board for item in sublist] #flatten rotated upper board
+			remaining_spaces = [space["name"] for space in flat_board if space["starting_space"] and not space["has_piece"]]
+			space_index = input("These are the remaining spaces, choose 1: {}\n==>".format(remaining_spaces))
+			chosen_space = remaining_spaces[int(space_index)]
+			x = int(chosen_space[1]) #row
+			y = int(chosen_space[2]) #collumn
+			self.board[x][y]["has_piece"] = CP
+			turn += 1
+		print(Display(self.board, ["dots", "has_piece"]))
+		print("Game Setup is complete.\n\n\n")
+
+	def determine_starting_spaces(self): #for incomplete games 
+		if self.board == B1: #playing with just first board
+			r = random.randint(0,5)
+			rotated_board_B2 = Setup(B2).rotate(r) #rotated upper board
+			flat_rotated_board_B2 = [item for sublist in rotated_board_B2 for item in sublist] #flatten rotated upper board
+			flat_board_B1 = [item for sublist in B1 for item in sublist] #flatten lower board
+			#list of indexes of spaces in upper board where spaces are holes
+			starting_index_list = [flat_rotated_board_B2.index(item) for item in flat_rotated_board_B2 if item["is_hole"]] 
+			return [flat_board_B1[n]["name"] for n in starting_index_list] #spaces in lower board that line up with holes in upper board
+		elif self.board == B2: #playing with first and second board
+			r = random.randint(0,5)
+			rotated_board_B3 = Setup(B3).rotate(r) #rotated upper board
+			flat_rotated_board_B3 = [item for sublist in rotated_board_B3 for item in sublist] #flatten rotated upper board
+			flat_board_B2 = [item for sublist in B2 for item in sublist] #flatten lower board
+			#list of indexes of spaces in upper board where spaces are holes
+			starting_index_list = [flat_rotated_board_B3.index(item) for item in flat_rotated_board_B3 if item["is_hole"]] 
+			return [flat_board_B2[n]["name"] for n in starting_index_list] #spaces in lower board that line up with holes in upper board
+		elif self.board == B3: #palying with first, second and third board
+			r = random.randint(0,5)
+			rotated_board_B4 = Setup(B4).rotate(r) #rotated upper board
+			flat_rotated_board_B4 = [item for sublist in rotated_board_B4 for item in sublist] #flatten rotated upper board
+			flat_board_B3 = [item for sublist in B3 for item in sublist] #flatten lower board
+			#list of indexes of spaces in upper board where spaces are holes
+			starting_index_list = [flat_rotated_board_B4.index(item) for item in flat_rotated_board_B4 if item["is_hole"]] 
+			return [flat_board_B3[n]["name"] for n in starting_index_list] #spaces in lower board that line up with holes in upper board
+
+
 #this is a seperate class from gameplay because gameplay must initialize ONLY once, otherwise random choices get reset
 class Actions(object):
 	def __init__(self, board):
 		self.board = board
-		self.directions = ["ul", "ur", "r", "br", "bl", "l"]
 
 	def find_move(self, piece=False, direction=False, moves_remaining=False): #recursive function to find move
 		if piece == False:
-			return False
-		if moves_remaining != 0:
-			x = int(piece[1]) #row
-			y = int(piece[2]) #collumn
+			#print()
+			return False #not a legal move
+		x = int(piece[1]) #row
+		y = int(piece[2]) #collumn
+		if moves_remaining != 0: #any move that is NOT the final move
 			#print("{} -> {}".format(piece, self.board[x][y]["adj"][direction]), end="\t")
 			return Actions(self.board).find_move(self.board[x][y]["adj"][direction], direction, moves_remaining - 1)
 		else:
-			x = int(piece[1]) #row
-			y = int(piece[2]) #collumn
-			if self.board[x][y]["has_piece"]: #if the space already contains a piece
+			#print()
+			if self.board[x][y]["has_piece"]: #if the final space already contains a piece
 				return False
 			else:
 				return piece
 
 	def legal_moves(self, piece=False):
 		if not piece:
-			return "Broke"
+			return "no piece, legal_moves is broken"
+		
+		directions = ["ul", "ur", "r", "br", "bl", "l"]
 		x = int(piece[1]) #row
 		y = int(piece[2]) #collumn
 		dots = self.board[x][y]["dots"] #number of dots
-		print("Piece {} moves {} spaces".format(piece, dots))
-		legal_spaces = []
-		for direction in self.directions:
-			legal_spaces.append(Actions(self.board).find_move(piece, direction, dots))
+		if dots == "C": #piece is in center
+			dots = [1, 2, 3]
+			print("Piece {} moves {} spaces".format(piece, dots))
+			legal_spaces = [Actions(self.board).find_move(piece, direction, d) for direction in directions for d in dots]
+		else: #any other space
+			print("Piece {} moves {} spaces".format(piece, dots))
+			legal_spaces = [Actions(self.board).find_move(piece, direction, dots) for direction in directions]
+		
 		return legal_spaces
 
 	def take_turn(self, turn, CP):
 		CP_name = "P" + str(((turn + 1)%2)+1)
 
 		legal_spaces = []
-		while len(legal_spaces) == 0: #will not continue unless the chosen piece has legal moves
-			piece_index = input("These are the available pieces for {}, choose 1: {}:\n==> ".format(CP_name, CP)) #"P2" if turn % 2 == 0 else "P1"
-			piece = CP[int(piece_index)]
-			legal_spaces = [space for space in Actions(self.board).legal_moves(piece) if space != False] #determines legal spaces
+		center = "i33"
+		if center in CP:
+			piece = center
+			legal_spaces = [space for space in Actions(self.board).legal_moves(piece) if space != False]
+		else:
+			while len(legal_spaces) == 0: #will not continue unless the chosen piece has legal moves
+				piece_index = input("These are the available pieces for {}, choose 1: {}:\n==> ".format(CP_name, CP)) #"P2" if turn % 2 == 0 else "P1"
+				piece = CP[int(piece_index)]
+				legal_spaces = [space for space in Actions(self.board).legal_moves(piece) if space != False] #determines legal spaces
 
-		move_index = input("These are the available moves for {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
+				#safeguard if piece is already in a hole
+				if self.board[int(piece[1])][int(piece[2])]["is_hole"]:
+					response = input("Piece {} is already in a hole, are you sure you want to move it?\n==>".format(piece))
+					if response != "y":
+						legal_spaces = []
+						continue;
+
+		move_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
 		chosen_move = legal_spaces[int(move_index)]
 
 		#now make the move
@@ -131,87 +206,74 @@ class Actions(object):
 		CP.remove(piece)
 		CP.append(chosen_move)
 
-	def determine_starting_spaces(self):
-		if self.board == B1:
-			r = random.randint(0,5)
-			rotated_board_B2 = Helpers(B2).rotate(r) #rotated upper board
-			flat_rotated_board_B2 = [item for sublist in rotated_board_B2 for item in sublist] #flatten rotated upper board
-			flat_board_B1 = [item for sublist in B1 for item in sublist] #flatten lower board
-			#list of indexes of spaces in upper board where spaces are holes
-			starting_index_list = [flat_rotated_board_B2.index(item) for item in flat_rotated_board_B2 if item["is_hole"]] 
-			return [flat_board_B1[n]["name"] for n in starting_index_list] #spaces in lower board that line up with holes in upper board
 
-class Gameplay(object):
+class Full_Game(object):
 	def __init__(self, board):
-		#board
-		self.board = board.copy() #prevent any wierd things from hapenning
-
-		#assign pieces and their starting spots to each player randomly
 		print("initializing")
-		starting_spaces = (Actions(self.board).determine_starting_spaces())
-		random.shuffle(starting_spaces) #shuffle the starting spaces, otherwise cuts for P1 and P2 will be the same for any rotation
-		cut = random.randint(1, 2)
-		self.P1 = starting_spaces[:cut].copy()
-		self.P2 = starting_spaces[cut:].copy()
-		self.players = [self.P2, self.P1] #index 0, 2, 4 is P2, index 1, 3, 5 is P1
-
+		self.board = board.copy() #add .copy() ???
+		self.P1 = []
+		self.P2 = []
+		self.players = [self.P1, self.P2] #index 0, 2, 4 is P2, index 1, 3, 5 is P1
 		self.turn = 1 #moves in game; move from P1 + move from P2 = 1 turn
+		self.center = self.board[3][3]
 
-		self.directions = ["ul", "ur", "r", "br", "bl", "l"] #legal directions of movement in adj
-		self.center = self.board[3][3] #will have to rework once I add board #2 
+	def play(self):
+		board_array = [B4, B3, B2, B1] #currently unused
 
-	def play_game(self):
-		#Gameplay(self.board).setup() #setup the game
-		for item in self.P1:
-			self.board[int(item[1])][int(item[2])]["has_piece"] = "P1"
-		for item in self.P2:
-			self.board[int(item[1])][int(item[2])]["has_piece"] = "P2"
+		#Add pieces to board at start of game
+		if self.board == B4:
+			Setup(B4).add_pieces()
+			#retrieve P1 and P2
+			flat_board = [item for sublist in self.board for item in sublist] #flatten rotated upper board
+			self.P1 = [space["name"] for space in flat_board if space["has_piece"] == "P1"]
+			self.P2 = [space["name"] for space in flat_board if space["has_piece"] == "P2"]
+		
+		elif self.board == B1 or self.board == B2 or self.board == B3:
+			board_array = board_array[board_array.index(self.board):] #redefine board_array to only have boards being used
+
+			starting_spaces = Setup(self.board).determine_starting_spaces()
+			random.shuffle(starting_spaces) #shuffle the starting spaces, otherwise cut for P1 and P2 will be the same for any rotation
+			cut = random.randint(math.floor(len(starting_spaces)/2), math.ceil(len(starting_spaces)/2)) #cut assumes players play well
+			self.P1 = starting_spaces[:cut].copy()
+			self.P2 = starting_spaces[cut:].copy()
+
+			#add pieces in P1 and P2 to the board
+			for space in self.P1:
+				self.board[int(space[1])][int(space[2])]["has_piece"] = "P1" #x=space[1], y=space[2]
+			for space in self.P2:
+				self.board[int(space[1])][int(space[2])]["has_piece"] = "P2" #x=space[1], y=space[2]
+
+		self.players = [self.P2, self.P1] #redefine with updated self.P1 and self.P2
 
 		continue_game = True
 		while continue_game:
 			print("\n\n\nMOVE NUMBER {}".format(self.turn))
-			print(Helpers(self.board, ["dots", "has_piece"]))
+			print(Display(self.board, ["name", "dots", "has_piece"]))
 			self.CP = self.players[self.turn%2] #defines current player based on turn as index of self.players
-			if self.center["has_piece"]:
-				print("There is a piece in the center")
-				continue_game = False
-				break; #redundant
-			#check if any pieces need to be moved
+			CP_name = "P" + str(((self.turn + 1)%2)+1)
 			if len(self.CP) == 0:
 				print("no valid moves for CP")
 				self.turn += 1 #move to next player
 				continue; #move to top of loop
+
 			Actions(self.board).take_turn(self.turn, self.CP)
+
+			#check if piece in center, end game if lowest board
+			if self.center["has_piece"]:
+				if self.board == B1:
+					break; #end game
+				else:
+					print("\n{}'s piece is in the center, they will now move it...\n".format(CP_name))
+					Actions(self.board).take_turn(self.turn, self.CP)
+			
 			self.turn += 1
 
-		#now that all pieces have holes... (must change this for later board additions)
-		return "\n\n\nTHE WINNER IS: {}".format(self.center["has_piece"])
+		print("\n\nThere is a winner...\n\n\nTHE WINNER IS: {}".format(self.center["has_piece"]))
 
-
-
-
-
-
-def testing():
-	print(Helpers(B1, ["name", "dots", "is_hole", "starting_space"]))
-	print(Helpers(B2, ["name", "dots", "is_hole", "starting_space"]))
-	print(Helpers(B3, ["name", "dots", "is_hole", "starting_space"]))
-	print(Helpers(B4, ["name", "dots", "is_hole", "starting_space"]))
 
 
 def main():
-	"""
-	GAME_BOARD = B1.copy()
-	print(Helpers(GAME_BOARD, ["adj"]))
-	print(Gameplay(GAME_BOARD).play_game())
-	"""
-	#testing()
-
-
-
-	#print(Helpers(B1, ["dots", "name"]))
-	#Optimizer(B1).tree_maker()
-	#print(Actions(B1).determine_starting_spaces())
+	Full_Game(B1).play()
 
 if __name__ == '__main__':
 	main()
@@ -220,59 +282,15 @@ if __name__ == '__main__':
 """
 NEXT STEP:
 
+better formatting, colors to show pieces in holes (GUI?)
 
-Code tree going outward from center
+set rotations for boards at start of game
+	- when taking move on lower board, same input is then translated through r rotations to new board
+add attribute for sub layer dots, assign values to attribute at start of game
+fix warning for moving piece out of hole using sub layer dots
 
-tree_length = 1
-find moves for a piece in center for dots = (x=1,2,3,4) 
-if a piece can move x dots from the center onto a space with x dots, then that is a successful move
-if pathway lacks array of tree_length 1, 
+figure out how to end layer and move to next board
+assign starting spaces to lower board based on pieces in holes
+	- if P1 or P2 has no pieces then end the game
 
 """
-
-
-
-
-##CURRENTLY DOES NOT WORK
-"""
-class Optimizer(object):
-	def __init__(self, board):
-		self.board = board
-		self.center = self.board[3][3]
-		self.directions = ["ul", "ur", "r", "br", "bl", "l"] #legal directions of movement in adj
-	def tree_maker(self):
-		A = [["i33"]]
-		length = 0
-		while length < 2: 
-			A.append([])
-			for item in A[length]:
-				for dots in range(1, 5):
-					for direction in self.directions:
-						proposed = Actions(self.board).find_move(item, direction, dots)
-						print("length {}, item {}, dots {}, direction {}, proposed {}".format(length, item, dots, direction, proposed))
-						if proposed is not False:
-							x0 = int(proposed[1]) #row
-							y0 = int(proposed[2]) #collumn
-							if self.board[x0][y0]["dots"] == dots:
-								A[length + 1].append(self.board[x0][y0]["name"])
-								print(A)
-			length += 1
-			print("DONE BREAK")
-		print(length)
-
-		while length < 2:
-			A.append([])
-			for item in A[length]:
-				for dots in range(1, 5):
-					for direction in self.directions:
-						proposed = Actions(self.board).find_move(item, direction, dots)
-						print("length {}, item {}, dots {}, direction {}, proposed {}".format(length, item, dots, direction, proposed))
-						if proposed is not False:
-							x0 = int(proposed[1]) #row
-							y0 = int(proposed[2]) #collumn
-							if self.board[x0][y0]["dots"] == dots:
-								A[1].append(self.board[x0][y0]["name"])
-								print(A)
-		print(A)
-"""
-
