@@ -1,11 +1,11 @@
-#data for board 1
+#data for board 3
 #Copyright Symbol Facing Upwards
 #Unused Attributes: starting_space
 
-O1 = {
+O3 = {
 	"i00": {
 		"name": "i00",
-		"dots": 3,
+		"dots": 2,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -20,7 +20,7 @@ O1 = {
 	},
 	"i01": {
 		"name": "i01",
-		"dots": 2,
+		"dots": 1,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -35,10 +35,10 @@ O1 = {
 	},
 	"i02": {
 		"name": "i02",
-		"dots": 1,
+		"dots": "H",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": False,
 			"ur": False,
@@ -50,7 +50,7 @@ O1 = {
 	},
 	"i03": {
 		"name": "i03",
-		"dots": 1,
+		"dots": 3,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -65,10 +65,10 @@ O1 = {
 	},
 	"i10": {
 		"name": "i10",
-		"dots": 1,
+		"dots": "H",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": False,
 			"ur": "i00",
@@ -81,7 +81,7 @@ O1 = {
 	"i11": {
 		"name": "i11",
 		"dots": 2,
-		"starting_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -95,7 +95,7 @@ O1 = {
 	},
 	"i12": {
 		"name": "i12",
-		"dots": 4,
+		"dots": 2,
 		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
@@ -111,7 +111,7 @@ O1 = {
 	"i13": {
 		"name": "i13",
 		"dots": 4,
-		"starting_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -125,7 +125,7 @@ O1 = {
 	},
 	"i14": {
 		"name": "i14",
-		"dots": 3,
+		"dots": 1,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -155,7 +155,7 @@ O1 = {
 	},
 	"i21": {
 		"name": "i21",
-		"dots": 2,
+		"dots": 3,
 		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
@@ -170,8 +170,8 @@ O1 = {
 	},
 	"i22": {
 		"name": "i22",
-		"dots": 3,
-		"starting_space": False,
+		"dots": 1,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -186,7 +186,7 @@ O1 = {
 	"i23": {
 		"name": "i23",
 		"dots": 2,
-		"starting_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -200,7 +200,7 @@ O1 = {
 	},
 	"i24": {
 		"name": "i24",
-		"dots": 2,
+		"dots": 4,
 		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
@@ -215,10 +215,10 @@ O1 = {
 	},
 	"i25": {
 		"name": "i25",
-		"dots": 3,
+		"dots": "H",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": "i14",
 			"ur": False,
@@ -230,10 +230,10 @@ O1 = {
 	},
 	"i30": {
 		"name": "i30",
-		"dots": 2,
+		"dots": "H",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": False,
 			"ur": "i20",
@@ -245,8 +245,8 @@ O1 = {
 	},
 	"i31": {
 		"name": "i31",
-		"dots": 1,
-		"starting_space": False,
+		"dots": 2,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -260,8 +260,8 @@ O1 = {
 	},
 	"i32": {
 		"name": "i32",
-		"dots": 3,
-		"starting_space": False,
+		"dots": 4,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -275,10 +275,10 @@ O1 = {
 	},
 	"i33": {
 		"name": "i33",
-		"dots": "H",
+		"dots": "C",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": True,
+		"is_hole": False,
 		"adj": {
 			"ul": "i22",
 			"ur": "i23",
@@ -290,8 +290,8 @@ O1 = {
 	},
 	"i34": {
 		"name": "i34",
-		"dots": 2,
-		"starting_space": False,
+		"dots": 1,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -305,8 +305,8 @@ O1 = {
 	},
 	"i35": {
 		"name": "i35",
-		"dots": 3,
-		"starting_space": False,
+		"dots": 2,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -335,7 +335,7 @@ O1 = {
 	},
 	"i40": {
 		"name": "i40",
-		"dots": 1,
+		"dots": 4,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -350,7 +350,7 @@ O1 = {
 	},
 	"i41": {
 		"name": "i41",
-		"dots": 4,
+		"dots": 3,
 		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
@@ -365,8 +365,8 @@ O1 = {
 	},
 	"i42": {
 		"name": "i42",
-		"dots": 2,
-		"starting_space": False,
+		"dots": 3,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -380,8 +380,8 @@ O1 = {
 	},
 	"i43": {
 		"name": "i43",
-		"dots": 3,
-		"starting_space": False,
+		"dots": 4,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -425,10 +425,10 @@ O1 = {
 	},
 	"i50": {
 		"name": "i50",
-		"dots": 3,
+		"dots": "H",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": "i40",
 			"ur": "i41",
@@ -440,8 +440,8 @@ O1 = {
 	},
 	"i51": {
 		"name": "i51",
-		"dots": 4,
-		"starting_space": False,
+		"dots": 1,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -455,7 +455,7 @@ O1 = {
 	},
 	"i52": {
 		"name": "i52",
-		"dots": 2,
+		"dots": 3,
 		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
@@ -470,8 +470,8 @@ O1 = {
 	},
 	"i53": {
 		"name": "i53",
-		"dots": 1,
-		"starting_space": False,
+		"dots": 4,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -485,7 +485,7 @@ O1 = {
 	},
 	"i54": {
 		"name": "i54",
-		"dots": 2,
+		"dots": 4,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -500,7 +500,7 @@ O1 = {
 	},
 	"i60": {
 		"name": "i60",
-		"dots": 1,
+		"dots": 2,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -515,7 +515,7 @@ O1 = {
 	},
 	"i61": {
 		"name": "i61",
-		"dots": 1,
+		"dots": 4,
 		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
@@ -530,10 +530,10 @@ O1 = {
 	},
 	"i62": {
 		"name": "i62",
-		"dots": 3,
+		"dots": "H",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": "i52",
 			"ur": "i53",
@@ -545,10 +545,10 @@ O1 = {
 	},
 	"i63": {
 		"name": "i63",
-		"dots": 3,
+		"dots": "H",
 		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": "i53",
 			"ur": "i54",
@@ -560,10 +560,11 @@ O1 = {
 	}
 }
 
-B1 =	[[O1["i00"], O1["i01"], O1["i02"], O1["i03"]], \
-		[O1["i10"], O1["i11"], O1["i12"], O1["i13"], O1["i14"]], \
-		[O1["i20"], O1["i21"], O1["i22"], O1["i23"], O1["i24"], O1["i25"]], \
-		[O1["i30"], O1["i31"], O1["i32"], O1["i33"], O1["i34"], O1["i35"], O1["i36"]], \
-		[O1["i40"], O1["i41"], O1["i42"], O1["i43"], O1["i44"], O1["i45"]], \
-		[O1["i50"], O1["i51"], O1["i52"], O1["i53"], O1["i54"]], \
-		[O1["i60"], O1["i61"], O1["i62"], O1["i63"]]]
+B3 =	[[O3["i00"], O3["i01"], O3["i02"], O3["i03"]], \
+		[O3["i10"], O3["i11"], O3["i12"], O3["i13"], O3["i14"]], \
+		[O3["i20"], O3["i21"], O3["i22"], O3["i23"], O3["i24"], O3["i25"]], \
+		[O3["i30"], O3["i31"], O3["i32"], O3["i33"], O3["i34"], O3["i35"], O3["i36"]], \
+		[O3["i40"], O3["i41"], O3["i42"], O3["i43"], O3["i44"], O3["i45"]], \
+		[O3["i50"], O3["i51"], O3["i52"], O3["i53"], O3["i54"]], \
+		[O3["i60"], O3["i61"], O3["i62"], O3["i63"]]]
+

@@ -1,11 +1,12 @@
 #data for board 2
 #Copyright Symbol Facing Upwards
+#Unused Attributes: starting_space
 
 O2 = {
 	"i00": {
 		"name": "i00",
 		"dots": 2,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -20,7 +21,7 @@ O2 = {
 	"i01": {
 		"name": "i01",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -35,7 +36,7 @@ O2 = {
 	"i02": {
 		"name": "i02",
 		"dots": 4,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -50,7 +51,7 @@ O2 = {
 	"i03": {
 		"name": "i03",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -65,7 +66,7 @@ O2 = {
 	"i10": {
 		"name": "i10",
 		"dots": 4,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -80,7 +81,7 @@ O2 = {
 	"i11": {
 		"name": "i11",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -95,7 +96,7 @@ O2 = {
 	"i12": {
 		"name": "i12",
 		"dots": 3,
-		"start_space": True,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -110,7 +111,7 @@ O2 = {
 	"i13": {
 		"name": "i13",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -125,7 +126,7 @@ O2 = {
 	"i14": {
 		"name": "i14",
 		"dots": 4,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -140,7 +141,7 @@ O2 = {
 	"i20": {
 		"name": "i20",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -155,9 +156,9 @@ O2 = {
 	"i21": {
 		"name": "i21",
 		"dots": "H",
-		"start_space": True,
+		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": "i10",
 			"ur": "i11",
@@ -170,7 +171,7 @@ O2 = {
 	"i22": {
 		"name": "i22",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -185,7 +186,7 @@ O2 = {
 	"i23": {
 		"name": "i23",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -200,9 +201,9 @@ O2 = {
 	"i24": {
 		"name": "i24",
 		"dots": "H",
-		"start_space": True,
+		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": "i13",
 			"ur": "i14",
@@ -215,7 +216,7 @@ O2 = {
 	"i25": {
 		"name": "i25",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -230,7 +231,7 @@ O2 = {
 	"i30": {
 		"name": "i30",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -245,7 +246,7 @@ O2 = {
 	"i31": {
 		"name": "i31",
 		"dots": 2,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -260,7 +261,7 @@ O2 = {
 	"i32": {
 		"name": "i32",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -275,9 +276,9 @@ O2 = {
 	"i33": {
 		"name": "i33",
 		"dots": "C",
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
-		"is_hole": True,
+		"is_hole": False,
 		"adj": {
 			"ul": "i22",
 			"ur": "i23",
@@ -290,7 +291,7 @@ O2 = {
 	"i34": {
 		"name": "i34",
 		"dots": 2,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -305,7 +306,7 @@ O2 = {
 	"i35": {
 		"name": "i35",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -320,7 +321,7 @@ O2 = {
 	"i36": {
 		"name": "i36",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -335,7 +336,7 @@ O2 = {
 	"i40": {
 		"name": "i40",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -350,7 +351,7 @@ O2 = {
 	"i41": {
 		"name": "i41",
 		"dots": 1,
-		"start_space": True,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -365,7 +366,7 @@ O2 = {
 	"i42": {
 		"name": "i42",
 		"dots": 3,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -380,7 +381,7 @@ O2 = {
 	"i43": {
 		"name": "i43",
 		"dots": 4,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -395,9 +396,9 @@ O2 = {
 	"i44": {
 		"name": "i44",
 		"dots": "H",
-		"start_space": True,
+		"starting_space": False,
 		"has_piece": False,
-		"is_hole": False,
+		"is_hole": True,
 		"adj": {
 			"ul": "i34",
 			"ur": "i35",
@@ -410,7 +411,7 @@ O2 = {
 	"i45": {
 		"name": "i45",
 		"dots": 4,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -425,7 +426,7 @@ O2 = {
 	"i50": {
 		"name": "i50",
 		"dots": 2,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -440,7 +441,7 @@ O2 = {
 	"i51": {
 		"name": "i51",
 		"dots": 2,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -455,7 +456,7 @@ O2 = {
 	"i52": {
 		"name": "i52",
 		"dots": 2,
-		"start_space": True,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -470,7 +471,7 @@ O2 = {
 	"i53": {
 		"name": "i53",
 		"dots": 4,
-		"start_space": False,
+		"starting_space": False,
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -485,7 +486,7 @@ O2 = {
 	"i54": {
 		"name": "i54",
 		"dots": 4,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -500,7 +501,7 @@ O2 = {
 	"i60": {
 		"name": "i60",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -515,7 +516,7 @@ O2 = {
 	"i61": {
 		"name": "i61",
 		"dots": 2,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -530,7 +531,7 @@ O2 = {
 	"i62": {
 		"name": "i62",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {
@@ -545,7 +546,7 @@ O2 = {
 	"i63": {
 		"name": "i63",
 		"dots": 1,
-		"start_space": False,
+		"starting_space": True, #is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"adj": {

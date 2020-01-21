@@ -4,6 +4,8 @@
 import random
 from board1 import B1
 from board2 import B2
+from board3 import B3
+from board4 import B4
 
 #currently uneeded
 #from board1 import O1
@@ -136,7 +138,7 @@ class Actions(object):
 			flat_rotated_board_B2 = [item for sublist in rotated_board_B2 for item in sublist] #flatten rotated upper board
 			flat_board_B1 = [item for sublist in B1 for item in sublist] #flatten lower board
 			#list of indexes of spaces in upper board where spaces are holes
-			starting_index_list = [flat_rotated_board_B2.index(item) for item in flat_rotated_board_B2 if item["dots"] == "H"] 
+			starting_index_list = [flat_rotated_board_B2.index(item) for item in flat_rotated_board_B2 if item["is_hole"]] 
 			return [flat_board_B1[n]["name"] for n in starting_index_list] #spaces in lower board that line up with holes in upper board
 
 class Gameplay(object):
@@ -185,6 +187,54 @@ class Gameplay(object):
 		#now that all pieces have holes... (must change this for later board additions)
 		return "\n\n\nTHE WINNER IS: {}".format(self.center["has_piece"])
 
+
+
+
+
+
+def testing():
+	print(Helpers(B1, ["name", "dots", "is_hole", "starting_space"]))
+	print(Helpers(B2, ["name", "dots", "is_hole", "starting_space"]))
+	print(Helpers(B3, ["name", "dots", "is_hole", "starting_space"]))
+	print(Helpers(B4, ["name", "dots", "is_hole", "starting_space"]))
+
+
+def main():
+	"""
+	GAME_BOARD = B1.copy()
+	print(Helpers(GAME_BOARD, ["adj"]))
+	print(Gameplay(GAME_BOARD).play_game())
+	"""
+	#testing()
+
+
+
+	#print(Helpers(B1, ["dots", "name"]))
+	#Optimizer(B1).tree_maker()
+	#print(Actions(B1).determine_starting_spaces())
+
+if __name__ == '__main__':
+	main()
+
+
+"""
+NEXT STEP:
+
+
+Code tree going outward from center
+
+tree_length = 1
+find moves for a piece in center for dots = (x=1,2,3,4) 
+if a piece can move x dots from the center onto a space with x dots, then that is a successful move
+if pathway lacks array of tree_length 1, 
+
+"""
+
+
+
+
+##CURRENTLY DOES NOT WORK
+"""
 class Optimizer(object):
 	def __init__(self, board):
 		self.board = board
@@ -210,7 +260,6 @@ class Optimizer(object):
 			print("DONE BREAK")
 		print(length)
 
-		"""
 		while length < 2:
 			A.append([])
 			for item in A[length]:
@@ -224,33 +273,6 @@ class Optimizer(object):
 							if self.board[x0][y0]["dots"] == dots:
 								A[1].append(self.board[x0][y0]["name"])
 								print(A)
-		"""
 		print(A)
-
-
-
-
-def main():
-	GAME_BOARD = B1.copy()
-	print(Helpers(GAME_BOARD, ["adj"]))
-	print(Gameplay(GAME_BOARD).play_game())
-	#print(Helpers(B1, ["dots", "name"]))
-	#Optimizer(B1).tree_maker()
-	#print(Actions(B1).determine_starting_spaces())
-
-if __name__ == '__main__':
-	main()
-
-
 """
-NEXT STEP:
 
-
-Code tree going outward from center
-
-tree_length = 1
-find moves for a piece in center for dots = (x=1,2,3,4) 
-if a piece can move x dots from the center onto a space with x dots, then that is a successful move
-if pathway lacks array of tree_length 1, 
-
-"""
