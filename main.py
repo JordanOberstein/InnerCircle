@@ -1,8 +1,8 @@
-#Based on the game Inner Circle
-#By Jordan Oberstein
+#Code by Jordan Oberstein
+#Based on the the 1981 board game InnerCircle, (Milton Bradley company, originally designed by Virginia Charves)
 
-import random
 import math
+import random
 
 from board1 import B1
 from board2 import B2
@@ -15,26 +15,6 @@ from board4 import B4
 #from board3 import O3
 #from board4 import O4
 
-
-#Empty board for rotation assignments
-empty_board = [[(), (), (), ()], \
-			[(), (), (), (), ()], \
-		  [(), (), (), (), (), ()], \
-		[(), (), (), (), (), (), ()], \
-		  [(), (), (), (), (), ()], \
-			[(), (), (), (), ()], \
-			  [(), (), (), ()]]
-
-def create_board(r1, r2, r3, c): #create board using rings
-	nb = empty_board.copy()
-	nb[2][2], nb[2][3], nb[3][4], nb[4][3], nb[4][2], nb[3][2] = r1[0], r1[1], r1[2], r1[3], r1[4], r1[5]
-	nb[1][1], nb[1][2], nb[1][3], nb[2][4], nb[3][5], nb[4][4] = r2[0], r2[1], r2[2], r2[3], r2[4], r2[5]
-	nb[5][3], nb[5][2], nb[5][1], nb[4][1], nb[3][1], nb[2][1] = r2[6], r2[7], r2[8], r2[9], r2[10], r2[11]
-	nb[0][0], nb[0][1], nb[0][2], nb[0][3], nb[1][4], nb[2][5] = r3[0], r3[1], r3[2], r3[3], r3[4], r3[5]
-	nb[3][6], nb[4][5], nb[5][4], nb[6][3], nb[6][2], nb[6][1] = r3[6], r3[7], r3[8], r3[9], r3[10], r3[11]
-	nb[6][0], nb[5][0], nb[4][0], nb[3][0], nb[2][0], nb[1][0] = r3[12], r3[13], r3[14], r3[15], r3[16], r3[17]
-	nb[3][3] = c
-	return nb
 
 class Display(object):
 	def __init__(self, board, args=[]):
@@ -50,16 +30,16 @@ class Display(object):
 			directions = ["ul", "ur", "r", "br", "bl", "l"]
 			for d in directions:
 				DATA += "{:^60}\n".format(d)
-				for i in range(len(self.board)):
-					DATA += "{:^60}".format(str([(self.board[i][j]["adj"][d]) for j in range(len(self.board[i]))]))
-					DATA += "{:^60}\n".format(str([(self.board[i][j]["name"]) for j in range(len(self.board[i]))]))
+				for row in self.board:
+					DATA += "{:^60}".format(str([space["adj"][d] for space in row]))
+					DATA += "{:^60}\n".format(str([space["name"] for space in row]))
 		else:
 			for arg in self.args: #name of arg
 				DATA += "{:^60}".format(arg)
 			DATA += "\n"
 			for row in self.board: #board rows
 				for arg in self.args:
-					DATA += "{:^60}".format(str([(row[j][arg]) for j in range(len(row))]))
+					DATA += "{:^60}".format(str([space[arg] for space in row]))
 				DATA += "\n"
 		return DATA
 
@@ -68,20 +48,39 @@ class Setup(object):
 	def __init__(self, board): #should only be B4
 		self.board = board
 
+	def create_board(self, R1, R2, R3, center): #create board using rings
+		empty_board = [[(), (), (), ()], \
+					[(), (), (), (), ()], \
+				  [(), (), (), (), (), ()], \
+				[(), (), (), (), (), (), ()], \
+				  [(), (), (), (), (), ()], \
+					[(), (), (), (), ()], \
+					  [(), (), (), ()]]
+
+		nb = empty_board
+		nb[2][2], nb[2][3], nb[3][4], nb[4][3], nb[4][2], nb[3][2] = R1[0], R1[1], R1[2], R1[3], R1[4], R1[5]
+		nb[1][1], nb[1][2], nb[1][3], nb[2][4], nb[3][5], nb[4][4] = R2[0], R2[1], R2[2], R2[3], R2[4], R2[5]
+		nb[5][3], nb[5][2], nb[5][1], nb[4][1], nb[3][1], nb[2][1] = R2[6], R2[7], R2[8], R2[9], R2[10], R2[11]
+		nb[0][0], nb[0][1], nb[0][2], nb[0][3], nb[1][4], nb[2][5] = R3[0], R3[1], R3[2], R3[3], R3[4], R3[5]
+		nb[3][6], nb[4][5], nb[5][4], nb[6][3], nb[6][2], nb[6][1] = R3[6], R3[7], R3[8], R3[9], R3[10], R3[11]
+		nb[6][0], nb[5][0], nb[4][0], nb[3][0], nb[2][0], nb[1][0] = R3[12], R3[13], R3[14], R3[15], R3[16], R3[17]
+		nb[3][3] = center
+		return nb
+
 	def rotate(self, r=1): #default 1 rotation clockwise
 		new_board = self.board #prevents glitches where whole board is written over with one sextant
-		for k in range(r):
-			ring_1 = [new_board[2][2], new_board[2][3], new_board[3][4], new_board[4][3], new_board[4][2], new_board[3][2]]
-			nr1 = [ring_1[(n-1)%len(ring_1)] for n in range(len(ring_1))]
-			ring_2 = [new_board[1][1], new_board[1][2], new_board[1][3], new_board[2][4], new_board[3][5], new_board[4][4], \
-				new_board[5][3], new_board[5][2], new_board[5][1], new_board[4][1], new_board[3][1], new_board[2][1]]
-			nr2 = [ring_2[(n-2)%len(ring_2)] for n in range(len(ring_2))]
-			ring_3 = [new_board[0][0], new_board[0][1], new_board[0][2], new_board[0][3], new_board[1][4], new_board[2][5], \
-				new_board[3][6], new_board[4][5], new_board[5][4], new_board[6][3], new_board[6][2], new_board[6][1], \
-				new_board[6][0], new_board[5][0], new_board[4][0], new_board[3][0], new_board[2][0], new_board[1][0]]
-			nr3 = [ring_3[(n-3)%len(ring_3)] for n in range(len(ring_3))]
-			c = new_board[3][3]
-			new_board = create_board(nr1, nr2, nr3, c)
+		ring_1 = [new_board[2][2], new_board[2][3], new_board[3][4], new_board[4][3], new_board[4][2], new_board[3][2]]
+		ring_2 = [new_board[1][1], new_board[1][2], new_board[1][3], new_board[2][4], new_board[3][5], new_board[4][4], \
+			new_board[5][3], new_board[5][2], new_board[5][1], new_board[4][1], new_board[3][1], new_board[2][1]]
+		ring_3 = [new_board[0][0], new_board[0][1], new_board[0][2], new_board[0][3], new_board[1][4], new_board[2][5], \
+			new_board[3][6], new_board[4][5], new_board[5][4], new_board[6][3], new_board[6][2], new_board[6][1], \
+			new_board[6][0], new_board[5][0], new_board[4][0], new_board[3][0], new_board[2][0], new_board[1][0]]
+		#rotate rings
+		R1 = [ring_1[(n-(1*r))%len(ring_1)] for n in range(len(ring_1))] #n-(1*r)
+		R2 = [ring_2[(n-(2*r))%len(ring_2)] for n in range(len(ring_2))] #n-(2*r)
+		R3 = [ring_3[(n-(3*r))%len(ring_3)] for n in range(len(ring_3))] #n-(3*r)
+		center = new_board[3][3]
+		new_board = Setup(new_board).create_board(R1, R2, R3, center)
 		return new_board
 
 	def check_if_complete(self):
@@ -122,7 +121,7 @@ class Setup(object):
 			#list of indexes of spaces in upper board where spaces are holes
 			starting_index_list = [flat_rotated_board_B3.index(item) for item in flat_rotated_board_B3 if item["is_hole"]] 
 			return [flat_board_B2[n]["name"] for n in starting_index_list] #spaces in lower board that line up with holes in upper board
-		elif self.board == B3: #palying with first, second and third board
+		elif self.board == B3: #playing with first, second, and third board
 			r = random.randint(0,5)
 			rotated_board_B4 = Setup(B4).rotate(r) #rotated upper board
 			flat_rotated_board_B4 = [item for sublist in rotated_board_B4 for item in sublist] #flatten rotated upper board
@@ -130,6 +129,9 @@ class Setup(object):
 			#list of indexes of spaces in upper board where spaces are holes
 			starting_index_list = [flat_rotated_board_B4.index(item) for item in flat_rotated_board_B4 if item["is_hole"]] 
 			return [flat_board_B3[n]["name"] for n in starting_index_list] #spaces in lower board that line up with holes in upper board
+		else:
+			print("Not a valid board for starting spaces.")
+			return False
 
 
 #this is a seperate class from gameplay because gameplay must initialize ONLY once, otherwise random choices get reset
@@ -173,7 +175,6 @@ class Actions(object):
 
 	def take_turn(self, turn, CP):
 		CP_name = "P" + str(((turn + 1)%2)+1)
-
 		legal_spaces = []
 		center = "i33"
 		if center in CP:
@@ -185,7 +186,7 @@ class Actions(object):
 				piece = CP[int(piece_index)]
 				legal_spaces = [space for space in Actions(self.board).legal_moves(piece) if space != False] #determines legal spaces
 
-				#safeguard if piece is already in a hole
+				#safeguard if piece is already in a hole. CURRENTLY NOT WORKING, ADD SUB LAYER DOTS
 				if self.board[int(piece[1])][int(piece[2])]["is_hole"]:
 					response = input("Piece {} is already in a hole, are you sure you want to move it?\n==>".format(piece))
 					if response != "y":
@@ -251,6 +252,8 @@ class Full_Game(object):
 			print(Display(self.board, ["name", "dots", "has_piece"]))
 			self.CP = self.players[self.turn%2] #defines current player based on turn as index of self.players
 			CP_name = "P" + str(((self.turn + 1)%2)+1)
+			
+			#Currently not relevant, should be checking length of legal moves for pieces not in hole
 			if len(self.CP) == 0:
 				print("no valid moves for CP")
 				self.turn += 1 #move to next player
