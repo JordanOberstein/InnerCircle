@@ -339,6 +339,10 @@ def main():
 	FullGame(B4).play()
 
 if __name__ == '__main__':
+	print(Display(B1))
+	print(Display(B2))
+	print(Display(B3))
+	print(Display(B4))
 	main()
 
 

@@ -16,7 +16,8 @@ B4_Data = {
 			"bl": "i10",
 			"l": False
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i02", "i22", "i33"]
 	},
 	"i01": {
 		"name": "i01",
@@ -32,7 +33,8 @@ B4_Data = {
 			"bl": "i11",
 			"l": "i00"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i12", "i21", "i40"]
 	},
 	"i02": {
 		"name": "i02",
@@ -48,7 +50,8 @@ B4_Data = {
 			"bl": "i12",
 			"l": "i01"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i03", "i12", "i22", "i00"]
 	},
 	"i03": {
 		"name": "i03",
@@ -64,7 +67,8 @@ B4_Data = {
 			"bl": "i13",
 			"l": "i02"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i25", "i33"]
 	},
 	"i10": {
 		"name": "i10",
@@ -80,7 +84,8 @@ B4_Data = {
 			"bl": "i20",
 			"l": False
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i14", "i20"]
 	},
 	"i11": {
 		"name": "i11",
@@ -96,7 +101,8 @@ B4_Data = {
 			"bl": "i21",
 			"l": "i10"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i12", "i13", "i33", "i43"]
 	},
 	"i12": {
 		"name": "i12",
@@ -112,7 +118,8 @@ B4_Data = {
 			"bl": "i22",
 			"l": "i11"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i50", "i10"]
 	},
 	"i13": {
 		"name": "i13",
@@ -128,7 +135,8 @@ B4_Data = {
 			"bl": "i23",
 			"l": "i12"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i03", "i33", "i12"]
 	},
 	"i14": {
 		"name": "i14",
@@ -144,7 +152,8 @@ B4_Data = {
 			"bl": "i24",
 			"l": "i13"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i03", "i43"]
 	},
 	"i20": {
 		"name": "i20",
@@ -160,7 +169,8 @@ B4_Data = {
 			"bl": "i30",
 			"l": False
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i00", "i22", "i30"]
 	},
 	"i21": {
 		"name": "i21",
@@ -176,7 +186,8 @@ B4_Data = {
 			"bl": "i31",
 			"l": "i20"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i20"]
 	},
 	"i22": {
 		"name": "i22",
@@ -192,7 +203,8 @@ B4_Data = {
 			"bl": "i32",
 			"l": "i21"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i00", "i12", "i02", "i33"]
 	},
 	"i23": {
 		"name": "i23",
@@ -208,7 +220,8 @@ B4_Data = {
 			"bl": "i33",
 			"l": "i22"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i12", "i25", "i33", "i21"]
 	},
 	"i24": {
 		"name": "i24",
@@ -224,7 +237,8 @@ B4_Data = {
 			"bl": "i34",
 			"l": "i23"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i02", "i45", "i22"]
 	},
 	"i25": {
 		"name": "i25",
@@ -240,7 +254,8 @@ B4_Data = {
 			"bl": "i35",
 			"l": "i24"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i36"]
 	},
 	"i30": {
 		"name": "i30",
@@ -256,7 +271,8 @@ B4_Data = {
 			"bl": False,
 			"l": False
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i20", "i10", "i33"]
 	},
 	"i31": {
 		"name": "i31",
@@ -272,7 +288,8 @@ B4_Data = {
 			"bl": "i40",
 			"l": "i30"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i20", "i01", "i33", "i41", "i30"]
 	},
 	"i32": {
 		"name": "i32",
@@ -288,7 +305,8 @@ B4_Data = {
 			"bl": "i41",
 			"l": "i31"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i10", "i33", "i41"]
 	},
 	"i33": {
 		"name": "i33",
@@ -304,7 +322,8 @@ B4_Data = {
 			"bl": "i42",
 			"l": "i32"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i13", "i63"]
 	},
 	"i34": {
 		"name": "i34",
@@ -320,7 +339,8 @@ B4_Data = {
 			"bl": "i43",
 			"l": "i33"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i01", "i44", "i54", "i33"]
 	},
 	"i35": {
 		"name": "i35",
@@ -336,7 +356,8 @@ B4_Data = {
 			"bl": "i44",
 			"l": "i34"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i13", "i36", "i44", "i33"]
 	},
 	"i36": {
 		"name": "i36",
@@ -352,7 +373,8 @@ B4_Data = {
 			"bl": "i45",
 			"l": "i35"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i54", "i63", "i33"]
 	},
 	"i40": {
 		"name": "i40",
@@ -368,7 +390,8 @@ B4_Data = {
 			"bl": False,
 			"l": False
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i30", "i21", "i41", "i43"]
 	},
 	"i41": {
 		"name": "i41",
@@ -384,7 +407,8 @@ B4_Data = {
 			"bl": "i50",
 			"l": "i40"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i22", "i61"]
 	},
 	"i42": {
 		"name": "i42",
@@ -400,7 +424,8 @@ B4_Data = {
 			"bl": "i51",
 			"l": "i41"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i21", "i33", "i52", "i62", "i41"]
 	},
 	"i43": {
 		"name": "i43",
@@ -416,7 +441,8 @@ B4_Data = {
 			"bl": "i52",
 			"l": "i42"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i33", "i22", "i44", "i45", "i52", "i61"]
 	},
 	"i44": {
 		"name": "i44",
@@ -432,7 +458,8 @@ B4_Data = {
 			"bl": "i53",
 			"l": "i43"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i25", "i62", "i40"]
 	},
 	"i45": {
 		"name": "i45",
@@ -448,7 +475,8 @@ B4_Data = {
 			"bl": "i54",
 			"l": "i44"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i36", "i44"]
 	},
 	"i50": {
 		"name": "i50",
@@ -464,7 +492,8 @@ B4_Data = {
 			"bl": False,
 			"l": False
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i41", "i60"]
 	},
 	"i51": {
 		"name": "i51",
@@ -480,7 +509,8 @@ B4_Data = {
 			"bl": "i60",
 			"l": "i50"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i41", "i33", "i52", "i60"]
 	},
 	"i52": {
 		"name": "i52",
@@ -496,7 +526,8 @@ B4_Data = {
 			"bl": "i61",
 			"l": "i51"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i14", "i54"]
 	},
 	"i53": {
 		"name": "i53",
@@ -512,7 +543,8 @@ B4_Data = {
 			"bl": "i62",
 			"l": "i52"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i33", "i44", "i52"]
 	},
 	"i54": {
 		"name": "i54",
@@ -528,7 +560,8 @@ B4_Data = {
 			"bl": "i63",
 			"l": "i53"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i44", "i50"]
 	},
 	"i60": {
 		"name": "i60",
@@ -544,7 +577,8 @@ B4_Data = {
 			"bl": False,
 			"l": False
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i33", "i62", "i63"]
 	},
 	"i61": {
 		"name": "i61",
@@ -560,7 +594,8 @@ B4_Data = {
 			"bl": False,
 			"l": "i60"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i52", "i60"]
 	},
 	"i62": {
 		"name": "i62",
@@ -576,7 +611,8 @@ B4_Data = {
 			"bl": False,
 			"l": "i61"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i52"]
 	},
 	"i63": {
 		"name": "i63",
@@ -592,15 +628,17 @@ B4_Data = {
 			"bl": False,
 			"l": "i62"
 		},
-		"sub_dots": False
+		"sub_dots": False,
+		"return_moves": ["i33", "i45", "i61"]
 	}
 }
 
-B4 =	[[B4_Data["i00"], B4_Data["i01"], B4_Data["i02"], B4_Data["i03"]], \
-		[B4_Data["i10"], B4_Data["i11"], B4_Data["i12"], B4_Data["i13"], B4_Data["i14"]], \
-		[B4_Data["i20"], B4_Data["i21"], B4_Data["i22"], B4_Data["i23"], B4_Data["i24"], B4_Data["i25"]], \
-		[B4_Data["i30"], B4_Data["i31"], B4_Data["i32"], B4_Data["i33"], B4_Data["i34"], B4_Data["i35"], B4_Data["i36"]], \
-		[B4_Data["i40"], B4_Data["i41"], B4_Data["i42"], B4_Data["i43"], B4_Data["i44"], B4_Data["i45"]], \
-		[B4_Data["i50"], B4_Data["i51"], B4_Data["i52"], B4_Data["i53"], B4_Data["i54"]], \
-		[B4_Data["i60"], B4_Data["i61"], B4_Data["i62"], B4_Data["i63"]]]
-
+B4 = [
+	[B4_Data["i00"], B4_Data["i01"], B4_Data["i02"], B4_Data["i03"]], \
+	[B4_Data["i10"], B4_Data["i11"], B4_Data["i12"], B4_Data["i13"], B4_Data["i14"]], \
+	[B4_Data["i20"], B4_Data["i21"], B4_Data["i22"], B4_Data["i23"], B4_Data["i24"], B4_Data["i25"]], \
+	[B4_Data["i30"], B4_Data["i31"], B4_Data["i32"], B4_Data["i33"], B4_Data["i34"], B4_Data["i35"], B4_Data["i36"]], \
+	[B4_Data["i40"], B4_Data["i41"], B4_Data["i42"], B4_Data["i43"], B4_Data["i44"], B4_Data["i45"]], \
+	[B4_Data["i50"], B4_Data["i51"], B4_Data["i52"], B4_Data["i53"], B4_Data["i54"]], \
+	[B4_Data["i60"], B4_Data["i61"], B4_Data["i62"], B4_Data["i63"]]
+]
