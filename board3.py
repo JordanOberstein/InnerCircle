@@ -2,7 +2,7 @@
 #Copyright Symbol Facing Upwards
 #Unused Attributes: starting_space
 
-O3 = {
+B3_Data = {
 	"i00": {
 		"name": "i00",
 		"dots": 2,
@@ -16,7 +16,8 @@ O3 = {
 			"br": "i11",
 			"bl": "i10",
 			"l": False
-		}
+		},
+		"sub_dots": False
 	},
 	"i01": {
 		"name": "i01",
@@ -31,7 +32,8 @@ O3 = {
 			"br": "i12",
 			"bl": "i11",
 			"l": "i00"
-		}
+		},
+		"sub_dots": False
 	},
 	"i02": {
 		"name": "i02",
@@ -46,7 +48,8 @@ O3 = {
 			"br": "i13",
 			"bl": "i12",
 			"l": "i01"
-		}
+		},
+		"sub_dots": False
 	},
 	"i03": {
 		"name": "i03",
@@ -61,7 +64,8 @@ O3 = {
 			"br": "i14",
 			"bl": "i13",
 			"l": "i02"
-		}
+		},
+		"sub_dots": False
 	},
 	"i10": {
 		"name": "i10",
@@ -76,7 +80,8 @@ O3 = {
 			"br": "i21",
 			"bl": "i20",
 			"l": False
-		}
+		},
+		"sub_dots": False
 	},
 	"i11": {
 		"name": "i11",
@@ -91,7 +96,8 @@ O3 = {
 			"br": "i22",
 			"bl": "i21",
 			"l": "i10"
-		}
+		},
+		"sub_dots": False
 	},
 	"i12": {
 		"name": "i12",
@@ -106,7 +112,8 @@ O3 = {
 			"br": "i23",
 			"bl": "i22",
 			"l": "i11"
-		}
+		},
+		"sub_dots": False
 	},
 	"i13": {
 		"name": "i13",
@@ -121,7 +128,8 @@ O3 = {
 			"br": "i24",
 			"bl": "i23",
 			"l": "i12"
-		}
+		},
+		"sub_dots": False
 	},
 	"i14": {
 		"name": "i14",
@@ -136,7 +144,8 @@ O3 = {
 			"br": "i25",
 			"bl": "i24",
 			"l": "i13"
-		}
+		},
+		"sub_dots": False
 	},
 	"i20": {
 		"name": "i20",
@@ -151,7 +160,8 @@ O3 = {
 			"br": "i31",
 			"bl": "i30",
 			"l": False
-		}
+		},
+		"sub_dots": False
 	},
 	"i21": {
 		"name": "i21",
@@ -166,7 +176,8 @@ O3 = {
 			"br": "i32",
 			"bl": "i31",
 			"l": "i20"
-		}
+		},
+		"sub_dots": False
 	},
 	"i22": {
 		"name": "i22",
@@ -181,7 +192,8 @@ O3 = {
 			"br": "i33",
 			"bl": "i32",
 			"l": "i21"
-		}
+		},
+		"sub_dots": False
 	},
 	"i23": {
 		"name": "i23",
@@ -196,7 +208,8 @@ O3 = {
 			"br": "i34",
 			"bl": "i33",
 			"l": "i22"
-		}
+		},
+		"sub_dots": False
 	},
 	"i24": {
 		"name": "i24",
@@ -211,7 +224,8 @@ O3 = {
 			"br": "i35",
 			"bl": "i34",
 			"l": "i23"
-		}
+		},
+		"sub_dots": False
 	},
 	"i25": {
 		"name": "i25",
@@ -226,7 +240,8 @@ O3 = {
 			"br": "i36",
 			"bl": "i35",
 			"l": "i24"
-		}
+		},
+		"sub_dots": False
 	},
 	"i30": {
 		"name": "i30",
@@ -241,7 +256,8 @@ O3 = {
 			"br": "i40",
 			"bl": False,
 			"l": False
-		}
+		},
+		"sub_dots": False
 	},
 	"i31": {
 		"name": "i31",
@@ -256,7 +272,8 @@ O3 = {
 			"br": "i41",
 			"bl": "i40",
 			"l": "i30"
-		}
+		},
+		"sub_dots": False
 	},
 	"i32": {
 		"name": "i32",
@@ -271,7 +288,8 @@ O3 = {
 			"br": "i42",
 			"bl": "i41",
 			"l": "i31"
-		}
+		},
+		"sub_dots": False
 	},
 	"i33": {
 		"name": "i33",
@@ -286,7 +304,8 @@ O3 = {
 			"br": "i43",
 			"bl": "i42",
 			"l": "i32"
-		}
+		},
+		"sub_dots": False
 	},
 	"i34": {
 		"name": "i34",
@@ -301,7 +320,8 @@ O3 = {
 			"br": "i44",
 			"bl": "i43",
 			"l": "i33"
-		}
+		},
+		"sub_dots": False
 	},
 	"i35": {
 		"name": "i35",
@@ -316,7 +336,8 @@ O3 = {
 			"br": "i45",
 			"bl": "i44",
 			"l": "i34"
-		}
+		},
+		"sub_dots": False
 	},
 	"i36": {
 		"name": "i36",
@@ -331,7 +352,8 @@ O3 = {
 			"br": False,
 			"bl": "i45",
 			"l": "i35"
-		}
+		},
+		"sub_dots": False
 	},
 	"i40": {
 		"name": "i40",
@@ -346,7 +368,8 @@ O3 = {
 			"br": "i50",
 			"bl": False,
 			"l": False
-		}
+		},
+		"sub_dots": False
 	},
 	"i41": {
 		"name": "i41",
@@ -361,7 +384,8 @@ O3 = {
 			"br": "i51",
 			"bl": "i50",
 			"l": "i40"
-		}
+		},
+		"sub_dots": False
 	},
 	"i42": {
 		"name": "i42",
@@ -376,7 +400,8 @@ O3 = {
 			"br": "i52",
 			"bl": "i51",
 			"l": "i41"
-		}
+		},
+		"sub_dots": False
 	},
 	"i43": {
 		"name": "i43",
@@ -391,7 +416,8 @@ O3 = {
 			"br": "i53",
 			"bl": "i52",
 			"l": "i42"
-		}
+		},
+		"sub_dots": False
 	},
 	"i44": {
 		"name": "i44",
@@ -406,7 +432,8 @@ O3 = {
 			"br": "i54",
 			"bl": "i53",
 			"l": "i43"
-		}
+		},
+		"sub_dots": False
 	},
 	"i45": {
 		"name": "i45",
@@ -421,7 +448,8 @@ O3 = {
 			"br": False,
 			"bl": "i54",
 			"l": "i44"
-		}
+		},
+		"sub_dots": False
 	},
 	"i50": {
 		"name": "i50",
@@ -436,7 +464,8 @@ O3 = {
 			"br": "i60",
 			"bl": False,
 			"l": False
-		}
+		},
+		"sub_dots": False
 	},
 	"i51": {
 		"name": "i51",
@@ -451,7 +480,8 @@ O3 = {
 			"br": "i61",
 			"bl": "i60",
 			"l": "i50"
-		}
+		},
+		"sub_dots": False
 	},
 	"i52": {
 		"name": "i52",
@@ -466,7 +496,8 @@ O3 = {
 			"br": "i62",
 			"bl": "i61",
 			"l": "i51"
-		}
+		},
+		"sub_dots": False
 	},
 	"i53": {
 		"name": "i53",
@@ -481,7 +512,8 @@ O3 = {
 			"br": "i63",
 			"bl": "i62",
 			"l": "i52"
-		}
+		},
+		"sub_dots": False
 	},
 	"i54": {
 		"name": "i54",
@@ -496,7 +528,8 @@ O3 = {
 			"br": False,
 			"bl": "i63",
 			"l": "i53"
-		}
+		},
+		"sub_dots": False
 	},
 	"i60": {
 		"name": "i60",
@@ -511,7 +544,8 @@ O3 = {
 			"br": False,
 			"bl": False,
 			"l": False
-		}
+		},
+		"sub_dots": False
 	},
 	"i61": {
 		"name": "i61",
@@ -526,7 +560,8 @@ O3 = {
 			"br": False,
 			"bl": False,
 			"l": "i60"
-		}
+		},
+		"sub_dots": False
 	},
 	"i62": {
 		"name": "i62",
@@ -541,7 +576,8 @@ O3 = {
 			"br": False,
 			"bl": False,
 			"l": "i61"
-		}
+		},
+		"sub_dots": False
 	},
 	"i63": {
 		"name": "i63",
@@ -556,15 +592,16 @@ O3 = {
 			"br": False,
 			"bl": False,
 			"l": "i62"
-		}
+		},
+		"sub_dots": False
 	}
 }
 
-B3 =	[[O3["i00"], O3["i01"], O3["i02"], O3["i03"]], \
-		[O3["i10"], O3["i11"], O3["i12"], O3["i13"], O3["i14"]], \
-		[O3["i20"], O3["i21"], O3["i22"], O3["i23"], O3["i24"], O3["i25"]], \
-		[O3["i30"], O3["i31"], O3["i32"], O3["i33"], O3["i34"], O3["i35"], O3["i36"]], \
-		[O3["i40"], O3["i41"], O3["i42"], O3["i43"], O3["i44"], O3["i45"]], \
-		[O3["i50"], O3["i51"], O3["i52"], O3["i53"], O3["i54"]], \
-		[O3["i60"], O3["i61"], O3["i62"], O3["i63"]]]
+B3 =	[[B3_Data["i00"], B3_Data["i01"], B3_Data["i02"], B3_Data["i03"]], \
+		[B3_Data["i10"], B3_Data["i11"], B3_Data["i12"], B3_Data["i13"], B3_Data["i14"]], \
+		[B3_Data["i20"], B3_Data["i21"], B3_Data["i22"], B3_Data["i23"], B3_Data["i24"], B3_Data["i25"]], \
+		[B3_Data["i30"], B3_Data["i31"], B3_Data["i32"], B3_Data["i33"], B3_Data["i34"], B3_Data["i35"], B3_Data["i36"]], \
+		[B3_Data["i40"], B3_Data["i41"], B3_Data["i42"], B3_Data["i43"], B3_Data["i44"], B3_Data["i45"]], \
+		[B3_Data["i50"], B3_Data["i51"], B3_Data["i52"], B3_Data["i53"], B3_Data["i54"]], \
+		[B3_Data["i60"], B3_Data["i61"], B3_Data["i62"], B3_Data["i63"]]]
 
