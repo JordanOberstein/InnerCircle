@@ -3,6 +3,7 @@
 
 import math
 import random
+from colored import fg, bg, attr
 
 from board1 import B1
 from board2 import B2
@@ -16,6 +17,9 @@ from board4 import B4
 #from board4 import B4_Data
 
 
+def colorize(text, atr1, atr2, atr3):
+	return '%s%s%s{}'.format(text) % (fg(atr1), bg(atr2), attr(atr3)) + '%s%s%s' % (fg(15), bg(0), attr(0))
+
 class Display(object):
 	def __init__(self, board, args=[]):
 		self.board = board
@@ -23,10 +27,27 @@ class Display(object):
 
 	def __str__(self):
 		DATA = ""
-		if len(self.args) == 0: #data dump
-			for row in self.board:
-				DATA += "{:^60}\n".format(str(row))
-		elif self.args == ["adj"]: #checking if all directions in adj are correct
+		if len(self.args) == 0:
+			args = ["name", "has_piece", "dots"]
+			DATA += "{:^120}".format("(name, has_piece, dots)")
+			DATA += "{:^60}\n".format("sub_dots")
+			for row in self.board: #board rows
+				new_line = str([(space["name"], space["has_piece"], space["dots"]) for space in row])
+				new_line = new_line.replace("False,", "--,") #has_piece
+				new_line = new_line.replace("'", "") #flush formatting
+				new_line = new_line.replace("), (", ") (") #flush formatting
+				DATA += "{:^120}".format(new_line)
+
+				sub_dots = str([(space["sub_dots"]) for space in row])
+				sub_dots = sub_dots.replace("False", "-")
+				DATA += "{:^60}\n".format(sub_dots)
+
+			DATA = DATA.replace("P1", colorize("P1", 1, 0, 4)) #red
+			DATA = DATA.replace("P2", colorize("P2", 2, 0, 4)) #green
+			DATA = DATA.replace("C", colorize("C", 3, 0, 1)) #yellow
+			DATA = DATA.replace("H", colorize("H", 4, 0, 1)) #blue
+
+		elif self.args == ["adj"]: #checking if all directions in adj are correct CURRENTLY UNUSED
 			directions = ["ul", "ur", "r", "br", "bl", "l"]
 			for d in directions:
 				DATA += "{:^60}\n".format(d)
@@ -83,25 +104,22 @@ class Setup(object):
 		new_board = Setup(new_board).create_board(R1, R2, R3, center)
 		return new_board
 
-	def check_if_start_complete(self):
-		flat_board = [item for sublist in self.board for item in sublist] #flatten board
-		return (all([space["has_piece"] for space in flat_board if space["starting_space"]])) #if all starting spaces have a piece
-
 	def add_pieces(self):
 		players = ["P2", "P1"] #index 0, 2, 4 is P2, index 1, 3, 5 is P1
 		turn = 1
-		while not Setup(self.board).check_if_start_complete():
+		flat_board = [item for sublist in self.board for item in sublist] #flatten board
+		while not all([space["has_piece"] for space in flat_board if space["starting_space"]]): #if all starting spaces have a piece
 			CP = players[turn%2]
-			print(Display(self.board, ["dots", "has_piece"]))
+			print(Display(self.board))
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
 			remaining_spaces = [space["name"] for space in flat_board if space["starting_space"] and not space["has_piece"]]
-			space_index = input("These are the remaining spaces, choose 1: {}\n==>".format(remaining_spaces))
+			space_index = input("These are the remaining spaces, choose 1: {}\n==> ".format(remaining_spaces))
 			chosen_space = remaining_spaces[int(space_index)]
 			x = int(chosen_space[1]) #row
 			y = int(chosen_space[2]) #collumn
 			self.board[x][y]["has_piece"] = CP
 			turn += 1
-		print(Display(self.board, ["dots", "has_piece"]))
+		print(Display(self.board))
 		print("Game Setup is complete.\n\n\n")
 
 	def determine_starting_spaces(self): #for incomplete games 
@@ -133,7 +151,7 @@ class Setup(object):
 			print("Not a valid board for starting spaces.")
 			return False
 
-	def check_if_board_complete(self):
+	def check_for_complete_board(self):
 		flat_board = [item for sublist in self.board for item in sublist] #flatten board
 		return (all([space["has_piece"] for space in flat_board if space["dots"] == "H"])) #if all holes have a piece
 
@@ -143,7 +161,14 @@ class Setup(object):
 				if self.board[x][y]["has_piece"] and self.board[x][y]["is_hole"]: #if self.board has a piece and the space is a hole 
 					new_board[x][y]["has_piece"] = self.board[x][y]["has_piece"]
 
-
+	def add_sub_dots(self, board_array):
+		for b in range(0, len(board_array) - 1):
+			top_board = board_array[b]
+			bottom_board = board_array[b+1]
+			for x in range(len(top_board)):
+				for y in range(len(top_board[x])):
+					if top_board[x][y]["is_hole"]:
+						top_board[x][y]["sub_dots"] = bottom_board[x][y]["dots"] #retrieve dots from lower layer
 
 
 #this is a seperate class from gameplay because gameplay must initialize ONLY once, otherwise random choices get reset
@@ -227,7 +252,14 @@ class FullGame(object):
 
 		#Add pieces to board at start of game
 		if self.board == B4:
+			#rotate boards
+			for b in range(1, len(board_array)):
+				r = random.randint(0,5)
+				board_array[b] = Setup(board_array[b]).rotate(r)
+
+			Setup(self.board).add_sub_dots(board_array)
 			Setup(B4).add_pieces()
+			
 			#retrieve P1 and P2
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
 			self.P1 = [space["name"] for space in flat_board if space["has_piece"] == "P1"]
@@ -235,6 +267,11 @@ class FullGame(object):
 		
 		elif self.board == B1 or self.board == B2 or self.board == B3:
 			board_array = board_array[board_array.index(self.board):] #redefine board_array to only have boards being used
+
+			#rotate boards
+			for b in range(1, len(board_array)):
+				r = random.randint(0,5)
+				board_array[b] = Setup(board_array[b]).rotate(r)
 
 			starting_spaces = Setup(self.board).determine_starting_spaces()
 			random.shuffle(starting_spaces) #shuffle the starting spaces, otherwise cut for P1 and P2 will be the same for any rotation
@@ -248,28 +285,16 @@ class FullGame(object):
 			for space in self.P2:
 				self.board[int(space[1])][int(space[2])]["has_piece"] = "P2" #x=space[1], y=space[2]
 
+			Setup(self.board).add_sub_dots(board_array)
+
 		self.players = [self.P2, self.P1] #redefine with updated self.P1 and self.P2
 		board_array[0] = self.board #redefine top board in board_array
 
-		#randomly rotate each board being used
-		for b in range(1, len(board_array)):
-			r = random.randint(0,5)
-			board_array[b] = Setup(board_array[b]).rotate(r)
-
-		#define sub_dots
-		for b in range(0, len(board_array) - 1):
-			top_board = board_array[b]
-			bottom_board = board_array[b+1]
-			for x in range(len(top_board)):
-				for y in range(len(top_board[x])):
-					top_board[x][y]["sub_dots"] = (top_board[x][y]["dots"] == "H") #defaults to False
-					if top_board[x][y]["dots"] == "H": #if True
-						top_board[x][y]["sub_dots"] = bottom_board[x][y]["dots"]
 
 		continue_game = True
 		while continue_game:
 			print("\n\n\nMOVE NUMBER {}".format(self.turn))
-			print(Display(self.board, ["name", "dots", "has_piece"]))
+			print(Display(self.board))
 
 			#redefine self.P1 and self.P2 such that neither array includes pieces already in holes
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
@@ -293,9 +318,10 @@ class FullGame(object):
 					break; #end game
 				else:
 					print("\n{}'s piece is in the center, they will now move it...\n".format(CP_name))
+					print(Display(self.board))
 					Actions(self.board).take_turn(self.turn, self.CP)
 
-			if Setup(self.board).check_if_board_complete(): #if all pieces are in holes
+			if Setup(self.board).check_for_complete_board(): #if all pieces are in holes
 				Setup(self.board).imprint_board(board_array[1])
 
 				board_array.pop(0)
