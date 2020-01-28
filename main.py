@@ -17,8 +17,8 @@ from board4 import B4
 #from board4 import B4_Data
 
 
-def colorize(text, atr1, atr2, atr3):
-	return '%s%s%s{}'.format(text) % (fg(atr1), bg(atr2), attr(atr3)) + '%s%s%s' % (fg(15), bg(0), attr(0))
+def colorize(text, foreground, background, attribute):
+	return '{}{}{}{}'.format(fg(foreground), bg(background), attr(attribute), text) + '{}{}{}'.format(fg(15), bg(0), attr(0))
 
 class Display(object):
 	def __init__(self, board, args=[]):
