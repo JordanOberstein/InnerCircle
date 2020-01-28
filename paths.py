@@ -80,6 +80,7 @@ def print_board(board, spaces, dots=False):
 	print_data_array.append(DATA)
 	print(DATA)
 
+
 def update(board, spaces, k):
 	print("MOVE {}\n".format(k))
 	print_tree()
@@ -88,6 +89,8 @@ def update(board, spaces, k):
 
 
 def create_tree(board, board_data, spaces=set(), k=0):
+	center = board[3][3]
+
 
 	#move 0
 	flat_board = [item for sublist in board for item in sublist] #flatten board
@@ -114,15 +117,16 @@ def create_tree(board, board_data, spaces=set(), k=0):
 			if space not in spaces:
 				tree[item0][space] = {}
 			new_spaces.add(space)
+			path = [space, item0]
 			if space in pathways.keys():
 				if pathways[space]["length"] == k:
-					pathways[space]["paths"].append([space, item0])
-				if pathways[space]["length"] == k-1:
-					pathways[space]["sub_paths"].append([space, item1, item0])
+					pathways[space]["paths"].append(path)
+				if pathways[space]["length"] == k-1
+					pathways[space]["sub_paths"].append(path)
 			else:
 				pathways[space] = {
 					"length": k,
-					"paths": [[space, item0]],
+					"paths": [path],
 					"sub_paths": []
 				}
 	spaces = spaces | new_spaces #union
@@ -140,15 +144,16 @@ def create_tree(board, board_data, spaces=set(), k=0):
 				if space not in spaces:
 					tree[item0][item1][space] = {}
 				new_spaces.add(space)
+				path = [space, item1, item0]
 				if space in pathways.keys():
 					if pathways[space]["length"] == k:
-						pathways[space]["paths"].append([space, item1, item0])
+						pathways[space]["paths"].append(path)
 					if pathways[space]["length"] == k-1:
-						pathways[space]["sub_paths"].append([space, item1, item0])
+						pathways[space]["sub_paths"].append(path)
 				else:
 					pathways[space] = {
 						"length": k,
-						"paths": [[space, item1, item0]],
+						"paths": [path],
 						"sub_paths": []
 					}
 	spaces = spaces | new_spaces #union
@@ -167,15 +172,16 @@ def create_tree(board, board_data, spaces=set(), k=0):
 					if space not in spaces:
 						tree[item0][item1][item2][space] = {}
 					new_spaces.add(space)
+					path = [space, item2, item1, item0]
 					if space in pathways.keys():
 						if pathways[space]["length"] == k:
-							pathways[space]["paths"].append([space, item2, item1, item0])
+							pathways[space]["paths"].append(path)
 						if pathways[space]["length"] == k-1:
-							pathways[space]["sub_paths"].append([space, item2, item1, item0])
+							pathways[space]["sub_paths"].append(path)
 					else:
 						pathways[space] = {
 							"length": k,
-							"paths": [[space, item2, item1, item0]],
+							"paths": [path],
 							"sub_paths": []
 						}
 	spaces = spaces | new_spaces #union
@@ -195,15 +201,16 @@ def create_tree(board, board_data, spaces=set(), k=0):
 						if space not in spaces:
 							tree[item0][item1][item2][item3][space] = {}
 						new_spaces.add(space)
+						path = [space, item3, item2, item1, item0]
 						if space in pathways.keys():
 							if pathways[space]["length"] == k:
-								pathways[space]["paths"].append([space, item3, item2, item1, item0])
+								pathways[space]["paths"].append(path)
 							if pathways[space]["length"] == k-1:
-								pathways[space]["sub_paths"].append([space, item3, item2, item1, item0])
+								pathways[space]["sub_paths"].append(path)
 						else:
 							pathways[space] = {
 								"length": k,
-								"paths": [[space, item3, item2, item1, item0]],
+								"paths": [path],
 								"sub_paths": []
 							}
 	spaces = spaces | new_spaces #union
@@ -224,15 +231,16 @@ def create_tree(board, board_data, spaces=set(), k=0):
 							if space not in spaces:
 								tree[item0][item1][item2][item3][item4][space] = {}
 							new_spaces.add(space)
+							path = [space, item4, item3, item2, item1, item0]
 							if space in pathways.keys():
 								if pathways[space]["length"] == k:
-									pathways[space]["paths"].append([space, item4, item3, item2, item1, item0])
+									pathways[space]["paths"].append(path)
 								if pathways[space]["length"] == k-1:
-									pathways[space]["sub_paths"].append([space, item4, item3, item2, item1, item0])
+									pathways[space]["sub_paths"].append(path)
 							else:
 								pathways[space] = {
 									"length": k,
-									"paths": [[space, item4, item3, item2, item1, item0]],
+									"paths": [path],
 									"sub_paths": []
 								}
 	spaces = spaces | new_spaces #union
@@ -253,15 +261,16 @@ def create_tree(board, board_data, spaces=set(), k=0):
 								if space not in spaces:
 									tree[item0][item1][item2][item3][item4][item5][space] = {}
 								new_spaces.add(space)
+								path = [space, item5, item4, item3, item2, item1, item0]
 								if space in pathways.keys():
 									if pathways[space]["length"] == k:
-										pathways[space]["paths"].append([space, item5, item4, item3, item2, item1, item0])
+										pathways[space]["paths"].append(path)										
 									if pathways[space]["length"] == k-1:
-										pathways[space]["sub_paths"].append([space, item5, item4, item3, item2, item1, item0])
+										pathways[space]["sub_paths"].append(path)
 								else:
 									pathways[space] = {
 										"length": k,
-										"paths": [[space, item5, item4, item3, item2, item1, item0]],
+										"paths": [path],
 										"sub_paths": []
 									}
 	spaces = spaces | new_spaces #union
