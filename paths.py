@@ -285,17 +285,17 @@ def create_tree(board, board_data, spaces=set(), k=0):
 board_array = [B1, B2, B3, B4]
 data_array = [B1_Data, B2_Data, B3_Data, B4_Data]
 
-for n in range(2):
-	tree = {}
-	pathways = {}
-	print_data_array = []
-	create_tree(board_array[n], data_array[n])
+with open('pathways_dump.txt', 'w') as outfile:
+	for n in range(4):
+		tree = {}
+		pathways = {}
+		print_data_array = []
+		paths = create_tree(board_array[n], data_array[n])
+		outfile.write(str(paths) + "\n")
 
 
 """
 TO DO LIST:
 
-ADD INTERACTION WITH CENTER OF BOARD
-
-DUMP PATHWAYS TO TXT FILE
+FIX INTERACTIONS WITH CENTER OF BOARD
 """
