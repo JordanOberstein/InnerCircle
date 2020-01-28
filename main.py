@@ -339,15 +339,14 @@ def main():
 	FullGame(B4).play()
 
 if __name__ == '__main__':
-	print(Display(B1))
-	print(Display(B2))
-	print(Display(B3))
-	print(Display(B4))
 	main()
 
 
 """
 NEXT STEP:
 
-Create intuitive gameplay
+Create intuitive gameplay for players
+Allow cpus to play against each other using pathways
+Create AI to learn the game
+
 """

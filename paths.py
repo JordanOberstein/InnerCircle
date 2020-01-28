@@ -102,7 +102,7 @@ def create_tree(board, board_data, spaces=set(), k=0):
 			"sub_paths": []
 		}
 
-	update(board, spaces, k)
+	#update(board, spaces, k)
 	k += 1
 
 
@@ -127,7 +127,7 @@ def create_tree(board, board_data, spaces=set(), k=0):
 				}
 	spaces = spaces | new_spaces #union
 
-	update(board, spaces, k)
+	#update(board, spaces, k)
 	k += 1
 
 
@@ -153,7 +153,7 @@ def create_tree(board, board_data, spaces=set(), k=0):
 					}
 	spaces = spaces | new_spaces #union
 
-	update(board, spaces, k)
+	#update(board, spaces, k)
 	k += 1
 
 
@@ -180,7 +180,7 @@ def create_tree(board, board_data, spaces=set(), k=0):
 						}
 	spaces = spaces | new_spaces #union
 
-	update(board, spaces, k)
+	#update(board, spaces, k)
 	k += 1
 
 
@@ -208,7 +208,7 @@ def create_tree(board, board_data, spaces=set(), k=0):
 							}
 	spaces = spaces | new_spaces #union
 
-	update(board, spaces, k)
+	#update(board, spaces, k)
 	k += 1
 
 
@@ -237,7 +237,7 @@ def create_tree(board, board_data, spaces=set(), k=0):
 								}
 	spaces = spaces | new_spaces #union
 
-	update(board, spaces, k)
+	#update(board, spaces, k)
 	k += 1
 
 	#move 6
@@ -269,11 +269,11 @@ def create_tree(board, board_data, spaces=set(), k=0):
 	update(board, spaces, k)
 	k += 1
 
-
-	print("\n\nFINAL PROGRESSION:\n")
-	for i in range(len(print_data_array)):
-		print("MOVE {}".format(i))
-		print(print_data_array[i])
+	if len(print_data_array) > 1:
+		print("\n\nFINAL PROGRESSION:\n")
+		for i in range(len(print_data_array)):
+			print("MOVE {}".format(i))
+			print(print_data_array[i])
 
 	for item in pathways:
 		print("{}: {}".format(item, pathways[item]))
@@ -290,7 +290,8 @@ with open('pathways_dump.txt', 'w') as outfile:
 		tree = {}
 		pathways = {}
 		print_data_array = []
-		paths = create_tree(board_array[n], data_array[n])
+		spaces = set()
+		paths = create_tree(board_array[n], data_array[n], spaces)
 		outfile.write(str(paths) + "\n")
 
 
@@ -298,4 +299,6 @@ with open('pathways_dump.txt', 'w') as outfile:
 TO DO LIST:
 
 FIX INTERACTIONS WITH CENTER OF BOARD
+
+ONCE FIXED, ADD PATHWAYS TO BOARD FILES
 """
