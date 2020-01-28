@@ -16,6 +16,8 @@ from board4 import B4
 #from board3 import B3_Data
 #from board4 import B4_Data
 
+colorize_board = False
+
 
 def colorize(text, foreground, background, attribute):
 	return '{}{}{}{}'.format(fg(foreground), bg(background), attr(attribute), text) + '{}{}{}'.format(fg(15), bg(0), attr(0))
@@ -41,11 +43,11 @@ class Display(object):
 				sub_dots = str([(space["sub_dots"]) for space in row])
 				sub_dots = sub_dots.replace("False", "-")
 				DATA += "{:^60}\n".format(sub_dots)
-
-			DATA = DATA.replace("P1", colorize("P1", 1, 0, 4)) #red
-			DATA = DATA.replace("P2", colorize("P2", 2, 0, 4)) #green
-			DATA = DATA.replace("C", colorize("C", 3, 0, 1)) #yellow
-			DATA = DATA.replace("H", colorize("H", 4, 0, 1)) #blue
+			if colorize_board:
+				DATA = DATA.replace("P1", colorize("P1", 1, 0, 4)) #red
+				DATA = DATA.replace("P2", colorize("P2", 2, 0, 4)) #green
+				DATA = DATA.replace("C", colorize("C", 3, 0, 1)) #yellow
+				DATA = DATA.replace("H", colorize("H", 4, 0, 1)) #blue
 
 		elif self.args == ["adj"]: #checking if all directions in adj are correct CURRENTLY UNUSED
 			directions = ["ul", "ur", "r", "br", "bl", "l"]
@@ -336,6 +338,8 @@ class FullGame(object):
 
 
 def main():
+	for n in range(6):
+		print(Display(Setup(B2).rotate(n), ["dots"]))
 	FullGame(B4).play()
 
 if __name__ == '__main__':
@@ -350,3 +354,6 @@ Allow cpus to play against each other using pathways
 Create AI to learn the game
 
 """
+
+
+

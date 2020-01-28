@@ -121,7 +121,7 @@ def create_tree(board, board_data, spaces=set(), k=0):
 			if space in pathways.keys():
 				if pathways[space]["length"] == k:
 					pathways[space]["paths"].append(path)
-				if pathways[space]["length"] == k-1
+				if pathways[space]["length"] == k-1:
 					pathways[space]["sub_paths"].append(path)
 			else:
 				pathways[space] = {
@@ -302,6 +302,7 @@ with open('pathways_dump.txt', 'w') as outfile:
 		spaces = set()
 		paths = create_tree(board_array[n], data_array[n], spaces)
 		outfile.write(str(paths) + "\n")
+		outfile.write(str(sorted([(item, pathways[item]["length"]) for item in pathways.keys()])) + "\n")
 
 
 """
@@ -310,4 +311,39 @@ TO DO LIST:
 FIX INTERACTIONS WITH CENTER OF BOARD
 
 ONCE FIXED, ADD PATHWAYS TO BOARD FILES
+
+#this is technically correct for board 1 as no path crosses the center, only ends on the center
+
 """
+
+
+
+print("\n\n\n\n")
+
+l1=[('i00', 1), ('i01', 4), ('i02', 4), ('i03', 3), ('i10', 2), ('i11', 1), ('i12', 4), ('i13', 9), ('i14', 2), ('i20', 3), ('i21', 5), ('i22', 3), ('i23', 4), ('i24', 3), ('i25', 3), ('i30', 3), ('i31', 4), ('i32', 5), ('i33', 0), ('i34', 3), ('i35', 5), ('i36', 3), ('i40', 4), ('i41', 5), ('i42', 5), ('i43', 2), ('i44', 5), ('i45', 4), ('i50', 3), ('i51', 9), ('i52', 4), ('i53', 2), ('i54', 4), ('i60', 4), ('i61', 5), ('i62', 6), ('i63', 1)]
+l2=[('i00', 4), ('i01', 3), ('i02', 4), ('i03', 3), ('i10', 4), ('i11', 1), ('i12', 1), ('i13', 1), ('i14', 4), ('i20', 4), ('i21', 0), ('i22', 3), ('i23', 3), ('i24', 0), ('i25', 3), ('i30', 3), ('i31', 2), ('i32', 4), ('i33', 2), ('i34', 2), ('i35', 4), ('i36', 4), ('i40', 3), ('i41', 3), ('i42', 2), ('i43', 5), ('i44', 0), ('i45', 4), ('i50', 4), ('i51', 3), ('i52', 3), ('i53', 2), ('i54', 2), ('i60', 4), ('i61', 4), ('i62', 3), ('i63', 3)]
+l3=[('i00', 1), ('i01', 1), ('i02', 0), ('i03', 2), ('i10', 0), ('i11', 2), ('i12', 1), ('i13', 2), ('i14', 1), ('i20', 1), ('i21', 3), ('i22', 2), ('i23', 1), ('i24', 2), ('i25', 0), ('i30', 0), ('i31', 2), ('i32', 3), ('i33', 1), ('i34', 2), ('i35', 2), ('i36', 2), ('i40', 2), ('i41', 2), ('i42', 1), ('i43', 2), ('i44', 2), ('i45', 2), ('i50', 0), ('i51', 1), ('i52', 3), ('i53', 3), ('i54', 1), ('i60', 1), ('i61', 2), ('i62', 0), ('i63', 0)]
+l4=[('i00', 2), ('i01', 1), ('i02', 1), ('i03', 2), ('i10', 1), ('i11', 0), ('i12', 1), ('i13', 1), ('i14', 2), ('i20', 1), ('i21', 1), ('i22', 1), ('i23', 0), ('i24', 0), ('i25', 1), ('i30', 1), ('i31', 0), ('i32', 0), ('i33', 1), ('i34', 0), ('i35', 0), ('i36', 1), ('i40', 2), ('i41', 1), ('i42', 0), ('i43', 1), ('i44', 1), ('i45', 1), ('i50', 2), ('i51', 0), ('i52', 1), ('i53', 0), ('i54', 1), ('i60', 1), ('i61', 2), ('i62', 1), ('i63', 2)]
+
+L1 = [l1[:4], l1[4:9], l1[9:15], l1[15:22], l1[22:28], l1[28:33], l1[33:37]]
+L2 = [l2[:4], l2[4:9], l2[9:15], l2[15:22], l2[22:28], l2[28:33], l2[33:37]]
+L3 = [l3[:4], l3[4:9], l3[9:15], l3[15:22], l3[22:28], l3[28:33], l3[33:37]]
+L4 = [l4[:4], l4[4:9], l4[9:15], l4[15:22], l4[22:28], l4[28:33], l4[33:37]]
+
+
+ls = [L1, L2, L3, L4]
+
+def print_board2(board):
+	for x in range(len(board)):
+		for y in range(len(board[x])):
+			board[x][y] = board[x][y][1]
+
+	DATA = ""
+	for row in board:
+		newline = str(row)
+		newline = newline.replace("'", "").replace("), (", ") (")
+		DATA += "{:^80}\n".format(newline)
+	print(DATA)
+
+for item in ls:
+	print_board2(item)
