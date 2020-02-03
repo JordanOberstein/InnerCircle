@@ -14,8 +14,14 @@ paths = create_tree(B1, B1_Data, spaces)
 all_lengths = [(item, pathways[item]["length"]) for item in pathways.keys()]
 
 
+
+print("\n\n\n\n\n\n")
+
+
 #players assigned to each space
 players = (sorted(set(permutations(['P1', 'P1', 'P2','P2'], 3))))
+# [('P1', 'P1', 'P2'), ('P1', 'P2', 'P1'), ('P1', 'P2', 'P2'), ('P2', 'P1', 'P1'), ('P2', 'P1', 'P2'), ('P2', 'P2', 'P1')]
+
 
 starting_spaces = ['i21', 'i12', 'i24', 'i44', 'i52', 'i41']
 #lengths = [item for item in all_lengths if item[0] in starting_spaces]
@@ -24,6 +30,9 @@ dots = [2, 4, 2, 4, 2, 4]
 
 #permutations of starting pieces
 starting_permutations = [(starting_spaces[(0+r)%6], starting_spaces[(2+r)%6], starting_spaces[(3+r)%6]) for r in range(6)]
+#[('i21', 'i24', 'i44'), ('i12', 'i44', 'i52'), ('i24', 'i52', 'i41'), ('i44', 'i41', 'i21'), ('i52', 'i21', 'i12'), ('i41', 'i12', 'i24')]
+
+
 
 #create list of tuples
 zipped = list(zip(starting_spaces, lengths, dots))
@@ -36,39 +45,47 @@ for x in range(6):
 		for y in range(6):
 			if spaces[x][t] == zipped[y][0]:
 				i.append(y)
-	spaces[x] = (zipped[i[0]], zipped[i[1]], zipped[i[2]])
+	spaces[x] = [zipped[i[0]], zipped[i[1]], zipped[i[2]]]
+
+#spaces: [[('i21', 5, 2), ('i24', 5, 2), ('i44', 3, 4)], [('i12', 4, 4), ('i44', 3, 4), ('i52', 4, 2)], [('i24', 5, 2), ('i52', 4, 2), ('i41', 5, 4)], [('i44', 3, 4), ('i41', 5, 4), ('i21', 5, 2)], [('i52', 4, 2), ('i21', 5, 2), ('i12', 4, 4)], [('i41', 5, 4), ('i12', 4, 4), ('i24', 5, 2)]]
 
 
-#six combinations
+#36 combinations
 combinations = list(product(players, spaces))
-
 
 #create list of gameplay scenarios
 assignments = [list(zip(item[0], item[1])) for item in combinations]
 
 
+#sort by winning piece
+sorted_assignments = assignments.copy()
 for i in range(36):
-	assignments[i] = sorted(assignments[i], key = lambda x: x[0]) #sort by player so P1 breaks ties
-	assignments[i] = sorted(assignments[i], key = lambda x: x[1][1]) #sort by lowest dot
+	sorted_assignments[i] = sorted(sorted_assignments[i], key = lambda x: x[0]) #sort by player so P1 breaks ties
+	sorted_assignments[i] = sorted(sorted_assignments[i], key = lambda x: x[1][1]) #sort by lowest dot
 
-#assignments = sorted(assignments, key = lambda x: max(set([x[0][1][2], x[1][1][2], x[2][1][2]]), key = [x[0][1][2], x[1][1][2], x[2][1][2]].count))
 
 
 win_data = {}
 
 for i in range(36):
 	raw = assignments[i]
-	winner = assignments[i][0][0]
+	
+	winner = sorted_assignments[i][0][0]
+	
 	more_pieces = max(set([assignments[i][0][0], assignments[i][1][0], assignments[i][2][0]]), key = [assignments[i][0][0], assignments[i][1][0], assignments[i][2][0]].count) 
+	
 	more_showing_dots = max(set([assignments[i][0][1][2], assignments[i][1][1][2], assignments[i][2][1][2]]), key = [assignments[i][0][1][2], assignments[i][1][1][2], assignments[i][2][1][2]].count) 
-	winning_piece = assignments[i][0][1][0]
-	winning_dots = assignments[i][0][1][2]
-	pieces = (assignments[i][0][1][0], assignments[i][1][1][0], assignments[i][2][1][0])
-	name = "p{}{}".format(i//6, i%6)
+	
+	winning_piece = sorted_assignments[i][0][1][0]
+	
+	winning_dots = sorted_assignments[i][0][1][2]
+	
+	name = "p{}{}".format(i//6, i%6) #arbitrarily named currently
 
-	for j in range(6):
-		if set(pieces) == set(starting_permutations[j]):
-			pieces = starting_permutations[j] #correct order
+	pieces = (assignments[i][0][1][0], assignments[i][1][1][0], assignments[i][2][1][0])
+
+	winning_piece_index = pieces.index(winning_piece)
+
 
 	win_data[name] = {
 		"raw": raw,
@@ -77,15 +94,9 @@ for i in range(36):
 		"more_showing_dots": more_showing_dots,
 		"winning_piece": winning_piece,
 		"winning_dots": winning_dots,
-		"pieces": pieces
+		"pieces": pieces,
+		"winning_piece_index": winning_piece_index
 	}
-
-
-for game in win_data:
-	DATA = ""
-	for item in win_data[game]:
-		DATA += ("{}: {}   ".format(item, win_data[game][item]))
-	print(DATA)
 
 
 #create zipped list
@@ -96,41 +107,40 @@ winning_dots = [win_data[item]["winning_dots"] for item in win_data]
 setup_data = list(zip(winning_spaces, winning_permutations, winner, winning_dots))
 
 
-#find index of winning piece
-for i in range(36):
-	rotation = 0
-	for j in range(6):
-		if setup_data[i][1] == starting_permutations[j]:
-			rotation = j
-	index = list(starting_permutations[rotation]).index(setup_data[i][0])
-	print("winning_piece {}    {} rotation {}    index {}    winner {}    dots {}".format(setup_data[i][0], setup_data[i][1], rotation, index, setup_data[i][2], setup_data[i][3]))
-	name = "p{}{}".format(i//6, i%6)
-	win_data[name]["winning_piece_index"] = index
-
-
 for game in win_data:
-	DATA = ""
+	DATA = "{}...    ".format(game)
 	for item in win_data[game]:
 		DATA += ("{}: {}    ".format(item, win_data[game][item]))
 	print(DATA)
 
 
-#more showing dots and the piece indexes, 
-more_showing_dots = [win_data[item]["more_showing_dots"] for item in win_data]
-winning_piece_indexes = [win_data[item]["winning_piece_index"] for item in win_data]
-winning_dots = [win_data[item]["winning_dots"] for item in win_data]
-probability_data = list(zip(more_showing_dots, winning_piece_indexes, winning_dots))
 
 
-#the dots showing is also user known information, now determining and adding to tuple list
 
 
-probability_data = sorted(probability_data)
-for item in probability_data:
-	print("more_showing_dots {}    index {}    winning_dots {}".format(item[0], item[1], item[2]))
 
-print("\nshowing dots 4: {:>8}\nshowing dots 2: {:>8}\nindex 0: {:>15}\nindex 1: {:>15}\nindex 2: {:>15}\nwinning_dots 2: {:>8}\nwinning_dots 4: {:>8}".format(\
-	more_showing_dots.count(2), more_showing_dots.count(4),	winning_piece_indexes.count(0), winning_piece_indexes.count(1), winning_piece_indexes.count(2), winning_dots.count(2), winning_dots.count(4)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 """

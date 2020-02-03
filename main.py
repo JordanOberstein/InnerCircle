@@ -338,8 +338,6 @@ class FullGame(object):
 
 
 def main():
-	for n in range(6):
-		print(Display(Setup(B2).rotate(n), ["dots"]))
 	FullGame(B4).play()
 
 if __name__ == '__main__':
