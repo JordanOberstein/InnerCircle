@@ -178,37 +178,18 @@ class Actions(object):
 	def __init__(self, board):
 		self.board = board
 
-	def find_move(self, piece=False, direction=False, moves_remaining=False): #recursive function to find move
-		if piece == False:
-			#print()
-			return False #not a legal move
-		x = int(piece[1]) #row
-		y = int(piece[2]) #collumn
-		if moves_remaining != 0: #any move that is NOT the final move
-			#print("{} -> {}".format(piece, self.board[x][y]["adj"][direction]), end="\t")
-			return Actions(self.board).find_move(self.board[x][y]["adj"][direction], direction, moves_remaining - 1)
-		else:
-			#print()
-			if self.board[x][y]["has_piece"]: #if the final space already contains a piece
-				return False
-			else:
-				return piece
-
 	def legal_moves(self, piece=False):
 		if not piece:
-			return "no piece, legal_moves is broken"
+			return "no piece, add argument in legal_moves"
 		
-		directions = ["ul", "ur", "r", "br", "bl", "l"]
 		x = int(piece[1]) #row
 		y = int(piece[2]) #collumn
 		dots = self.board[x][y]["dots"] #number of dots
-		if dots == "C": #piece is in center
-			dots = [1, 2, 3]
-			print("Piece {} moves {} spaces".format(piece, dots))
-			legal_spaces = [Actions(self.board).find_move(piece, direction, d) for direction in directions for d in dots]
-		else: #any other space
-			print("Piece {} moves {} spaces".format(piece, dots))
-			legal_spaces = [Actions(self.board).find_move(piece, direction, dots) for direction in directions]
+
+		print("Piece {} moves {} spaces".format(piece, dots))
+
+		#all legal spaces not already containing a piece
+		legal_spaces = [space for space in self.board[x][y]["moves_to"] if not self.board[int(space[1])][int(space[2])]["has_piece"]]
 		
 		return legal_spaces
 
@@ -216,14 +197,17 @@ class Actions(object):
 		CP_name = "P" + str(((turn + 1)%2)+1)
 		legal_spaces = []
 		center = "i33"
-		if center in CP:
-			piece = center
-			legal_spaces = [space for space in Actions(self.board).legal_moves(piece) if space != False]
-		else:
-			while len(legal_spaces) == 0: #will not continue unless the chosen piece has legal moves
-				piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, CP)) #"P2" if turn % 2 == 0 else "P1"
-				piece = CP[int(piece_index)]
-				legal_spaces = [space for space in Actions(self.board).legal_moves(piece) if space != False] #determines legal spaces
+
+		available_pieces = CP.copy() #if a piece is chosen and is completely blocked, it can remove it from this copy of CP
+
+		while len(legal_spaces) == 0: #will not continue unless the chosen piece has legal moves
+			if len(available_pieces) == 0:
+				print("{} has no available pieces, all pieces are blocked".format(CP_name))
+				return False
+			piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, available_pieces)) #"P2" if turn % 2 == 0 else "P1"
+			piece = available_pieces[int(piece_index)]
+			legal_spaces = [space for space in Actions(self.board).legal_moves(piece)] #determines legal spaces
+			available_pieces.remove(piece)
 
 		move_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
 		chosen_move = legal_spaces[int(move_index)]
@@ -300,8 +284,8 @@ class FullGame(object):
 
 			#redefine self.P1 and self.P2 such that neither array includes pieces already in holes
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
-			self.P1 = [space["name"] for space in flat_board if space["has_piece"] == "P1" and not space["is_hole"]]
-			self.P2 = [space["name"] for space in flat_board if space["has_piece"] == "P2" and not space["is_hole"]]
+			self.P1 = [space["name"] for space in flat_board if space["has_piece"] == "P1" and not space["is_hole"]] #remove pieces that are already in holes
+			self.P2 = [space["name"] for space in flat_board if space["has_piece"] == "P2" and not space["is_hole"]] #remove pieces that are already in holes
 			self.players = [self.P2, self.P1] #redefine with updated self.P1 and self.P2
 			self.CP = self.players[self.turn%2] #defines current player based on turn as index of self.players
 			CP_name = "P" + str(((self.turn + 1)%2)+1)
@@ -347,10 +331,14 @@ if __name__ == '__main__':
 """
 NEXT STEP:
 
-Create intuitive gameplay for players
-Allow cpus to play against each other using pathways
-Create AI to learn the game
+Debugging
 
+-playing on any one given board is fine, moving down boards causes problems.  
+
+IDEAS:
+Create intuitive gameplay for players, GUI?
+Create move trees
+Create AI to learn game, find optimal strategy
 """
 
 
