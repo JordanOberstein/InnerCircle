@@ -16,7 +16,7 @@ from board4 import B4
 #from board3 import B3_Data
 #from board4 import B4_Data
 
-colorize_board = False
+colorize_board = True
 
 
 def colorize(text, foreground, background, attribute):
@@ -200,14 +200,18 @@ class Actions(object):
 
 		available_pieces = CP.copy() #if a piece is chosen and is completely blocked, it can remove it from this copy of CP
 
-		while len(legal_spaces) == 0: #will not continue unless the chosen piece has legal moves
-			if len(available_pieces) == 0:
-				print("{} has no available pieces, all pieces are blocked".format(CP_name))
-				return False
-			piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, available_pieces)) #"P2" if turn % 2 == 0 else "P1"
-			piece = available_pieces[int(piece_index)]
-			legal_spaces = [space for space in Actions(self.board).legal_moves(piece)] #determines legal spaces
-			available_pieces.remove(piece)
+		if center in CP:
+			piece = center
+			legal_spaces = [space for space in Actions(self.board).legal_moves(piece) if space != False]
+		else:
+			while len(legal_spaces) == 0: #will not continue unless the chosen piece has legal moves
+				if len(available_pieces) == 0:
+					print("{} has no available pieces, all pieces are blocked".format(CP_name))
+					return False
+				piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, available_pieces)) #"P2" if turn % 2 == 0 else "P1"
+				piece = available_pieces[int(piece_index)]
+				legal_spaces = [space for space in Actions(self.board).legal_moves(piece)] #determines legal spaces
+				available_pieces.remove(piece)
 
 		move_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
 		chosen_move = legal_spaces[int(move_index)]
@@ -322,7 +326,7 @@ class FullGame(object):
 
 
 def main():
-	FullGame(B4).play()
+	FullGame(B2).play()
 
 if __name__ == '__main__':
 	main()
