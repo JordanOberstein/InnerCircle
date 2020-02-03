@@ -17,7 +17,8 @@ B1_Data = {
 			"l": False
 		},
 		"sub_dots": False,
-		"return_moves": ["i10"]
+		"return_moves": ["i10"],
+		"moves_to": ['i03', 'i33', 'i30']
 	},
 	"i01": {
 		"name": "i01",
@@ -34,7 +35,8 @@ B1_Data = {
 			"l": "i00"
 		},
 		"sub_dots": False,
-		"return_moves": ["i02", "i23", "i44", "i21"]
+		"return_moves": ["i02", "i23", "i44", "i21"],
+		"moves_to": ['i03', 'i23', 'i21']
 	},
 	"i02": {
 		"name": "i02",
@@ -51,7 +53,8 @@ B1_Data = {
 			"l": "i01"
 		},
 		"sub_dots": False,
-		"return_moves": ["i03", "i24", "i35", "i32", "i41"]
+		"return_moves": ["i03", "i24", "i35", "i32", "i41"],
+		"moves_to": ['i03', 'i13', 'i12', 'i01']
 	},
 	"i03": {
 		"name": "i03",
@@ -68,7 +71,8 @@ B1_Data = {
 			"l": "i02"
 		},
 		"sub_dots": False,
-		"return_moves": ["i23", "i02", "i01", "i00"]
+		"return_moves": ["i23", "i02", "i01", "i00"],
+		"moves_to": ['i14', 'i13', 'i02']
 	},
 	"i10": {
 		"name": "i10",
@@ -85,7 +89,8 @@ B1_Data = {
 			"l": False
 		},
 		"sub_dots": False,
-		"return_moves": ["i20", "i30"]
+		"return_moves": ["i20", "i30"],
+		"moves_to": ['i00', 'i11', 'i21', 'i20']
 	},
 	"i11": {
 		"name": "i11",
@@ -102,7 +107,8 @@ B1_Data = {
 			"l": "i10"
 		},
 		"sub_dots": False,
-		"return_moves": ["i14", "i43", "i10"]
+		"return_moves": ["i14", "i43", "i10"],
+		"moves_to": ['i13', 'i33', 'i31']
 	},
 	"i12": {
 		"name": "i12",
@@ -119,7 +125,8 @@ B1_Data = {
 			"l": "i11"
 		},
 		"sub_dots": False,
-		"return_moves": ["i02", "i34"]
+		"return_moves": ["i02", "i34"],
+		"moves_to": ['i54', 'i50']
 	},
 	"i13": {
 		"name": "i13",
@@ -136,7 +143,8 @@ B1_Data = {
 			"l": "i12"
 		},
 		"sub_dots": False,
-		"return_moves": ["i02", "i03", "i51", "i11"]
+		"return_moves": ["i02", "i03", "i51", "i11"],
+		"moves_to": ['i51']
 	},
 	"i14": {
 		"name": "i14",
@@ -153,7 +161,8 @@ B1_Data = {
 			"l": "i13"
 		},
 		"sub_dots": False,
-		"return_moves": ["i03", "i36", "i34", "i43"]
+		"return_moves": ["i03", "i36", "i34", "i43"],
+		"moves_to": ['i43', 'i11']
 	},
 	"i20": {
 		"name": "i20",
@@ -170,7 +179,8 @@ B1_Data = {
 			"l": False
 		},
 		"sub_dots": False,
-		"return_moves": ["i10", "i31"]
+		"return_moves": ["i10", "i31"],
+		"moves_to": ['i10', 'i21', 'i31', 'i30']
 	},
 	"i21": {
 		"name": "i21",
@@ -187,7 +197,8 @@ B1_Data = {
 			"l": "i20"
 		},
 		"sub_dots": False,
-		"return_moves": ["i10", "i01", "i23", "i42", "i31", "i20"]
+		"return_moves": ["i10", "i01", "i23", "i42", "i31", "i20"],
+		"moves_to": ['i01', 'i23', 'i42', 'i40']
 	},
 	"i22": {
 		"name": "i22",
@@ -204,7 +215,8 @@ B1_Data = {
 			"l": "i21"
 		},
 		"sub_dots": False,
-		"return_moves": ["i24", "i25", "i50"]
+		"return_moves": ["i24", "i25", "i50"],
+		"moves_to": ['i25', 'i53', 'i50']
 	},
 	"i23": {
 		"name": "i23",
@@ -221,7 +233,8 @@ B1_Data = {
 			"l": "i22"
 		},
 		"sub_dots": False,
-		"return_moves": ["i01", "i42", "i21"]
+		"return_moves": ["i01", "i42", "i21"],
+		"moves_to": ['i01', 'i03', 'i25', 'i44', 'i42', 'i21']
 	},
 	"i24": {
 		"name": "i24",
@@ -238,7 +251,8 @@ B1_Data = {
 			"l": "i23"
 		},
 		"sub_dots": False,
-		"return_moves": []
+		"return_moves": [],
+		"moves_to": ['i02', 'i45', 'i43', 'i22']
 	},
 	"i25": {
 		"name": "i25",
@@ -255,7 +269,8 @@ B1_Data = {
 			"l": "i24"
 		},
 		"sub_dots": False,
-		"return_moves": ["i23", "i22"]
+		"return_moves": ["i23", "i22"],
+		"moves_to": ['i53', 'i22']
 	},
 	"i30": {
 		"name": "i30",
@@ -272,7 +287,8 @@ B1_Data = {
 			"l": False
 		},
 		"sub_dots": False,
-		"return_moves": ["i20", "i00", "i31", "i40"]
+		"return_moves": ["i20", "i00", "i31", "i40"],
+		"moves_to": ['i10', 'i32', 'i50']
 	},
 	"i31": {
 		"name": "i31",
@@ -289,7 +305,8 @@ B1_Data = {
 			"l": "i30"
 		},
 		"sub_dots": False,
-		"return_moves": ["i20", "i11", "i40"]
+		"return_moves": ["i20", "i11", "i40"],
+		"moves_to": ['i20', 'i21', 'i32', 'i41', 'i40', 'i30']
 	},
 	"i32": {
 		"name": "i32",
@@ -306,7 +323,8 @@ B1_Data = {
 			"l": "i31"
 		},
 		"sub_dots": False,
-		"return_moves": ["i34", "i35", "i52", "i62", "i31", "i30"]
+		"return_moves": ["i34", "i35", "i52", "i62", "i31", "i30"],
+		"moves_to": ['i02', 'i35', 'i62']
 	},
 	"i33": {
 		"name": "i33",
@@ -323,7 +341,8 @@ B1_Data = {
 			"l": "i32"
 		},
 		"sub_dots": False,
-		"return_moves": ["i11", "i00", "i63"]
+		"return_moves": ["i11", "i00", "i63"],
+		"moves_to": []
 	},
 	"i34": {
 		"name": "i34",
@@ -340,7 +359,8 @@ B1_Data = {
 			"l": "i33"
 		},
 		"sub_dots": False,
-		"return_moves": ["i36", "i54", "i52"]
+		"return_moves": ["i36", "i54", "i52"],
+		"moves_to": ['i12', 'i14', 'i36', 'i54', 'i52', 'i32']
 	},
 	"i35": {
 		"name": "i35",
@@ -357,7 +377,8 @@ B1_Data = {
 			"l": "i34"
 		},
 		"sub_dots": False,
-		"return_moves": ["i45", "i62", "i32"]
+		"return_moves": ["i45", "i62", "i32"],
+		"moves_to": ['i02', 'i62', 'i32']
 	},
 	"i36": {
 		"name": "i36",
@@ -374,7 +395,8 @@ B1_Data = {
 			"l": "i35"
 		},
 		"sub_dots": False,
-		"return_moves": ["i45", "i54", "i63", "i34"]
+		"return_moves": ["i45", "i54", "i63", "i34"],
+		"moves_to": ['i14', 'i54', 'i34']
 	},
 	"i40": {
 		"name": "i40",
@@ -391,7 +413,8 @@ B1_Data = {
 			"l": False
 		},
 		"sub_dots": False,
-		"return_moves": ["i31", "i21", "i42", "i43", "i44"]
+		"return_moves": ["i31", "i21", "i42", "i43", "i44"],
+		"moves_to": ['i30', 'i31', 'i41', 'i50']
 	},
 	"i41": {
 		"name": "i41",
@@ -408,7 +431,8 @@ B1_Data = {
 			"l": "i40"
 		},
 		"sub_dots": False,
-		"return_moves": ["i31", "i40"]
+		"return_moves": ["i31", "i40"],
+		"moves_to": ['i02', 'i45']
 	},
 	"i42": {
 		"name": "i42",
@@ -425,7 +449,8 @@ B1_Data = {
 			"l": "i41"
 		},
 		"sub_dots": False,
-		"return_moves": ["i21", "i23"]
+		"return_moves": ["i21", "i23"],
+		"moves_to": ['i21', 'i23', 'i44', 'i62', 'i60', 'i40']
 	},
 	"i43": {
 		"name": "i43",
@@ -442,7 +467,8 @@ B1_Data = {
 			"l": "i42"
 		},
 		"sub_dots": False,
-		"return_moves": ["i24", "i14", "i53"]
+		"return_moves": ["i24", "i14", "i53"],
+		"moves_to": ['i11', 'i14', 'i40']
 	},
 	"i44": {
 		"name": "i44",
@@ -459,7 +485,8 @@ B1_Data = {
 			"l": "i43"
 		},
 		"sub_dots": False,
-		"return_moves": ["i23", "i45", "i53", "i42"]
+		"return_moves": ["i23", "i45", "i53", "i42"],
+		"moves_to": ['i01', 'i40']
 	},
 	"i45": {
 		"name": "i45",
@@ -476,7 +503,8 @@ B1_Data = {
 			"l": "i44"
 		},
 		"sub_dots": False,
-		"return_moves": ["i24", "i41"]
+		"return_moves": ["i24", "i41"],
+		"moves_to": ['i35', 'i36', 'i54', 'i44']
 	},
 	"i50": {
 		"name": "i50",
@@ -493,7 +521,8 @@ B1_Data = {
 			"l": False
 		},
 		"sub_dots": False,
-		"return_moves": ["i40", "i30", "i22", "i12", "i52", "i60"]
+		"return_moves": ["i40", "i30", "i22", "i12", "i52", "i60"],
+		"moves_to": ['i22', 'i53']
 	},
 	"i51": {
 		"name": "i51",
@@ -510,7 +539,8 @@ B1_Data = {
 			"l": "i50"
 		},
 		"sub_dots": False,
-		"return_moves": ["i13", "i61", "i60"]
+		"return_moves": ["i13", "i61", "i60"],
+		"moves_to": ['i13']
 	},
 	"i52": {
 		"name": "i52",
@@ -527,7 +557,8 @@ B1_Data = {
 			"l": "i51"
 		},
 		"sub_dots": False,
-		"return_moves": ["i34", "i53", "i54", "i61"]
+		"return_moves": ["i34", "i53", "i54", "i61"],
+		"moves_to": ['i32', 'i34', 'i54', 'i50']
 	},
 	"i53": {
 		"name": "i53",
@@ -544,7 +575,8 @@ B1_Data = {
 			"l": "i52"
 		},
 		"sub_dots": False,
-		"return_moves": ["i22", "i25", "i50"]
+		"return_moves": ["i22", "i25", "i50"],
+		"moves_to": ['i43', 'i44', 'i54', 'i63', 'i62', 'i52']
 	},
 	"i54": {
 		"name": "i54",
@@ -561,7 +593,8 @@ B1_Data = {
 			"l": "i53"
 		},
 		"sub_dots": False,
-		"return_moves": ["i34", "i12", "i45", "i36", "i53", "i52"]
+		"return_moves": ["i34", "i12", "i45", "i36", "i53", "i52"],
+		"moves_to": ['i34', 'i36', 'i52']
 	},
 	"i60": {
 		"name": "i60",
@@ -578,7 +611,8 @@ B1_Data = {
 			"l": False
 		},
 		"sub_dots": False,
-		"return_moves": ["i42", "i61", "i63"]
+		"return_moves": ["i42", "i61", "i63"],
+		"moves_to": ['i50', 'i51', 'i61']
 	},
 	"i61": {
 		"name": "i61",
@@ -595,7 +629,8 @@ B1_Data = {
 			"l": "i60"
 		},
 		"sub_dots": False,
-		"return_moves": ["i60"]
+		"return_moves": ["i60"],
+		"moves_to": ['i51', 'i52', 'i62', 'i60']
 	},
 	"i62": {
 		"name": "i62",
@@ -612,7 +647,8 @@ B1_Data = {
 			"l": "i61"
 		},
 		"sub_dots": False,
-		"return_moves": ["i42", "i32", "i53", "i35", "i61"]
+		"return_moves": ["i42", "i32", "i53", "i35", "i61"],
+		"moves_to": ['i32', 'i35']
 	},
 	"i63": {
 		"name": "i63",
@@ -629,7 +665,8 @@ B1_Data = {
 			"l": "i62"
 		},
 		"sub_dots": False,
-		"return_moves": ["i53"]
+		"return_moves": ["i53"],
+		"moves_to": ['i33', 'i36', 'i60']
 	}
 }
 
