@@ -189,9 +189,10 @@ class Actions(object):
 		print("Piece {} moves {} spaces".format(piece, dots))
 
 		#all legal spaces not already containing a piece
-		legal_spaces = [space for space in self.board[x][y]["moves_to"] if not self.board[int(space[1])][int(space[2])]["has_piece"]]
+		legal_spaces = [space for space in self.board[x][y]["moves_to"]]
+		legal_spaces_without_pieces = [space for space in legal_spaces if not self.board[int(space[1])][int(space[2])]["has_piece"]]
 		
-		return legal_spaces
+		return legal_spaces_without_pieces
 
 	def take_turn(self, turn, CP):
 		CP_name = "P" + str(((turn + 1)%2)+1)
@@ -316,6 +317,8 @@ class FullGame(object):
 
 				board_array.pop(0)
 				self.board = board_array[0]
+
+				print(len(board_array))
 
 				print("\n\n\nALL SPACES ON BOARD B{} ARE FILLED, MOVING DOWN TO BOARD B{}\n\n\n".format(len(board_array)+1, len(board_array)))
 
