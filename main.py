@@ -336,6 +336,12 @@ if __name__ == '__main__':
 
 
 """
+try creating a seperate board, empty board with empty attributes for each gameplay.  
+empty board has subdots for lower boards already defined, rotations for lower boards already defined on initialization
+amount of subdot layers and rotations below is dependant on self.board on initialization (b1, b2, b3, b4)
+
+
+
 NEXT STEP:
 
 Debugging
