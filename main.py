@@ -206,7 +206,6 @@ class Actions(object):
 		CP_name = "P" + str(((turn + 1)%2)+1)
 		legal_spaces = []
 		center = "i33"
-
 		available_pieces = CP.copy() #if a piece is chosen and is completely blocked, it can remove it from this copy of CP
 
 		if center in CP:

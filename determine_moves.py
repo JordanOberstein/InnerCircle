@@ -41,8 +41,6 @@ def is_compatible_from(space, new_space, d0, board):
 		return space == find_move(new_space, d1, dots1, board)
 
 
-
-
 for n in range(4):
 	board = board_array[n]
 
@@ -79,6 +77,7 @@ for n in range(4):
 			moves_to_data[n][piece] = legal_spaces
 			#print(legal_spaces)
 	#print("\n\n")
+
 
 for n in range(4):
 	for item in return_moves_data[n]:
