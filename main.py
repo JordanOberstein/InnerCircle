@@ -1,4 +1,4 @@
-#Code by Jordan Oberstein
+#Program by Jordan Oberstein
 #Based on the the 1981 board game InnerCircle, (Milton Bradley company, originally designed by Virginia Charves)
 
 import math
@@ -9,6 +9,7 @@ from board1 import B1
 from board2 import B2
 from board3 import B3
 from board4 import B4
+
 
 colorize_board = True
 random_gameplay = True
@@ -109,6 +110,8 @@ class Setup(object):
 				space_index = random.randint(0, len(remaining_spaces) - 1)
 			else:
 				space_index = input("These are the remaining spaces, choose 1: {}\n==> ".format(remaining_spaces))
+				while not space_index.isdigit() or int(space_index) >= len(remaining_spaces):
+					space_index = input("These are the remaining spaces, choose 1: {}\n==> ".format(remaining_spaces))
 			chosen_space = remaining_spaces[int(space_index)]
 			x = int(chosen_space[1]) #row
 			y = int(chosen_space[2]) #collumn
@@ -224,6 +227,9 @@ class Actions(object):
 					piece_index = random.randint(0, len(available_pieces) - 1) #automate gameplay
 				else:
 					piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, available_pieces))
+					while not piece_index.isdigit() or int(piece_index) >= len(available_pieces):
+						piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, available_pieces))
+
 				piece = available_pieces[int(piece_index)]
 				print("Selected piece from list is piece {}".format(piece))
 
@@ -243,6 +249,9 @@ class Actions(object):
 			legal_spaces_index = random.randint(0, len(legal_spaces) - 1) #automate gameplay
 		else:
 			legal_spaces_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
+			while not legal_spaces_index.isdigit() or int(legal_spaces_index) >= len(legal_spaces):
+				legal_spaces_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
+
 		selected_move = legal_spaces[int(legal_spaces_index)]
 
 		x0 = int(piece_index[1]) #row index
@@ -383,7 +392,7 @@ if __name__ == '__main__':
 
 """
 IDEAS:
-Create intuitive gameplay for players, GUI?
-Create move trees
+Create GUI
+Create move trees and determine winning strategy
 Create AI to learn game, find optimal strategy
 """
