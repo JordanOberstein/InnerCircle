@@ -55,7 +55,7 @@ for n in range(4):
 			return_moves_data[n][space] = return_moves
 	for item in return_moves_data[n]:
 		data_array[n][item]["return_moves"] = return_moves_data[n][item]
-		#print("'{}': {}".format(item, return_moves_data[n][item]))
+		#print(""{}": {}".format(item, return_moves_data[n][item]))
 	#print("\n\n")
 
 
@@ -89,7 +89,7 @@ for n in range(4):
 	print("\n\n")
 
 
-with open('moves.txt', 'w') as outfile:
+with open("moves.txt", "w") as outfile:
 	for n in range(4):
 		for item in return_moves_data[n]:
 			#outfile.write("{} \"return_moves\": {}\n".format(item, return_moves_data[n][item]))

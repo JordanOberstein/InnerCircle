@@ -15,7 +15,7 @@ colorize_board = True
 random_gameplay = True
 
 def colorize(text, foreground, background, attribute):
-	return '{}{}{}{}'.format(fg(foreground), bg(background), attr(attribute), text) + '{}{}{}'.format(fg(15), bg(0), attr(0))
+	return "{}{}{}{}".format(fg(foreground), bg(background), attr(attribute), text) + "{}{}{}".format(fg(15), bg(0), attr(0))
 
 
 class Display(object):
@@ -385,11 +385,14 @@ def main():
 	outfile.close()
 	FullGame(B4).play()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	main()
 
 
 """
+TO-DO:
+Add docstrings
+
 IDEAS:
 Create GUI
 Create move trees and determine winning strategy

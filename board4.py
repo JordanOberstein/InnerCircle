@@ -10,7 +10,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i02", "i22", "i33"],
-		"moves_to": ['i02', 'i22', 'i20'],
+		"moves_to": ["i02", "i22", "i20"],
 		"adj": {
 			"ul": False,
 			"ur": False,
@@ -28,7 +28,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i12", "i21", "i40"],
-		"moves_to": ['i34', 'i31'],
+		"moves_to": ["i34", "i31"],
 		"adj": {
 			"ul": False,
 			"ur": False,
@@ -46,7 +46,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i03", "i12", "i22", "i00"],
-		"moves_to": ['i24', 'i22', 'i00'],
+		"moves_to": ["i24", "i22", "i00"],
 		"adj": {
 			"ul": False,
 			"ur": False,
@@ -64,7 +64,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i25", "i33"],
-		"moves_to": ['i14', 'i13', 'i02'],
+		"moves_to": ["i14", "i13", "i02"],
 		"adj": {
 			"ul": False,
 			"ur": False,
@@ -82,7 +82,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i14", "i20"],
-		"moves_to": ['i12', 'i32', 'i30'],
+		"moves_to": ["i12", "i32", "i30"],
 		"adj": {
 			"ul": False,
 			"ur": "i00",
@@ -118,7 +118,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i50", "i10"],
-		"moves_to": ['i01', 'i02', 'i13', 'i23', 'i22', 'i11'],
+		"moves_to": ["i01", "i02", "i13", "i23", "i22", "i11"],
 		"adj": {
 			"ul": "i01",
 			"ur": "i02",
@@ -136,7 +136,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i03", "i33", "i12"],
-		"moves_to": ['i35', 'i33', 'i11'],
+		"moves_to": ["i35", "i33", "i11"],
 		"adj": {
 			"ul": "i02",
 			"ur": "i03",
@@ -154,7 +154,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i03", "i43"],
-		"moves_to": ['i52', 'i10'],
+		"moves_to": ["i52", "i10"],
 		"adj": {
 			"ul": "i03",
 			"ur": False,
@@ -172,7 +172,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i00", "i22", "i30"],
-		"moves_to": ['i10', 'i21', 'i31', 'i30'],
+		"moves_to": ["i10", "i21", "i31", "i30"],
 		"adj": {
 			"ul": False,
 			"ur": "i10",
@@ -190,7 +190,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i20"],
-		"moves_to": ['i01', 'i23', 'i42', 'i40'],
+		"moves_to": ["i01", "i23", "i42", "i40"],
 		"adj": {
 			"ul": "i10",
 			"ur": "i11",
@@ -208,7 +208,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i00", "i12", "i02", "i33"],
-		"moves_to": ['i00', 'i02', 'i24', 'i43', 'i41', 'i20'],
+		"moves_to": ["i00", "i02", "i24", "i43", "i41", "i20"],
 		"adj": {
 			"ul": "i11",
 			"ur": "i12",
@@ -262,7 +262,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i36"],
-		"moves_to": ['i03', 'i44', 'i23'],
+		"moves_to": ["i03", "i44", "i23"],
 		"adj": {
 			"ul": "i14",
 			"ur": False,
@@ -280,7 +280,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i20", "i10", "i33"],
-		"moves_to": ['i20', 'i31', 'i40'],
+		"moves_to": ["i20", "i31", "i40"],
 		"adj": {
 			"ul": False,
 			"ur": "i20",
@@ -334,7 +334,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i13", "i63"],
-		"moves_to": ['i22', 'i11', 'i00', 'i23', 'i13', 'i03', 'i34', 'i35', 'i36', 'i43', 'i53', 'i63', 'i42', 'i51', 'i60', 'i32', 'i31', 'i30'],
+		"moves_to": ["i22", "i11", "i00", "i23", "i13", "i03", "i34", "i35", "i36", "i43", "i53", "i63", "i42", "i51", "i60", "i32", "i31", "i30"],
 		"adj": {
 			"ul": "i22",
 			"ur": "i23",
@@ -388,7 +388,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i54", "i63", "i33"],
-		"moves_to": ['i25', 'i45', 'i35'],
+		"moves_to": ["i25", "i45", "i35"],
 		"adj": {
 			"ul": "i25",
 			"ur": False,
@@ -406,7 +406,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i30", "i21", "i41", "i43"],
-		"moves_to": ['i01', 'i44'],
+		"moves_to": ["i01", "i44"],
 		"adj": {
 			"ul": "i30",
 			"ur": "i31",
@@ -424,7 +424,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i22", "i61"],
-		"moves_to": ['i31', 'i32', 'i42', 'i51', 'i50', 'i40'],
+		"moves_to": ["i31", "i32", "i42", "i51", "i50", "i40"],
 		"adj": {
 			"ul": "i31",
 			"ur": "i32",
@@ -460,7 +460,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i33", "i22", "i44", "i45", "i52", "i61"],
-		"moves_to": ['i11', 'i14', 'i40'],
+		"moves_to": ["i11", "i14", "i40"],
 		"adj": {
 			"ul": "i33",
 			"ur": "i34",
@@ -478,7 +478,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i25", "i62", "i40"],
-		"moves_to": ['i34', 'i35', 'i45', 'i54', 'i53', 'i43'],
+		"moves_to": ["i34", "i35", "i45", "i54", "i53", "i43"],
 		"adj": {
 			"ul": "i34",
 			"ur": "i35",
@@ -496,7 +496,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i36", "i44"],
-		"moves_to": ['i24', 'i63', 'i43'],
+		"moves_to": ["i24", "i63", "i43"],
 		"adj": {
 			"ul": "i35",
 			"ur": "i36",
@@ -514,7 +514,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i41", "i60"],
-		"moves_to": ['i12', 'i54'],
+		"moves_to": ["i12", "i54"],
 		"adj": {
 			"ul": "i40",
 			"ur": "i41",
@@ -550,7 +550,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i14", "i54"],
-		"moves_to": ['i42', 'i43', 'i53', 'i62', 'i61', 'i51'],
+		"moves_to": ["i42", "i43", "i53", "i62", "i61", "i51"],
 		"adj": {
 			"ul": "i42",
 			"ur": "i43",
@@ -586,7 +586,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i44", "i50"],
-		"moves_to": ['i34', 'i36', 'i52'],
+		"moves_to": ["i34", "i36", "i52"],
 		"adj": {
 			"ul": "i44",
 			"ur": "i45",
@@ -604,7 +604,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i33", "i62", "i63"],
-		"moves_to": ['i50', 'i51', 'i61'],
+		"moves_to": ["i50", "i51", "i61"],
 		"adj": {
 			"ul": "i50",
 			"ur": "i51",
@@ -622,7 +622,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i52", "i60"],
-		"moves_to": ['i41', 'i43', 'i63'],
+		"moves_to": ["i41", "i43", "i63"],
 		"adj": {
 			"ul": "i51",
 			"ur": "i52",
@@ -640,7 +640,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i52"],
-		"moves_to": ['i42', 'i44', 'i60'],
+		"moves_to": ["i42", "i44", "i60"],
 		"adj": {
 			"ul": "i52",
 			"ur": "i53",
@@ -658,7 +658,7 @@ B4_Data = {
 		"is_hole": False,
 		"sub_dots": False,
 		"return_moves": ["i33", "i45", "i61"],
-		"moves_to": ['i33', 'i36', 'i60'],
+		"moves_to": ["i33", "i36", "i60"],
 		"adj": {
 			"ul": "i53",
 			"ur": "i54",
