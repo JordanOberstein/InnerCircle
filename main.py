@@ -1,5 +1,5 @@
 #Program by Jordan Oberstein
-#Based on the the 1981 board game InnerCircle, (Milton Bradley company, originally designed by Virginia Charves)
+#Based on the the 1981 board game InnerCircle, (Milton Bradley company, board game originally designed by Virginia Charves)
 
 import math
 import random
@@ -11,12 +11,12 @@ from board3 import B3
 from board4 import B4
 
 
-colorize_board = False
+colorize_board = True
 random_gameplay = True
 
 def colorize(text, foreground, background, attribute):
 	"""Colorizes text."""
-	return "{}{}{}{}".format(fg(foreground), bg(background), attr(attribute), text) + "{}{}{}".format(fg(15), bg(0), attr(0))
+	return "{}{}{}{}{}{}{}".format(fg(foreground), bg(background), attr(attribute), text, fg(15), bg(0), attr(0))
 
 
 class Display(object):
@@ -37,7 +37,7 @@ class Display(object):
 		if len(self.args) == 0:
 			DATA += "{:^120}".format("(name, has_piece, dots)")
 			DATA += "{:^60}\n".format("sub_dots")
-			for row in self.board: #board rows
+			for row in self.board:
 				new_line = str([(space["name"], space["has_piece"], space["dots"]) for space in row])
 				new_line = new_line.replace("False,", "--,") #has_piece
 				new_line = new_line.replace("'", "") #flush formatting
@@ -49,13 +49,15 @@ class Display(object):
 			if colorize_board:
 				DATA = DATA.replace("P1", colorize("P1", 1, 0, 4)) #red
 				DATA = DATA.replace("P2", colorize("P2", 2, 0, 4)) #green
-				DATA = DATA.replace("C", colorize("C", 3, 0, 1)) #yellow
-				DATA = DATA.replace("H", colorize("H", 4, 0, 1)) #blue
+				DATA = DATA.replace("P3", colorize("P3", 4, 0, 4)) #blue
+				DATA = DATA.replace("P4", colorize("P4", 3, 0, 4)) #yellow
+				DATA = DATA.replace("C", colorize("C", 0, 7, 1)) #white bg
+				DATA = DATA.replace("H", colorize("H", 0, 5, 1)) #purple bg
 		else:
-			for arg in self.args: #name of arg
+			for arg in self.args:
 				DATA += "{:^60}".format(arg)
 			DATA += "\n"
-			for row in self.board: #board rows
+			for row in self.board:
 				for arg in self.args:
 					DATA += "{:^60}".format(str([space[arg] for space in row]))
 				DATA += "\n"
@@ -73,23 +75,22 @@ class Setup(object):
 
 	def create_board(self, R1, R2, R3, center):
 		"""Create board using rings."""
-		empty_board = [[(), (), (), ()], \
-					[(), (), (), (), ()], \
-				  [(), (), (), (), (), ()], \
-				[(), (), (), (), (), (), ()], \
-				  [(), (), (), (), (), ()], \
-					[(), (), (), (), ()], \
-					  [(), (), (), ()]]
+		eb = [[(), (), (), ()], \
+		    [(), (), (), (), ()], \
+		  [(), (), (), (), (), ()], \
+		[(), (), (), (), (), (), ()], \
+		  [(), (), (), (), (), ()], \
+			[(), (), (), (), ()], \
+			  [(), (), (), ()]]
 
-		nb = empty_board
-		nb[2][2], nb[2][3], nb[3][4], nb[4][3], nb[4][2], nb[3][2] = R1[0], R1[1], R1[2], R1[3], R1[4], R1[5]
-		nb[1][1], nb[1][2], nb[1][3], nb[2][4], nb[3][5], nb[4][4] = R2[0], R2[1], R2[2], R2[3], R2[4], R2[5]
-		nb[5][3], nb[5][2], nb[5][1], nb[4][1], nb[3][1], nb[2][1] = R2[6], R2[7], R2[8], R2[9], R2[10], R2[11]
-		nb[0][0], nb[0][1], nb[0][2], nb[0][3], nb[1][4], nb[2][5] = R3[0], R3[1], R3[2], R3[3], R3[4], R3[5]
-		nb[3][6], nb[4][5], nb[5][4], nb[6][3], nb[6][2], nb[6][1] = R3[6], R3[7], R3[8], R3[9], R3[10], R3[11]
-		nb[6][0], nb[5][0], nb[4][0], nb[3][0], nb[2][0], nb[1][0] = R3[12], R3[13], R3[14], R3[15], R3[16], R3[17]
-		nb[3][3] = center
-		return nb
+		eb[2][2], eb[2][3], eb[3][4], eb[4][3], eb[4][2], eb[3][2] = R1[0], R1[1], R1[2], R1[3], R1[4], R1[5]
+		eb[1][1], eb[1][2], eb[1][3], eb[2][4], eb[3][5], eb[4][4] = R2[0], R2[1], R2[2], R2[3], R2[4], R2[5]
+		eb[5][3], eb[5][2], eb[5][1], eb[4][1], eb[3][1], eb[2][1] = R2[6], R2[7], R2[8], R2[9], R2[10], R2[11]
+		eb[0][0], eb[0][1], eb[0][2], eb[0][3], eb[1][4], eb[2][5] = R3[0], R3[1], R3[2], R3[3], R3[4], R3[5]
+		eb[3][6], eb[4][5], eb[5][4], eb[6][3], eb[6][2], eb[6][1] = R3[6], R3[7], R3[8], R3[9], R3[10], R3[11]
+		eb[6][0], eb[5][0], eb[4][0], eb[3][0], eb[2][0], eb[1][0] = R3[12], R3[13], R3[14], R3[15], R3[16], R3[17]
+		eb[3][3] = center
+		return eb
 
 	def rotate(self, r=1):
 		"""Rotate a board counterclockwise, default 1 rotation."""
@@ -119,14 +120,14 @@ class Setup(object):
 					if top_board[x][y]["is_hole"]:
 						top_board[x][y]["sub_dots"] = bottom_board[x][y]["dots"]
 
-	def add_pieces(self):
+	def add_pieces(self, active_players):
 		"""Add pieces to top board."""
-		players = ["P2", "P1"] #P1 is odd indices, P2 is even indices
 		turn = 1
 		flat_board = [item for sublist in self.board for item in sublist] #flatten board
-		while not all([space["has_piece"] for space in flat_board if space["starting_space"]]): #if all starting spaces have a piece
+		player_count = len(active_players)
+		while turn <= 16 if player_count == 4 else turn <= 18: #equal amount of starting pieces for each player
 			print(Display(self.board))
-			CP = players[turn%2]
+			CP_name = active_players[turn%player_count - 1]
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
 			remaining_spaces = [space["name"] for space in flat_board if space["starting_space"] and not space["has_piece"]]
 			if random_gameplay:
@@ -138,7 +139,7 @@ class Setup(object):
 			chosen_space = remaining_spaces[int(space_index)]
 			x = int(chosen_space[1]) #row
 			y = int(chosen_space[2]) #collumn
-			self.board[x][y]["has_piece"] = CP
+			self.board[x][y]["has_piece"] = CP_name
 			turn += 1
 		print(Display(self.board))
 		print("Game Setup is complete.\n\n\n")
@@ -167,7 +168,7 @@ class Setup(object):
 			starting_index_list = [flat_rotated_board_B4.index(item) for item in flat_rotated_board_B4 if item["is_hole"]] 
 			return [flat_board_B3[n]["name"] for n in starting_index_list] #spaces in lower board that align with holes in upper board
 		else:
-			print("Not a valid board for starting spaces.")
+			print("Only (B1, B2, B3) are allowed")
 			return False
 
 	def check_for_complete_board(self):
@@ -278,23 +279,50 @@ class Actions(object):
 
 
 class FullGame(object):
-	def __init__(self, board):
+	def __init__(self, board, player_count):
 		""" 
 		Constructor for FullGame class. 
 
 		Parameters: 
 			board: the top board for gameplay (B1, B2, B3, B4). 
+			player_count: the number of players playing the game (2, 3, 4). 
 		"""
 		self.board = board
-		self.P1 = []
-		self.P2 = []
-		self.players = [self.P2, self.P1] #P1 is odd indices, P2 is even indices
+		self.player_count = player_count
+		self.players = { #name attributes currently unused
+			"P1": {
+				"name": "P1",
+				"pieces": [],
+				"is_active": True
+			},
+			"P2": {
+				"name": "P2",
+				"pieces": [],
+				"is_active": True
+			},
+			"P3": {
+				"name": "P3",
+				"pieces": [],
+				"is_active": True if self.player_count > 2 else False
+			},
+			"P4": {
+				"name": "P4",
+				"pieces": [],
+				"is_active": True if self.player_count > 3 else False
+			}
+		}
 		self.turn = 1
 
 	def play(self):
 		"""Play a complete game."""
 		board_array = [B4, B3, B2, B1]
-		board_array = board_array[board_array.index(self.board):] #define board_array as only boards being used
+
+		if self.board not in board_array:
+			raise TypeError("Only (B1, B2, B3, B4) are allowed")
+		if self.player_count not in range(2, 5):
+			raise TypeError("Only (2, 3, 4) are valid player number inputs")
+
+		board_array = board_array[board_array.index(self.board):] #redefine board_array as only boards being used
 
 		for b in range(1, len(board_array)):
 			r = random.randint(0,5)
@@ -303,22 +331,50 @@ class FullGame(object):
 		Setup(self.board).add_sub_dots(board_array)
 
 		if self.board == B4:
-			Setup(B4).add_pieces()
-			#retrieve P1 and P2 after adding pieces to board
+			active_players = [player for player in self.players if self.players[player]["is_active"]]
+			Setup(self.board).add_pieces(active_players)
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
-			self.P1 = [space["name"] for space in flat_board if space["has_piece"] == "P1"]
-			self.P2 = [space["name"] for space in flat_board if space["has_piece"] == "P2"]
-		elif self.board == B1 or self.board == B2 or self.board == B3:
-			starting_spaces = Setup(self.board).determine_starting_spaces()
+			for player in active_players:
+				self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player and not space["is_hole"]]
+		else:
+			starting_spaces = Setup(self.board).determine_starting_spaces() #len = 3, 7, 10
 			random.shuffle(starting_spaces) #shuffle the starting spaces, otherwise cut for P1 and P2 will be the same for some given rotation
-			cut = random.randint(math.floor(len(starting_spaces)/2), math.ceil(len(starting_spaces)/2)) #cut in half, assumes players play decently
-			self.P1 = starting_spaces[:cut].copy()
-			self.P2 = starting_spaces[cut:].copy()
-			#add pieces in P1 and P2 to the board
-			for space in self.P1:
-				self.board[int(space[1])][int(space[2])]["has_piece"] = "P1" #x=space[1], y=space[2]
-			for space in self.P2:
-				self.board[int(space[1])][int(space[2])]["has_piece"] = "P2" #x=space[1], y=space[2]
+			if self.player_count == 2:
+				cut = random.randint(math.floor(len(starting_spaces)/2), math.ceil(len(starting_spaces)/2)) #cut in half, assumes players play decently
+				self.players["P1"]["pieces"] = starting_spaces[:cut]
+				self.players["P2"]["pieces"] = starting_spaces[cut:]
+			elif self.player_count == 3:
+				if self.board == B1:
+					cut1, cut2 = 1, 2
+				elif self.board == B2:
+					(cut1, cut2) = random.choice([(3, 5), (2, 5), (2, 4)])
+				elif self.board == B3:
+					(cut1, cut2) = random.choice([(4, 7), (3, 7), (3, 6)])
+				self.players["P1"]["pieces"] = starting_spaces[:cut1]
+				self.players["P2"]["pieces"] = starting_spaces[cut1:cut2]
+				self.players["P3"]["pieces"] = starting_spaces[cut2:]
+			elif self.player_count == 4:
+				if self.board == B1:
+					cut1, cut2 = 1, 2
+					self.players["P1"]["pieces"] = starting_spaces[:cut1]
+					self.players["P2"]["pieces"] = starting_spaces[cut1:cut2]
+					self.players["P3"]["pieces"] = starting_spaces[cut2:]
+					self.players["P4"]["is_active"] = False #four players cannot occupy three spaces
+				else:
+					if self.board == B2:
+						(cut1, cut2, cut3) = random.choice([(2, 4, 6), (2, 4, 5), (2, 3, 5), (1, 3, 5)])
+					elif self.board == B3:
+						(cut1, cut2, cut3) = random.choice([(3, 6, 8), (3, 5, 8), (3, 5, 7), (2, 5, 8), (2, 5, 7), (2, 4, 7)])
+					self.players["P1"]["pieces"] = starting_spaces[:cut1]
+					self.players["P2"]["pieces"] = starting_spaces[cut1:cut2]
+					self.players["P3"]["pieces"] = starting_spaces[cut2:cut3]
+					self.players["P4"]["pieces"] = starting_spaces[cut3:]
+			#add pieces to the board
+			active_players = [player for player in self.players if self.players[player]["is_active"]]
+			for player in active_players:
+				print(player, self.players[player]["pieces"])
+				for space in self.players[player]["pieces"]:
+					self.board[int(space[1])][int(space[2])]["has_piece"] = player #x=space[1], y=space[2]
 
 		winner = ""
 		continue_game = True
@@ -326,13 +382,17 @@ class FullGame(object):
 			print("\n\n\nMOVE NUMBER {}".format(self.turn))
 			print(Display(self.board))
 
-			#redefine self.P1 and self.P2 to include only pieces that are not in holes
+			#update player object to only pieces that are not in holes
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
-			self.P1 = [space["name"] for space in flat_board if space["has_piece"] == "P1" and not space["is_hole"]]
-			self.P2 = [space["name"] for space in flat_board if space["has_piece"] == "P2" and not space["is_hole"]]
-			self.players = [self.P2, self.P1]
-			CP = self.players[self.turn%2]
-			CP_name = "P" + str(((self.turn + 1)%2)+1)
+			active_players = [player for player in self.players if self.players[player]["is_active"]]
+			for player in active_players:
+				self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player and not space["is_hole"]]
+			
+			#current turn assignment does not work for multiple players when moving down boards and a player is eliminated
+			current_player = active_players[self.turn%len(active_players) - 1]
+			CP = self.players[current_player]["pieces"]
+			CP_name = current_player
+			print(CP, CP_name)
 			
 			#if current player has no legal moves
 			if len(CP) == 0:
@@ -343,7 +403,7 @@ class FullGame(object):
 			Actions(self.board).take_turn(CP, CP_name)
 
 			#check if piece is in center, end game if on lowest board
-			center = self.board[3][3] #redefine center to update when moving down baords
+			center = self.board[3][3] #redefine center to update when moving down boards
 			if center["has_piece"]:
 				if len(board_array) == 1:
 					winner = center["has_piece"]
@@ -359,22 +419,23 @@ class FullGame(object):
 				Setup(self.board).imprint_board(board_array[1])
 				board_array.pop(0)
 				self.board = board_array[0] #self.board is next board in board_array
-
 				print("\n\n\nALL SPACES ON BOARD B{} ARE FILLED, MOVING DOWN TO BOARD B{}\n\n\n".format(len(board_array)+1, len(board_array)))
 
-				#check if both players still have pieces
+				#update player object after imprinting board
 				flat_board = [item for sublist in self.board for item in sublist] #flatten board
-				self.P1 = [space["name"] for space in flat_board if space["has_piece"] == "P1"]
-				self.P2 = [space["name"] for space in flat_board if space["has_piece"] == "P2"]
-				if len(self.P1) == 0:
-					winner = "P2"
-					break
-				if len(self.P2) == 0:
-					winner = "P1"
+				active_players = [player for player in self.players if self.players[player]["is_active"]]
+				for player in active_players:
+					self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player]
+					if len(self.players[player]["pieces"]) == 0:
+						self.players[player]["is_active"] = False
+
+				#check for winner
+				active_players = [player for player in self.players if self.players[player]["is_active"]]
+				if len(active_players) == 1:
+					winner = active_players[0]
 					break
 
 			self.turn += 1
-
 
 		print("\n\nThere is a winner...")
 		print(Display(self.board))
@@ -384,13 +445,21 @@ class FullGame(object):
 def main():
 	outfile = open("out.txt", "w")
 	outfile.close()
-	FullGame(B4).play()
+	FullGame(B1, 4).play()
 
 if __name__ == "__main__":
 	main()
 
 
 """
+Conversion to multiplayer
+
+
+make sure current player is correct after moving down boards (when player is eliminated)
+turn will choose wrong player, use new method for determining current player other than turn number
+
+
+
 TO-DO:
 Expand and clarify docstrings
 
@@ -399,4 +468,6 @@ Add support for 3 and 4 player games
 Create GUI
 Create move trees and determine winning strategy
 Create AI to learn game, find optimal strategy
+
+Determine which starting space has the highest winning percentage via using 18 player
 """
