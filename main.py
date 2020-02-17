@@ -3,6 +3,7 @@
 
 import math
 import random
+import sys, os
 from colored import fg, bg, attr
 
 from board1 import B1
@@ -12,11 +13,22 @@ from board4 import B4
 
 
 colorize_board = True
+print_to_console = True
 random_gameplay = True
 
 def colorize(text, foreground, background, attribute):
 	"""Colorizes text."""
 	return "{}{}{}{}{}{}{}".format(fg(foreground), bg(background), attr(attribute), text, fg(15), bg(0), attr(0))
+
+
+class HiddenPrints:
+	"""Overides print function."""
+	def __enter__(self):
+		self._original_stdout = sys.stdout
+		sys.stdout = open(os.devnull, 'w')
+	def __exit__(self, exc_type, exc_val, exc_tb):
+		sys.stdout.close()
+		sys.stdout = self._original_stdout
 
 
 class Display(object):
@@ -168,8 +180,7 @@ class Setup(object):
 			starting_index_list = [flat_rotated_board_B4.index(item) for item in flat_rotated_board_B4 if item["is_hole"]] 
 			return [flat_board_B3[n]["name"] for n in starting_index_list] #spaces in lower board that align with holes in upper board
 		else:
-			print("Only (B1, B2, B3) are allowed")
-			return False
+			raise ValueError("Only (B1, B2, B3) are allowed")
 
 	def check_for_complete_board(self):
 		"""Check if a piece occupies all holes on a board."""
@@ -289,46 +300,43 @@ class FullGame(object):
 		"""
 		self.board = board
 		self.player_count = player_count
-		self.players = { #name attributes currently unused
+		if self.player_count not in range(2, 5):
+			raise ValueError("Only (2, 3, 4) are valid player number inputs")
+
+		#self.players = {"P{}".format(n): {"pieces":[], "is_active": True if player_count > n-1 else False} for n in range(1, 5)}
+		self.players = {
 			"P1": {
-				"name": "P1",
 				"pieces": [],
 				"is_active": True
 			},
 			"P2": {
-				"name": "P2",
 				"pieces": [],
 				"is_active": True
 			},
 			"P3": {
-				"name": "P3",
 				"pieces": [],
 				"is_active": True if self.player_count > 2 else False
 			},
 			"P4": {
-				"name": "P4",
 				"pieces": [],
 				"is_active": True if self.player_count > 3 else False
 			}
 		}
 		self.turn = 1
 
+		board_array = [B4, B3, B2, B1]
+		if self.board not in board_array:
+			raise ValueError("Only (B1, B2, B3, B4) are allowed")
+		self.board_array = board_array[board_array.index(self.board):] #redefine board_array as only boards being used
+
+
 	def play(self):
 		"""Play a complete game."""
-		board_array = [B4, B3, B2, B1]
-
-		if self.board not in board_array:
-			raise TypeError("Only (B1, B2, B3, B4) are allowed")
-		if self.player_count not in range(2, 5):
-			raise TypeError("Only (2, 3, 4) are valid player number inputs")
-
-		board_array = board_array[board_array.index(self.board):] #redefine board_array as only boards being used
-
-		for b in range(1, len(board_array)):
+		for b in range(1, len(self.board_array)):
 			r = random.randint(0,5)
-			board_array[b] = Setup(board_array[b]).rotate(r) #rotate boards
+			self.board_array[b] = Setup(self.board_array[b]).rotate(r) #rotate boards
 
-		Setup(self.board).add_sub_dots(board_array)
+		Setup(self.board).add_sub_dots(self.board_array)
 
 		if self.board == B4:
 			active_players = [player for player in self.players if self.players[player]["is_active"]]
@@ -388,12 +396,15 @@ class FullGame(object):
 			for player in active_players:
 				self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player and not space["is_hole"]]
 			
-			#current turn assignment does not work for multiple players when moving down boards and a player is eliminated
-			current_player = active_players[self.turn%len(active_players) - 1]
-			CP = self.players[current_player]["pieces"]
-			CP_name = current_player
+			#determine current player
+			if self.turn == 1:
+				CP_name = "P1"
+			else:
+				old_index = active_players.index(CP_name)
+				CP_name = active_players[(old_index+1)%len(active_players)]
+			CP = self.players[CP_name]["pieces"]
 			print(CP, CP_name)
-			
+
 			#if current player has no legal moves
 			if len(CP) == 0:
 				print("No valid moves for {}".format(CP_name))
@@ -405,7 +416,7 @@ class FullGame(object):
 			#check if piece is in center, end game if on lowest board
 			center = self.board[3][3] #redefine center to update when moving down boards
 			if center["has_piece"]:
-				if len(board_array) == 1:
+				if len(self.board_array) == 1:
 					winner = center["has_piece"]
 					break
 				else:
@@ -416,10 +427,10 @@ class FullGame(object):
 			#check if all pieces are in holes
 			if Setup(self.board).check_for_complete_board():
 				print(Display(self.board))
-				Setup(self.board).imprint_board(board_array[1])
-				board_array.pop(0)
-				self.board = board_array[0] #self.board is next board in board_array
-				print("\n\n\nALL SPACES ON BOARD B{} ARE FILLED, MOVING DOWN TO BOARD B{}\n\n\n".format(len(board_array)+1, len(board_array)))
+				Setup(self.board).imprint_board(self.board_array[1])
+				self.board_array.pop(0)
+				self.board = self.board_array[0] #self.board is next board in self.board_array
+				print("\n\n\nALL SPACES ON BOARD B{} ARE FILLED, MOVING DOWN TO BOARD B{}\n\n\n".format(len(self.board_array)+1, len(self.board_array)))
 
 				#update player object after imprinting board
 				flat_board = [item for sublist in self.board for item in sublist] #flatten board
@@ -443,9 +454,12 @@ class FullGame(object):
 
 
 def main():
-	outfile = open("out.txt", "w")
-	outfile.close()
-	FullGame(B1, 4).play()
+	if print_to_console:
+		FullGame(B2, 4).play()
+	else:
+		with HiddenPrints():
+			FullGame(B2, 4).play()
+		
 
 if __name__ == "__main__":
 	main()
@@ -454,10 +468,7 @@ if __name__ == "__main__":
 """
 Conversion to multiplayer
 
-
-make sure current player is correct after moving down boards (when player is eliminated)
-turn will choose wrong player, use new method for determining current player other than turn number
-
+use proper reset method to loop through multiple games
 
 
 TO-DO:
