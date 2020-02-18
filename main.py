@@ -17,6 +17,9 @@ print_to_console = True
 random_gameplay = True
 hard_mode = False
 
+
+flatten = lambda l: [item for sublist in l for item in sublist]
+
 def colorize(text, foreground, background, attribute):
 	"""Colorizes text."""
 	return "{}{}{}{}{}{}{}".format(fg(foreground), bg(background), attr(attribute), text, fg(15), bg(0), attr(0))
@@ -89,48 +92,37 @@ class Setup(object):
 		"""Constructor for Setup class."""
 		self.board = board
 
-	def create_board(self, R1, R2, R3, center):
-		"""Create board using rings."""
-		eb = [[(), (), (), ()], \
-		    [(), (), (), (), ()], \
-		  [(), (), (), (), (), ()], \
-		[(), (), (), (), (), (), ()], \
-		  [(), (), (), (), (), ()], \
-			[(), (), (), (), ()], \
-			  [(), (), (), ()]]
-
-		eb[2][2], eb[2][3], eb[3][4], eb[4][3], eb[4][2], eb[3][2] = R1[0], R1[1], R1[2], R1[3], R1[4], R1[5]
-		eb[1][1], eb[1][2], eb[1][3], eb[2][4], eb[3][5], eb[4][4] = R2[0], R2[1], R2[2], R2[3], R2[4], R2[5]
-		eb[5][3], eb[5][2], eb[5][1], eb[4][1], eb[3][1], eb[2][1] = R2[6], R2[7], R2[8], R2[9], R2[10], R2[11]
-		eb[0][0], eb[0][1], eb[0][2], eb[0][3], eb[1][4], eb[2][5] = R3[0], R3[1], R3[2], R3[3], R3[4], R3[5]
-		eb[3][6], eb[4][5], eb[5][4], eb[6][3], eb[6][2], eb[6][1] = R3[6], R3[7], R3[8], R3[9], R3[10], R3[11]
-		eb[6][0], eb[5][0], eb[4][0], eb[3][0], eb[2][0], eb[1][0] = R3[12], R3[13], R3[14], R3[15], R3[16], R3[17]
-		eb[3][3] = center
-		return eb
-
-	def rotate(self, r=1):
-		"""Rotate a board counterclockwise, default 1 rotation."""
-		new_board = self.board #prevents self.board from being written over by one sextant
-		ring_1 = [new_board[2][2], new_board[2][3], new_board[3][4], new_board[4][3], new_board[4][2], new_board[3][2]]
-		ring_2 = [new_board[1][1], new_board[1][2], new_board[1][3], new_board[2][4], new_board[3][5], new_board[4][4], \
-			new_board[5][3], new_board[5][2], new_board[5][1], new_board[4][1], new_board[3][1], new_board[2][1]]
-		ring_3 = [new_board[0][0], new_board[0][1], new_board[0][2], new_board[0][3], new_board[1][4], new_board[2][5], \
-			new_board[3][6], new_board[4][5], new_board[5][4], new_board[6][3], new_board[6][2], new_board[6][1], \
-			new_board[6][0], new_board[5][0], new_board[4][0], new_board[3][0], new_board[2][0], new_board[1][0]]
+	def rotate(self, r):
+		"""Rotate a board r rotations counterclockwise."""
+		old_board = self.board #prevents self.board from being overwritten by one sextant
+		ring_1 = [old_board[2][2], old_board[2][3], old_board[3][4], old_board[4][3], old_board[4][2], old_board[3][2]]
+		ring_2 = [old_board[1][1], old_board[1][2], old_board[1][3], old_board[2][4], old_board[3][5], old_board[4][4], \
+			old_board[5][3], old_board[5][2], old_board[5][1], old_board[4][1], old_board[3][1], old_board[2][1]]
+		ring_3 = [old_board[0][0], old_board[0][1], old_board[0][2], old_board[0][3], old_board[1][4], old_board[2][5], \
+			old_board[3][6], old_board[4][5], old_board[5][4], old_board[6][3], old_board[6][2], old_board[6][1], \
+			old_board[6][0], old_board[5][0], old_board[4][0], old_board[3][0], old_board[2][0], old_board[1][0]]
 		
 		#rotate each ring
 		R1 = [ring_1[(n-(1*r))%len(ring_1)] for n in range(len(ring_1))]
 		R2 = [ring_2[(n-(2*r))%len(ring_2)] for n in range(len(ring_2))]
 		R3 = [ring_3[(n-(3*r))%len(ring_3)] for n in range(len(ring_3))]
-		center = new_board[3][3]
-		new_board = Setup(new_board).create_board(R1, R2, R3, center)
+		center = old_board[3][3]
+
+		new_board = [[0]*4, [0]*5, [0]*6, [0]*7, [0]*6, [0]*5, [0]*4]
+		new_board[2][2], new_board[2][3], new_board[3][4], new_board[4][3], new_board[4][2], new_board[3][2] = R1[0], R1[1], R1[2], R1[3], R1[4], R1[5]
+		new_board[1][1], new_board[1][2], new_board[1][3], new_board[2][4], new_board[3][5], new_board[4][4] = R2[0], R2[1], R2[2], R2[3], R2[4], R2[5]
+		new_board[5][3], new_board[5][2], new_board[5][1], new_board[4][1], new_board[3][1], new_board[2][1] = R2[6], R2[7], R2[8], R2[9], R2[10], R2[11]
+		new_board[0][0], new_board[0][1], new_board[0][2], new_board[0][3], new_board[1][4], new_board[2][5] = R3[0], R3[1], R3[2], R3[3], R3[4], R3[5]
+		new_board[3][6], new_board[4][5], new_board[5][4], new_board[6][3], new_board[6][2], new_board[6][1] = R3[6], R3[7], R3[8], R3[9], R3[10], R3[11]
+		new_board[6][0], new_board[5][0], new_board[4][0], new_board[3][0], new_board[2][0], new_board[1][0] = R3[12], R3[13], R3[14], R3[15], R3[16], R3[17]
+		new_board[3][3] = center
 		return new_board
 
 	def add_sub_dots(self, board_array):
 		"""Add sub_dots to each board."""
-		for b in range(0, len(board_array) - 1):
-			top_board = board_array[b]
-			bottom_board = board_array[b+1]
+		for i in range(0, len(board_array) - 1):
+			top_board = board_array[i]
+			bottom_board = board_array[i+1]
 			for x in range(len(top_board)):
 				for y in range(len(top_board[x])):
 					if top_board[x][y]["is_hole"]:
@@ -139,14 +131,12 @@ class Setup(object):
 	def add_pieces(self, active_players):
 		"""Add pieces to top board."""
 		turn = 1
-		flat_board = [item for sublist in self.board for item in sublist] #flatten board
 		player_count = len(active_players)
 		max_turns = (math.ceil(19/player_count)-1)*player_count
 		while turn <= max_turns: #equal number of starting pieces for each player
 			print(Display(self.board))
 			CP_name = active_players[turn%player_count - 1]
-			flat_board = [item for sublist in self.board for item in sublist] #flatten board
-			remaining_spaces = [space["name"] for space in flat_board if space["starting_space"] and not space["has_piece"]]
+			remaining_spaces = [space["name"] for space in flatten(self.board) if space["starting_space"] and not space["has_piece"]]
 			if random_gameplay:
 				space_index = random.randint(0, len(remaining_spaces) - 1)
 			else:
@@ -165,32 +155,24 @@ class Setup(object):
 		"""Determine starting spaces, used when not starting with top board."""
 		if self.board == B1:
 			r = random.randint(0,5)
-			rotated_board_B2 = Setup(B2).rotate(r) #rotated upper board
-			flat_rotated_board_B2 = [item for sublist in rotated_board_B2 for item in sublist] #flatten rotated upper board
-			flat_board_B1 = [item for sublist in B1 for item in sublist] #flatten lower board
-			starting_index_list = [flat_rotated_board_B2.index(item) for item in flat_rotated_board_B2 if item["is_hole"]] 
-			return [flat_board_B1[n]["name"] for n in starting_index_list] #spaces in lower board that align with holes in upper board
+			B2_rotated = Setup(B2).rotate(r) #randomly rotated upper board
+			B2_rotated_flattened = flatten(B2_rotated)
+			B1_flattened = flatten(B1)
+			return [B1_flattened[n]["name"] for n in range(len(B1_flattened)) if B2_rotated_flattened[n]["is_hole"]] #spaces in lower board that align with holes in upper board
 		elif self.board == B2:
 			r = random.randint(0,5)
-			rotated_board_B3 = Setup(B3).rotate(r) #rotated upper board
-			flat_rotated_board_B3 = [item for sublist in rotated_board_B3 for item in sublist] #flatten rotated upper board
-			flat_board_B2 = [item for sublist in B2 for item in sublist] #flatten lower board
-			starting_index_list = [flat_rotated_board_B3.index(item) for item in flat_rotated_board_B3 if item["is_hole"]] 
-			return [flat_board_B2[n]["name"] for n in starting_index_list] #spaces in lower board that align with holes in upper board
+			B3_rotated = Setup(B3).rotate(r) #randomly rotated upper board
+			B3_rotated_flattened = flatten(B3_rotated)
+			B2_flattened = flatten(B2)
+			return [B2_flattened[n]["name"] for n in range(len(B2_flattened)) if B3_rotated_flattened[n]["is_hole"]] #spaces in lower board that align with holes in upper board
 		elif self.board == B3:
 			r = random.randint(0,5)
-			rotated_board_B4 = Setup(B4).rotate(r) #rotated upper board
-			flat_rotated_board_B4 = [item for sublist in rotated_board_B4 for item in sublist] #flatten rotated upper board
-			flat_board_B3 = [item for sublist in B3 for item in sublist] #flatten lower board
-			starting_index_list = [flat_rotated_board_B4.index(item) for item in flat_rotated_board_B4 if item["is_hole"]] 
-			return [flat_board_B3[n]["name"] for n in starting_index_list] #spaces in lower board that align with holes in upper board
+			B4_rotated = Setup(B4).rotate(r) #randomly rotated upper board
+			B4_rotated_flattened = flatten(B4_rotated)
+			B3_flattened = flatten(B3)
+			return [B3_flattened[n]["name"] for n in range(len(B3_flattened)) if B4_rotated_flattened[n]["is_hole"]] #spaces in lower board that align with holes in upper board
 		else:
 			raise ValueError("Only (B1, B2, B3) are allowed")
-
-	def check_for_complete_board(self):
-		"""Check if a piece occupies all holes on a board."""
-		flat_board = [item for sublist in self.board for item in sublist] #flatten board
-		return (all([space["has_piece"] for space in flat_board if space["is_hole"]])) #if all holes have a piece
 
 	def imprint_board(self, new_board):
 		"""Assigns pieces in holes to lower board."""
@@ -214,7 +196,7 @@ class Actions(object):
 				if self.board[a][b]["name"] == "i{}{}".format(x, y):
 					return "i{}{}".format(a, b)
 
-	def legal_moves(self, piece=False):
+	def legal_moves(self, piece):
 		"""Determines legal moves for a given piece."""
 		x = int(piece[1]) #row
 		y = int(piece[2]) #collumn
@@ -304,7 +286,7 @@ class FullGame(object):
 		self.player_count = player_count
 		if self.player_count not in range(2, 19):
 			raise ValueError("Only int in range(2, 19) are valid player number inputs")
-		self.players = {"P{}".format(n): {"pieces":[], "is_active": True if player_count > n-1 else False} for n in range(1, self.player_count + 1)}
+		self.players = {"P{}".format(n): {"pieces":[], "is_active": True} for n in range(1, self.player_count + 1)}
 		self.turn = 1
 		board_array = [B4, B3, B2, B1]
 		if self.board not in board_array:
@@ -323,9 +305,8 @@ class FullGame(object):
 		if self.board == B4:
 			active_players = [player for player in self.players if self.players[player]["is_active"]]
 			Setup(self.board).add_pieces(active_players)
-			flat_board = [item for sublist in self.board for item in sublist] #flatten board
 			for player in active_players:
-				self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player and not space["is_hole"]]
+				self.players[player]["pieces"] = [space["name"] for space in flatten(self.board) if space["has_piece"] == player and not space["is_hole"]]
 		else:
 			starting_spaces = Setup(self.board).determine_starting_spaces()
 			random.shuffle(starting_spaces)
@@ -348,7 +329,7 @@ class FullGame(object):
 				self.players[player]["pieces"] = starting_spaces[cuts[n]:cuts[n+1]]
 				print(player, self.players[player]["pieces"])
 				for space in self.players[player]["pieces"]:
-					self.board[int(space[1])][int(space[2])]["has_piece"] = player #x=space[1], y=space[2]
+					self.board[int(space[1])][int(space[2])]["has_piece"] = player
 
 		winner = ""
 		continue_game = True
@@ -357,19 +338,14 @@ class FullGame(object):
 			print(Display(self.board))
 
 			#update player object to only pieces that are not in holes
-			flat_board = [item for sublist in self.board for item in sublist] #flatten board
 			active_players = [player for player in self.players if self.players[player]["is_active"]]
 			for player in active_players:
-				self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player and not space["is_hole"]]
+				self.players[player]["pieces"] = [space["name"] for space in flatten(self.board) if space["has_piece"] == player and not space["is_hole"]]
 			
 			#determine current player
-			if self.turn == 1:
-				CP_name = "P1"
-			else:
-				old_index = active_players.index(CP_name)
-				CP_name = active_players[(old_index+1)%len(active_players)]
+			CP_name = "P1" if self.turn == 1 else active_players[(active_players.index(CP_name)+1)%len(active_players)] #checks index before assignment
 			CP = self.players[CP_name]["pieces"]
-			print(CP, CP_name)
+			print(CP_name, CP)
 
 			#if current player has no legal moves
 			if len(CP) == 0:
@@ -391,7 +367,7 @@ class FullGame(object):
 					Actions(self.board).take_turn(CP, CP_name) #take_turn will only allow piece in center to move
 
 			#check if all pieces are in holes
-			if Setup(self.board).check_for_complete_board():
+			if all([space["has_piece"] for space in flatten(self.board) if space["is_hole"]]):
 				print(Display(self.board))
 				Setup(self.board).imprint_board(self.board_array[1])
 				self.board_array.pop(0)
@@ -399,10 +375,9 @@ class FullGame(object):
 				print("\n\n\nALL SPACES ON BOARD B{} ARE FILLED, MOVING DOWN TO BOARD B{}\n\n\n".format(len(self.board_array)+1, len(self.board_array)))
 
 				#update player object after imprinting board
-				flat_board = [item for sublist in self.board for item in sublist] #flatten board
 				active_players = [player for player in self.players if self.players[player]["is_active"]]
 				for player in active_players:
-					self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player]
+					self.players[player]["pieces"] = [space["name"] for space in flatten(self.board) if space["has_piece"] == player]
 					if len(self.players[player]["pieces"]) == 0:
 						self.players[player]["is_active"] = False
 
@@ -421,10 +396,10 @@ class FullGame(object):
 
 def main():
 	if print_to_console:
-		FullGame(B2, 2).play()
+		FullGame(B4, 2).play()
 	else:
 		with HiddenPrints():
-			FullGame(B4, 4).play()
+			FullGame(B4, 2).play()
 		
 
 if __name__ == "__main__":
