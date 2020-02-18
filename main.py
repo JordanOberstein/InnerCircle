@@ -15,6 +15,7 @@ from board4 import B4
 colorize_board = True
 print_to_console = True
 random_gameplay = True
+hard_mode = False
 
 def colorize(text, foreground, background, attribute):
 	"""Colorizes text."""
@@ -57,8 +58,12 @@ class Display(object):
 				sub_dots = str([(space["sub_dots"]) for space in row])
 				sub_dots = sub_dots.replace("False", "-")
 				DATA += "{:^60}\n".format(sub_dots)
+			if hard_mode:
+				for player in range(1, 19):
+					for dots in range(1, 5):
+						DATA = DATA.replace("P{}, {}".format(player, dots), "P{}, ?".format(player))
 			if colorize_board:
-				DATA = DATA.replace("P1,", colorize("P1", 1, 0, 4)) + "," #red
+				DATA = DATA.replace("P1,", colorize("P1", 1, 0, 4) + ",") #red
 				DATA = DATA.replace("P2", colorize("P2", 2, 0, 4)) #green
 				DATA = DATA.replace("P3", colorize("P3", 4, 0, 4)) #blue
 				DATA = DATA.replace("P4", colorize("P4", 3, 0, 4)) #yellow
@@ -253,29 +258,27 @@ class Actions(object):
 				print("Selected piece from list is piece {}".format(piece))
 				piece_index = Actions(self.board).find_correct_space(piece)
 				print("Selected piece rotates into index {}".format(piece_index))
-
 				legal_spaces = [space for space in Actions(self.board).legal_moves(piece_index)] #determines legal spaces
 				available_pieces.remove(piece)
+				if hard_mode and len(legal_spaces) == 0:
+					print("Selected piece is blocked.")
+					return False
 
 		print("Legal spaces: {}".format(str(legal_spaces)))
-
 		if random_gameplay:
 			legal_spaces_index = random.randint(0, len(legal_spaces) - 1)
 		else:
 			legal_spaces_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
 			while not legal_spaces_index.isdigit() or int(legal_spaces_index) >= len(legal_spaces):
 				legal_spaces_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
-
 		selected_move = legal_spaces[int(legal_spaces_index)]
 
 		x0 = int(piece_index[1]) #row index
 		y0 = int(piece_index[2]) #collumn index
 		print("Selected piece's index is: ({}, {})".format(x0, y0))
-
 		x1 = int(selected_move[1]) #new row
 		y1 = int(selected_move[2]) #new collumn
 		print("Selected move from list is: ({}, {})".format(x1, y1))
-
 		selected_move_index = Actions(self.board).find_correct_space(selected_move)
 		x1 = int(selected_move_index[1]) #new row index
 		y1 = int(selected_move_index[2]) #new collumn index
@@ -284,7 +287,6 @@ class Actions(object):
 		#make move on board
 		self.board[x0][y0]["has_piece"] = False
 		self.board[x1][y1]["has_piece"] = CP_name
-
 		CP.remove(piece)
 		CP.append(selected_move)
 
@@ -419,7 +421,7 @@ class FullGame(object):
 
 def main():
 	if print_to_console:
-		FullGame(B4, 4).play()
+		FullGame(B2, 2).play()
 	else:
 		with HiddenPrints():
 			FullGame(B4, 4).play()
@@ -431,7 +433,6 @@ if __name__ == "__main__":
 
 """
 TO-DO:
-Add hard mode where you cannot choose move if you choose a move where all pieces are blocked
 Expand and clarify docstrings
 Add proper reset method instead of using loop in seperate file to execute file multiple times
 
