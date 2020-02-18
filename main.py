@@ -20,7 +20,6 @@ def colorize(text, foreground, background, attribute):
 	"""Colorizes text."""
 	return "{}{}{}{}{}{}{}".format(fg(foreground), bg(background), attr(attribute), text, fg(15), bg(0), attr(0))
 
-
 class HiddenPrints:
 	"""Overides print function."""
 	def __enter__(self):
@@ -59,7 +58,7 @@ class Display(object):
 				sub_dots = sub_dots.replace("False", "-")
 				DATA += "{:^60}\n".format(sub_dots)
 			if colorize_board:
-				DATA = DATA.replace("P1", colorize("P1", 1, 0, 4)) #red
+				DATA = DATA.replace("P1,", colorize("P1", 1, 0, 4)) + "," #red
 				DATA = DATA.replace("P2", colorize("P2", 2, 0, 4)) #green
 				DATA = DATA.replace("P3", colorize("P3", 4, 0, 4)) #blue
 				DATA = DATA.replace("P4", colorize("P4", 3, 0, 4)) #yellow
@@ -137,7 +136,8 @@ class Setup(object):
 		turn = 1
 		flat_board = [item for sublist in self.board for item in sublist] #flatten board
 		player_count = len(active_players)
-		while turn <= 16 if player_count == 4 else turn <= 18: #equal amount of starting pieces for each player
+		max_turns = (math.ceil(19/player_count)-1)*player_count
+		while turn <= max_turns: #equal number of starting pieces for each player
 			print(Display(self.board))
 			CP_name = active_players[turn%player_count - 1]
 			flat_board = [item for sublist in self.board for item in sublist] #flatten board
@@ -296,39 +296,18 @@ class FullGame(object):
 
 		Parameters: 
 			board: the top board for gameplay (B1, B2, B3, B4). 
-			player_count: the number of players playing the game (2, 3, 4). 
+			player_count: the number of players playing the game int in range(2, 19). 
 		"""
 		self.board = board
 		self.player_count = player_count
-		if self.player_count not in range(2, 5):
-			raise ValueError("Only (2, 3, 4) are valid player number inputs")
-
-		#self.players = {"P{}".format(n): {"pieces":[], "is_active": True if player_count > n-1 else False} for n in range(1, 5)}
-		self.players = {
-			"P1": {
-				"pieces": [],
-				"is_active": True
-			},
-			"P2": {
-				"pieces": [],
-				"is_active": True
-			},
-			"P3": {
-				"pieces": [],
-				"is_active": True if self.player_count > 2 else False
-			},
-			"P4": {
-				"pieces": [],
-				"is_active": True if self.player_count > 3 else False
-			}
-		}
+		if self.player_count not in range(2, 19):
+			raise ValueError("Only int in range(2, 19) are valid player number inputs")
+		self.players = {"P{}".format(n): {"pieces":[], "is_active": True if player_count > n-1 else False} for n in range(1, self.player_count + 1)}
 		self.turn = 1
-
 		board_array = [B4, B3, B2, B1]
 		if self.board not in board_array:
 			raise ValueError("Only (B1, B2, B3, B4) are allowed")
 		self.board_array = board_array[board_array.index(self.board):] #redefine board_array as only boards being used
-
 
 	def play(self):
 		"""Play a complete game."""
@@ -338,6 +317,7 @@ class FullGame(object):
 
 		Setup(self.board).add_sub_dots(self.board_array)
 
+		#add pieces to board and pieces to each player in player object
 		if self.board == B4:
 			active_players = [player for player in self.players if self.players[player]["is_active"]]
 			Setup(self.board).add_pieces(active_players)
@@ -345,41 +325,25 @@ class FullGame(object):
 			for player in active_players:
 				self.players[player]["pieces"] = [space["name"] for space in flat_board if space["has_piece"] == player and not space["is_hole"]]
 		else:
-			starting_spaces = Setup(self.board).determine_starting_spaces() #len = 3, 7, 10
-			random.shuffle(starting_spaces) #shuffle the starting spaces, otherwise cut for P1 and P2 will be the same for some given rotation
-			if self.player_count == 2:
-				cut = random.randint(math.floor(len(starting_spaces)/2), math.ceil(len(starting_spaces)/2)) #cut in half, assumes players play decently
-				self.players["P1"]["pieces"] = starting_spaces[:cut]
-				self.players["P2"]["pieces"] = starting_spaces[cut:]
-			elif self.player_count == 3:
-				if self.board == B1:
-					cut1, cut2 = 1, 2
-				elif self.board == B2:
-					(cut1, cut2) = random.choice([(3, 5), (2, 5), (2, 4)])
-				elif self.board == B3:
-					(cut1, cut2) = random.choice([(4, 7), (3, 7), (3, 6)])
-				self.players["P1"]["pieces"] = starting_spaces[:cut1]
-				self.players["P2"]["pieces"] = starting_spaces[cut1:cut2]
-				self.players["P3"]["pieces"] = starting_spaces[cut2:]
-			elif self.player_count == 4:
-				if self.board == B1:
-					cut1, cut2 = 1, 2
-					self.players["P1"]["pieces"] = starting_spaces[:cut1]
-					self.players["P2"]["pieces"] = starting_spaces[cut1:cut2]
-					self.players["P3"]["pieces"] = starting_spaces[cut2:]
-					self.players["P4"]["is_active"] = False #four players cannot occupy three spaces
-				else:
-					if self.board == B2:
-						(cut1, cut2, cut3) = random.choice([(2, 4, 6), (2, 4, 5), (2, 3, 5), (1, 3, 5)])
-					elif self.board == B3:
-						(cut1, cut2, cut3) = random.choice([(3, 6, 8), (3, 5, 8), (3, 5, 7), (2, 5, 8), (2, 5, 7), (2, 4, 7)])
-					self.players["P1"]["pieces"] = starting_spaces[:cut1]
-					self.players["P2"]["pieces"] = starting_spaces[cut1:cut2]
-					self.players["P3"]["pieces"] = starting_spaces[cut2:cut3]
-					self.players["P4"]["pieces"] = starting_spaces[cut3:]
-			#add pieces to the board
+			starting_spaces = Setup(self.board).determine_starting_spaces()
+			random.shuffle(starting_spaces)
+			separations = [0]*self.player_count
+			for i in range(len(starting_spaces)):
+				separations[i%self.player_count] += 1
+			separations = [num for num in separations if num != 0]
+			random.shuffle(separations)
+			cuts = [0] + [sum(separations[:y]) for y in range(1, len(separations) + 1)]
+
+			#remove players who are eliminated due to not having enough spaces
+			if self.player_count > len(starting_spaces):
+				for player in self.players:
+					if int(player[1:]) > len(starting_spaces):
+						self.players[player]["is_active"] = False
+
 			active_players = [player for player in self.players if self.players[player]["is_active"]]
-			for player in active_players:
+			for n in range(len(active_players)):
+				player = active_players[n]
+				self.players[player]["pieces"] = starting_spaces[cuts[n]:cuts[n+1]]
 				print(player, self.players[player]["pieces"])
 				for space in self.players[player]["pieces"]:
 					self.board[int(space[1])][int(space[2])]["has_piece"] = player #x=space[1], y=space[2]
@@ -387,7 +351,7 @@ class FullGame(object):
 		winner = ""
 		continue_game = True
 		while continue_game:
-			print("\n\n\nMOVE NUMBER {}".format(self.turn))
+			print("\n\n\nTURN NUMBER {}".format(self.turn))
 			print(Display(self.board))
 
 			#update player object to only pieces that are not in holes
@@ -455,10 +419,10 @@ class FullGame(object):
 
 def main():
 	if print_to_console:
-		FullGame(B2, 4).play()
+		FullGame(B4, 4).play()
 	else:
 		with HiddenPrints():
-			FullGame(B2, 4).play()
+			FullGame(B4, 4).play()
 		
 
 if __name__ == "__main__":
@@ -466,13 +430,10 @@ if __name__ == "__main__":
 
 
 """
-Conversion to multiplayer
-
-use proper reset method to loop through multiple games
-
-
 TO-DO:
+Add hard mode where you cannot choose move if you choose a move where all pieces are blocked
 Expand and clarify docstrings
+Add proper reset method instead of using loop in seperate file to execute file multiple times
 
 IDEAS:
 Add support for 3 and 4 player games
@@ -481,4 +442,8 @@ Create move trees and determine winning strategy
 Create AI to learn game, find optimal strategy
 
 Determine which starting space has the highest winning percentage via using 18 player
+
+DIFFERENCES FROM MAIN GAME:
+- supports more than four players
+- allows you to choose a new move if you choose a move where all pieces are blocked
 """
