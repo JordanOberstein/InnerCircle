@@ -1,5 +1,6 @@
 #data for board 3
 #Copyright Symbol Facing Upwards
+#Unused attributes: starting_space
 
 B3_Data = {
 	"i00": {
