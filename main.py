@@ -12,7 +12,7 @@ from board4 import B4
 
 
 colorize_board = True
-hard_mode = True
+hard_mode = False
 
 
 flatten = lambda l: [item for sublist in l for item in sublist]
@@ -224,48 +224,61 @@ class Actions(object):
 		self.board[x1][y1]["has_piece"] = CP_name
 
 
-class FullGame(object):
+class Players(object):
+	def __init__(self, player_count):
+		""" 
+		Constructor for Player class. 
+
+		Parameters: 
+			player_count: the number of players playing the game int in range(2, 19). 
+		"""
+		self.player_count = player_count
+		self.players = {"P{}".format(n): {"pieces":[], "is_active": True} for n in range(1, self.player_count + 1)}
+
+	def get_active_players(self):
+		"""Update active players."""
+		return [player for player in self.players if self.players[player]["is_active"]]
+
+	def update_players(self, board):
+		"""Update player object."""
+		active_players = self.get_active_players()
+		for player in active_players:
+			self.players[player]["pieces"] = [space["name"] for space in flatten(board) if space["has_piece"] == player and not space["is_hole"]]
+
+	def update_player_status(self, board):
+		"""Update player object when moving down boards, removing eliminated players."""
+		active_players = self.get_active_players()
+		for player in active_players:
+			self.players[player]["pieces"] = [space["name"] for space in flatten(board) if space["has_piece"] == player]
+			if len(self.players[player]["pieces"]) == 0:
+				self.players[player]["is_active"] = False
+
+	def remove_inactive_players(self, starting_spaces_length):
+		"""Remove players when there are too many players for the number of starting spaces."""
+		if self.player_count > starting_spaces_length:
+			for player in self.players:
+				player_number = int(player[1:])
+				if player_number > starting_spaces_length:
+					self.players[player]["is_active"] = False
+
+
+class NewGame(object):
 	def __init__(self, top_board, player_count, random_gameplay):
 		""" 
-		Constructor for FullGame class. 
+		Constructor for NewGame class. 
 
 		Parameters: 
 			board: the top board for gameplay (B4, B3, B2, B1). 
 			player_count: the number of players playing the game int in range(2, 19). 
 			random_gameplay: will gameplay will be executed through random choice or user input.
 		"""
-		self.random_gameplay = random_gameplay
 		self.board = top_board
 		self.board_array = [B4, B3, B2, B1][[B4, B3, B2, B1].index(self.board):] #define board_array as list of boards being used
 		self.player_count = player_count
-		self.players = {"P{}".format(n): {"pieces":[], "is_active": True} for n in range(1, self.player_count + 1)}
+		self.players = Players(self.player_count)
+		self.random_gameplay = random_gameplay
 		self.turn = 1
 		self.winner = False
-
-	def get_active_players(self):
-		return [player for player in self.players if self.players[player]["is_active"]]
-
-	def remove_inactive_players(self):
-		"""Remove players when there are too many players for starting spaces."""
-		if self.player_count > self.starting_spaces_length:
-			for player in self.players:
-				player_number = int(player[1:])
-				if player_number > self.starting_spaces_length:
-					self.players[player]["is_active"] = False
-
-	def update_players(self):
-		"""Update player object."""
-		active_players = self.get_active_players()
-		for player in active_players:
-			self.players[player]["pieces"] = [space["name"] for space in flatten(self.board) if space["has_piece"] == player and not space["is_hole"]]
-
-	def update_player_status(self):
-		"""Update player object when moving down boards, removing eliminated players."""
-		active_players = self.get_active_players()
-		for player in active_players:
-			self.players[player]["pieces"] = [space["name"] for space in flatten(self.board) if space["has_piece"] == player]
-			if len(self.players[player]["pieces"]) == 0:
-				self.players[player]["is_active"] = False
 
 	def configure_boards(self):
 		"""Rotate boards in board_array, add sub_dots."""
@@ -305,22 +318,21 @@ class FullGame(object):
 
 	def configure_players_random(self):
 		"""Configure player object for random gameplay."""
-		starting_spaces, separations = self.get_starting_spaces()
-		self.remove_inactive_players()
-		active_players = self.get_active_players()
-		cuts = [sum(separations[:n]) for n in range(len(separations) + 1)]
-		for n in range(len(active_players)): #add pieces to players object, add pieces to board
-			player = active_players[n]
-			self.players[player]["pieces"] = starting_spaces[cuts[n]:cuts[n+1]]
-			print(player, self.players[player]["pieces"])
-			for space in self.players[player]["pieces"]:
-				self.board[int(space[1])][int(space[2])]["has_piece"] = player
+		starting_spaces, pieces_per_player = self.get_starting_spaces()
+		self.players.remove_inactive_players(self.starting_spaces_length)
+		active_players = self.players.get_active_players()
+		data = list(zip(active_players, pieces_per_player))
+		player_names = flatten([[item[0]]*item[1] for item in data])
+		assigned_pieces = list(zip(player_names, starting_spaces))
+		for item in assigned_pieces:
+			self.board[int(item[1][1])][int(item[1][2])]["has_piece"] = item[0]
+		self.players.update_players(self.board)
 
 	def configure_players(self):
 		"""Configure player object for user-selected gameplay"""
 		starting_spaces, pieces_per_player = self.get_starting_spaces()
-		self.remove_inactive_players()
-		active_players = self.get_active_players()
+		self.players.remove_inactive_players(self.starting_spaces_length)
+		active_players = self.players.get_active_players()
 		max_pieces = max(pieces_per_player)
 		data = list(zip(active_players, pieces_per_player))
 		player_order = flatten([[item[0] for item in data if n < item[1]] for n in range(max_pieces)])
@@ -335,15 +347,17 @@ class FullGame(object):
 			x = int(selected_space[1]) #row
 			y = int(selected_space[2]) #collumn
 			self.board[x][y]["has_piece"] = name
-			self.players[name]["pieces"].append(selected_space)
+			self.players.update_players(self.board)
 			print(Display(self.board))
 
 	def make_move(self):
+		"""Make move for player."""
 		center = self.board[3][3]
 		if not center["has_piece"]:
-			active_players = self.get_active_players()
+			print("no piece in center")
+			active_players = self.players.get_active_players()
 			self.CP_name = "P1" if self.turn == 1 else active_players[(active_players.index(self.CP_name)+1)%len(active_players)] #checks index before assignment
-		self.CP_pieces = self.players[self.CP_name]["pieces"] #fails if game starts with piece in center
+		self.CP_pieces = self.players.players[self.CP_name]["pieces"] #fails if game starts with piece in center
 		print(self.CP_name, "has these pieces:", self.CP_pieces)
 		if len(self.CP_pieces) == 0:
 			print(self.CP_name, "has no valid moves")
@@ -356,7 +370,7 @@ class FullGame(object):
 	def check_for_winner(self):
 		"""Check for winner."""
 		center = self.board[3][3]
-		active_players = self.get_active_players()
+		active_players = self.players.get_active_players()
 		if len(self.board_array) == 1 and center["has_piece"]:
 			self.winner = center["has_piece"]
 		elif len(active_players) == 1:
@@ -378,6 +392,7 @@ class FullGame(object):
 		"""Play a complete game."""
 		print(Display(self.board))
 		self.configure_boards()
+
 		if self.random_gameplay:
 			self.configure_players_random()
 		else:
@@ -387,32 +402,30 @@ class FullGame(object):
 		while True:
 			print("\n\n\nTURN NUMBER", self.turn)
 			print(Display(self.board))
-			self.update_players()
+			self.players.update_players(self.board)
 			self.make_move()
 
 			center = self.board[3][3]
 			if center["has_piece"]:
+				print(Display(self.board))
+				self.players.update_players(self.board)
 				if self.check_for_winner():
 					break
-				print(Display(self.board))
-				self.update_players()
 				self.make_move()
 
 			#check if all pieces are in holes
 			if all([space["has_piece"] for space in flatten(self.board) if space["is_hole"]]):
 				print(Display(self.board))
 				self.imprint_board()
-				self.update_player_status()
+				self.players.update_player_status(self.board)
 				if self.check_for_winner():
 					break
 
 			self.turn += 1
 
-	def get_winner(self):
 		print("\n\nThere is a winner...")
 		print(Display(self.board))
 		print("\nTHE WINNER IS", self.winner)
-		return self.winner
 
 
 def main():
@@ -421,7 +434,7 @@ def main():
 
 	top_board = B3
 	player_count = 2
-	random_gameplay = False
+	random_gameplay = True
 	print_to_console = True
 
 	if top_board not in [B4, B3, B2, B1]:
@@ -431,15 +444,13 @@ def main():
 	if type(random_gameplay) != bool:
 		raise ValueError("Valid input for random_gameplay is bool")
 
-	NewGame = FullGame(top_board, player_count, random_gameplay)
+	Game = NewGame(top_board, player_count, random_gameplay)
 
 	if print_to_console:
-		NewGame.play()
+		Game.play()
 	else:
 		with HiddenPrints():
-			NewGame.play()
-
-	NewGame.get_winner()
+			Game.play()
 
 
 if __name__ == "__main__":
