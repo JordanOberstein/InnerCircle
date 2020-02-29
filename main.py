@@ -12,16 +12,15 @@ from board4 import B4
 
 
 colorize_board = True
-print_to_console = True
-random_gameplay = True
-hard_mode = False
+hard_mode = True
 
 
 flatten = lambda l: [item for sublist in l for item in sublist]
 
+reset = fg(15)+bg(0)+attr(0)
 def colorize(text, foreground, background, attribute):
 	"""Colorizes text."""
-	return "{}{}{}{}{}{}{}".format(fg(foreground), bg(background), attr(attribute), text, fg(15), bg(0), attr(0))
+	return fg(foreground)+bg(background)+attr(attribute)+text+reset
 
 class HiddenPrints:
 	"""Overides print function."""
@@ -55,8 +54,9 @@ class Display(object):
 				new_line = new_line.replace("False,", "--,") #has_piece
 				new_line = new_line.replace("'", "") #flush formatting
 				new_line = new_line.replace("), (", ") (") #flush formatting
-				sub_dots = str([space["sub_dots"] for space in row])
+				sub_dots = str(["?" if space["has_piece"] and space["is_hole"] and hard_mode else space["sub_dots"] for space in row])
 				sub_dots = sub_dots.replace("False", "-")
+				sub_dots = sub_dots.replace("'", "") #flush formatting
 				DATA += "{:^120}{:^60}\n".format(new_line, sub_dots)
 			if hard_mode:
 				for player in range(1, 19):
@@ -67,15 +67,19 @@ class Display(object):
 				DATA = DATA.replace("P2", colorize("P2", 2, 0, 4)) #green
 				DATA = DATA.replace("P3", colorize("P3", 4, 0, 4)) #blue
 				DATA = DATA.replace("P4", colorize("P4", 3, 0, 4)) #yellow
+				DATA = DATA.replace("P5", colorize("P5", 124, 0, 4)) #red
+				DATA = DATA.replace("P6", colorize("P6", 114, 0, 4)) #green
+				DATA = DATA.replace("P7", colorize("P7", 104, 0, 4)) #blue
+				DATA = DATA.replace("P8", colorize("P8", 94, 0, 4)) #yellow
 				DATA = DATA.replace("C", colorize("C", 0, 7, 1)) #white bg
 				DATA = DATA.replace("H", colorize("H", 0, 5, 1)) #purple bg
 		else:
-			for attr in self.board_attributes:
-				DATA += "{:^60}".format(attr)
+			for attribute in self.board_attributes:
+				DATA += "{:^60}".format(attribute)
 			DATA += "\n"
 			for row in self.board:
-				for attr in self.board_attributes:
-					DATA += "{:^60}".format(str([space[attr] for space in row]))
+				for attribute in self.board_attributes:
+					DATA += "{:^60}".format(str([space[attribute] for space in row]))
 				DATA += "\n"
 		return DATA
 
@@ -83,8 +87,8 @@ class Display(object):
 		"""__str__ method to print board data."""
 		return self.board_output()
 
-	def retrieve_attribute_data(self):
-		return (*[[[space[attr] for space in row] for row in self.board] for attr in self.board_attributes],)
+	def retrieve_attr_data(self):
+		return (*[[[space[attribute] for space in row] for row in self.board] for attribute in self.board_attributes],)
 
 
 class Actions(object):
@@ -94,7 +98,7 @@ class Actions(object):
 
 	def rotate(self, r):
 		"""Rotate a board r rotations counterclockwise."""
-		old_board = self.board #prevents self.board from being overwritten by one sextant
+		old_board = self.board #prevents self.board from being overwritten
 		ring_1 = [old_board[2][2], old_board[2][3], old_board[3][4], old_board[4][3], old_board[4][2], old_board[3][2]]
 		ring_2 = [old_board[1][1], old_board[1][2], old_board[1][3], old_board[2][4], old_board[3][5], old_board[4][4], \
 			old_board[5][3], old_board[5][2], old_board[5][1], old_board[4][1], old_board[3][1], old_board[2][1]]
@@ -129,8 +133,6 @@ class Actions(object):
 		"""Determines legal moves for a given piece."""
 		x = int(piece[1]) #row
 		y = int(piece[2]) #collumn
-		dots = self.board[x][y]["dots"]
-		print("Piece {} moves {} spaces".format(piece, dots))
 		legal_spaces = self.board[x][y]["moves_to"]
 		legal_spaces_without_pieces = []
 		for space in legal_spaces:
@@ -139,69 +141,101 @@ class Actions(object):
 				legal_spaces_without_pieces.append(space)
 		return legal_spaces_without_pieces
 
+	def take_turn_random(self, CP_pieces, CP_name):
+		"""Execute turn for player through random choice."""
+		center_name = "i33"
+		if center_name in CP_pieces: #"i33" is center
+			piece = center_name
+			piece_index = center_name
+			print(CP_name, "has a piece in the center...")
+		else:
+			unblocked_pieces = [a_piece for a_piece in CP_pieces if len(self.legal_moves(self.find_correct_space(a_piece))) > 0]
+			print("Available pieces:", CP_pieces)
+			print("Unblocked_pieces:", unblocked_pieces)
+			if len(unblocked_pieces) == 0:
+				print(CP_name, "has no available pieces, all pieces are blocked")
+				return False
+			piece = random.choice(unblocked_pieces)
+			piece_index = self.find_correct_space(piece)
+		dots = self.board[int(piece_index[1])][int(piece_index[2])]["dots"]
+		legal_spaces = self.legal_moves(piece_index)
+		selected_move = random.choice(legal_spaces)
+		selected_move_index = self.find_correct_space(selected_move)
+		print("Selected piece from list:", piece)
+		print("Selected piece has index:", piece_index)
+		print("Piece at index {} moves {} spaces".format(piece_index, dots))
+		print("Legal spaces:", legal_spaces)
+		print("Selected move from list:", selected_move)
+		print("Selected move has index:", selected_move_index)
+		x0 = int(piece_index[1])
+		y0 = int(piece_index[2])
+		x1 = int(selected_move_index[1])
+		y1 = int(selected_move_index[2])
+		self.board[x0][y0]["has_piece"] = False
+		self.board[x1][y1]["has_piece"] = CP_name
+
 	def take_turn(self, CP_pieces, CP_name):
-		"""Execute turn for current player."""
+		"""Execute turn for player through user's choice."""
 		center_name = "i33"
 		legal_spaces = []
 		available_pieces = CP_pieces.copy()
 		if center_name in CP_pieces:
 			piece = center_name
 			piece_index = center_name
-			legal_spaces = self.legal_moves(piece)
+			dots = self.board[int(piece_index[1])][int(piece_index[2])]["dots"]
+			legal_spaces = self.legal_moves(piece_index)
+			print(CP_name, "has a piece in the center...")
 		else:
-			while len(legal_spaces) == 0: #will not continue unless the chosen piece has legal moves
-				print("Checking for moves...")
-				if len(available_pieces) == 0:
-					print("{} has no available pieces, all pieces are blocked".format(CP_name))
-					return False
-				print("Available pieces: {}".format(available_pieces))
-				if random_gameplay:
-					piece_index = random.randint(0, len(available_pieces) - 1)
-				else:
-					piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, available_pieces))
-					while not piece_index.isdigit() or int(piece_index) >= len(available_pieces):
-						piece_index = input("These are the available pieces (not already in holes) for {}, choose 1: {}:\n==> ".format(CP_name, available_pieces))
-				piece = available_pieces[int(piece_index)]
-				print("Selected piece from list is piece {}".format(piece))
+			while len(legal_spaces) == 0: #will not continue unless the selected piece has legal moves
+				print("Available pieces:", available_pieces)
+				selected_piece = input("These are the available pieces for {}... {}:\n==> ".format(CP_name, available_pieces))
+				while not selected_piece.isdigit() or int(selected_piece) >= len(available_pieces):
+					selected_piece = input("These are the available pieces for {}... {}:\n==> ".format(CP_name, available_pieces))
+				piece = available_pieces[int(selected_piece)]
 				piece_index = self.find_correct_space(piece)
-				print("Selected piece rotates into index {}".format(piece_index))
-				available_pieces.remove(piece)
+				dots = self.board[int(piece_index[1])][int(piece_index[2])]["dots"]
 				legal_spaces = self.legal_moves(piece_index)
+				print("Piece at index {} moves {} spaces".format(piece_index, dots))
+				print("Legal spaces:", legal_spaces)
 				if len(legal_spaces) == 0:
 					print("Selected piece is blocked")
 					if hard_mode:
 						return False
-
-		print("Legal spaces: {}".format(legal_spaces))
-		if random_gameplay:
-			legal_spaces_index = random.randint(0, len(legal_spaces) - 1)
-		else:
-			legal_spaces_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
-			while not legal_spaces_index.isdigit() or int(legal_spaces_index) >= len(legal_spaces):
-				legal_spaces_index = input("These are the available moves for piece {}, choose 1: {}:\n==> ".format(piece, legal_spaces))
-		selected_move = legal_spaces[int(legal_spaces_index)]
-		x0 = int(piece_index[1]) #old row index
-		y0 = int(piece_index[2]) #old collumn index
-		print("Selected piece's index is: ({}, {})".format(x0, y0))
-		print("Selected move from list is: ({}, {})".format(selected_move[1], selected_move[2]))
+					available_pieces.remove(piece)
+					if len(available_pieces) == 0:
+						print(CP_name, "has no available pieces; all pieces are blocked")
+						return False
+		selected_legal_space = input("These are the available moves for piece {}... {}:\n==> ".format(piece, legal_spaces))
+		while not selected_legal_space.isdigit() or int(selected_legal_space) >= len(legal_spaces):
+			selected_legal_space = input("These are the available moves for piece {}... {}:\n==> ".format(piece, legal_spaces))
+		selected_move = legal_spaces[int(selected_legal_space)]
 		selected_move_index = self.find_correct_space(selected_move)
-		x1 = int(selected_move_index[1]) #new row index
-		y1 = int(selected_move_index[2]) #new collumn index
-		print("Selected move's index is: ({}, {})".format(x1, y1))
+		print("Selected piece from list:", piece)
+		print("Selected piece has index:", piece_index)
+		print("Piece at index {} moves {} spaces".format(piece_index, dots))
+		print("Legal spaces:", legal_spaces)
+		print("Selected move from list:", selected_move)
+		print("Selected move has index:", selected_move_index)
+		x0 = int(piece_index[1])
+		y0 = int(piece_index[2])
+		x1 = int(selected_move_index[1])
+		y1 = int(selected_move_index[2])
 		self.board[x0][y0]["has_piece"] = False
 		self.board[x1][y1]["has_piece"] = CP_name
 
 
 class FullGame(object):
-	def __init__(self, board, player_count):
+	def __init__(self, top_board, player_count, random_gameplay):
 		""" 
 		Constructor for FullGame class. 
 
 		Parameters: 
-			board: the top board for gameplay (B1, B2, B3, B4). 
+			board: the top board for gameplay (B4, B3, B2, B1). 
 			player_count: the number of players playing the game int in range(2, 19). 
+			random_gameplay: will gameplay will be executed through random choice or user input.
 		"""
-		self.board = board
+		self.random_gameplay = random_gameplay
+		self.board = top_board
 		self.board_array = [B4, B3, B2, B1][[B4, B3, B2, B1].index(self.board):] #define board_array as list of boards being used
 		self.player_count = player_count
 		self.players = {"P{}".format(n): {"pieces":[], "is_active": True} for n in range(1, self.player_count + 1)}
@@ -211,72 +245,13 @@ class FullGame(object):
 	def get_active_players(self):
 		return [player for player in self.players if self.players[player]["is_active"]]
 
-	def setup_game(self):
-		"""Setup game (configure boards and player object)."""
-
-		#rotate boards, add sub_dots
-		for i in range(1, len(self.board_array)):
-			r = random.randint(0,5)
-			self.board_array[i] = Actions(self.board_array[i]).rotate(r) #rotate boards
-			upper_board = self.board_array[i-1]
-			lower_board = self.board_array[i]
-			for x in range(len(upper_board)):
-				for y in range(len(upper_board[x])):
-					if upper_board[x][y]["is_hole"]:
-						upper_board[x][y]["sub_dots"] = lower_board[x][y]["dots"]
-
-		#add pieces to board, add pieces to each player in player object
-		if self.board == B4:
-			active_players = self.get_active_players()
-			player_count = len(active_players)
-			max_turns = (18//player_count)*player_count #equal number of starting pieces for each player
-			for turn in range(1, max_turns + 1):
-				print(Display(self.board))
-				CP_name = active_players[turn%player_count - 1]
-				remaining_spaces = [space["name"] for space in flatten(self.board) if space["starting_space"] and not space["has_piece"]]
-				if random_gameplay:
-					space_index = random.randint(0, len(remaining_spaces) - 1)
-				else:
-					space_index = input("These are the remaining spaces, choose 1: {}\n==> ".format(remaining_spaces))
-					while not space_index.isdigit() or int(space_index) >= len(remaining_spaces):
-						space_index = input("These are the remaining spaces, choose 1: {}\n==> ".format(remaining_spaces))
-				chosen_space = remaining_spaces[int(space_index)]
-				x = int(chosen_space[1]) #row
-				y = int(chosen_space[2]) #collumn
-				self.board[x][y]["has_piece"] = CP_name
-			print(Display(self.board))
-			print("Game Setup is complete.\n\n\n")
-		else:
-			#determine starting spaces
-			r = random.randint(0,5)
-			upper_board = B2 if self.board == B1 else (B3 if self.board == B2 else B4)
-			flat_upper_board = flatten(Actions(upper_board).rotate(r))
-			flat_starting_board = flatten(self.board)
-			starting_spaces = [item[0]["name"] for item in zip(flat_starting_board, flat_upper_board) if item[1]["is_hole"]]
-			random.shuffle(starting_spaces)
-
-			#determine cuts in starting spaces 
-			separations = [0]*self.player_count
-			for i in range(len(starting_spaces)):
-				separations[i%self.player_count] += 1
-			separations = [num for num in separations if num != 0]
-			random.shuffle(separations)
-			cuts = [sum(separations[:n]) for n in range(0, len(separations) + 1)]
-
-			#remove players who are eliminated due to not having enough spaces
-			if self.player_count > len(starting_spaces):
-				for player in self.players:
-					if int(player[1:]) > len(starting_spaces):
-						self.players[player]["is_active"] = False
-
-			#add pieces to players object, add pieces to board
-			active_players = self.get_active_players()
-			for n in range(len(active_players)):
-				player = active_players[n]
-				self.players[player]["pieces"] = starting_spaces[cuts[n]:cuts[n+1]]
-				print(player, self.players[player]["pieces"])
-				for space in self.players[player]["pieces"]:
-					self.board[int(space[1])][int(space[2])]["has_piece"] = player
+	def remove_inactive_players(self):
+		"""Remove players when there are too many players for starting spaces."""
+		if self.player_count > self.starting_spaces_length:
+			for player in self.players:
+				player_number = int(player[1:])
+				if player_number > self.starting_spaces_length:
+					self.players[player]["is_active"] = False
 
 	def update_players(self):
 		"""Update player object."""
@@ -292,24 +267,91 @@ class FullGame(object):
 			if len(self.players[player]["pieces"]) == 0:
 				self.players[player]["is_active"] = False
 
+	def configure_boards(self):
+		"""Rotate boards in board_array, add sub_dots."""
+		for i in range(1, len(self.board_array)):
+			r = random.randint(0,5)
+			self.board_array[i] = Actions(self.board_array[i]).rotate(r) #rotate boards
+			upper_board = self.board_array[i-1]
+			lower_board = self.board_array[i]
+			for x in range(len(upper_board)):
+				for y in range(len(upper_board[x])):
+					if upper_board[x][y]["is_hole"]:
+						upper_board[x][y]["sub_dots"] = lower_board[x][y]["dots"]
+
+	def get_starting_spaces(self):
+		"""Get starting_spaces and cuts."""
+		if self.board == B4:
+			starting_spaces = [space["name"] for space in flatten(self.board) if space["starting_space"]]
+			random.shuffle(starting_spaces)
+			equal_spaces = (18//self.player_count)*self.player_count
+			starting_spaces = starting_spaces[:equal_spaces]
+		else:
+			r = random.randint(0,5)
+			upper_board = B2 if self.board == B1 else (B3 if self.board == B2 else B4)
+			flat_upper_board = flatten(Actions(upper_board).rotate(r))
+			flat_starting_board = flatten(self.board)
+			starting_spaces = [item[0]["name"] for item in zip(flat_starting_board, flat_upper_board) if item[1]["is_hole"]]
+			random.shuffle(starting_spaces)
+		
+		self.starting_spaces_length = len(starting_spaces)
+		len_separations = min(self.player_count, self.starting_spaces_length)
+		separations = [0]*len_separations
+		for i in range(self.starting_spaces_length):
+			separations[i%self.player_count] += 1
+		random.shuffle(separations)
+
+		return (starting_spaces, separations)
+
+	def configure_players_random(self):
+		"""Configure player object for random gameplay."""
+		starting_spaces, separations = self.get_starting_spaces()
+		self.remove_inactive_players()
+		active_players = self.get_active_players()
+		cuts = [sum(separations[:n]) for n in range(len(separations) + 1)]
+		for n in range(len(active_players)): #add pieces to players object, add pieces to board
+			player = active_players[n]
+			self.players[player]["pieces"] = starting_spaces[cuts[n]:cuts[n+1]]
+			print(player, self.players[player]["pieces"])
+			for space in self.players[player]["pieces"]:
+				self.board[int(space[1])][int(space[2])]["has_piece"] = player
+
+	def configure_players(self):
+		"""Configure player object for user-selected gameplay"""
+		starting_spaces, pieces_per_player = self.get_starting_spaces()
+		self.remove_inactive_players()
+		active_players = self.get_active_players()
+		max_pieces = max(pieces_per_player)
+		data = list(zip(active_players, pieces_per_player))
+		player_order = flatten([[item[0] for item in data if n < item[1]] for n in range(max_pieces)])
+		print("player order:", player_order) #order that players place pieces based on randomized pieces per player
+		for name in player_order:
+			print("Pick a space for", name)
+			space_index = input("These are the remaining spaces... {}\n==> ".format(starting_spaces))
+			while not space_index.isdigit() or int(space_index) >= self.starting_spaces_length:
+				space_index = input("These are the remaining spaces... {}\n==> ".format(starting_spaces))
+			selected_space = starting_spaces[int(space_index)]
+			starting_spaces.remove(selected_space)
+			x = int(selected_space[1]) #row
+			y = int(selected_space[2]) #collumn
+			self.board[x][y]["has_piece"] = name
+			self.players[name]["pieces"].append(selected_space)
+			print(Display(self.board))
+
 	def make_move(self):
 		center = self.board[3][3]
 		if not center["has_piece"]:
 			active_players = self.get_active_players()
 			self.CP_name = "P1" if self.turn == 1 else active_players[(active_players.index(self.CP_name)+1)%len(active_players)] #checks index before assignment
-			self.CP_pieces = self.players[self.CP_name]["pieces"]
-			print(self.CP_name, self.CP_pieces)
-		else:
-			self.CP_pieces = self.players[self.CP_name]["pieces"]
-			print("\n{}'s piece is in the center, they will now move it...\n".format(self.CP_name))
-			print(Display(self.board))
-
+		self.CP_pieces = self.players[self.CP_name]["pieces"] #fails if game starts with piece in center
+		print(self.CP_name, "has these pieces:", self.CP_pieces)
 		if len(self.CP_pieces) == 0:
-			print("{} has no valid moves".format(self.CP_name))
-			self.turn += 1
-			return False
+			print(self.CP_name, "has no valid moves")
 		else:
-			Actions(self.board).take_turn(self.CP_pieces, self.CP_name)
+			if self.random_gameplay:
+				Actions(self.board).take_turn_random(self.CP_pieces, self.CP_name)
+			else:
+				Actions(self.board).take_turn(self.CP_pieces, self.CP_name)
 
 	def check_for_winner(self):
 		"""Check for winner."""
@@ -323,7 +365,6 @@ class FullGame(object):
 
 	def imprint_board(self):
 		"""Assigns pieces in holes to lower board."""
-		print(Display(self.board))
 		next_board = self.board_array[1]
 		for x in range(len(self.board)): #row
 			for y in range(len(self.board[x])): #collumn
@@ -331,13 +372,20 @@ class FullGame(object):
 					next_board[x][y]["has_piece"] = self.board[x][y]["has_piece"]
 		self.board_array.pop(0)
 		self.board = self.board_array[0] #self.board is now next board in self.board_array
-		print("\n\n\nALL SPACES ON BOARD B{} ARE FILLED, MOVING DOWN TO BOARD B{}\n\n\n".format(len(self.board_array)+1, len(self.board_array)))
+		print("\n\n\nALL HOLES ARE FILLED ON BOARD B{}; NOW MOVING TO BOARD B{}\n\n\n".format(len(self.board_array)+1, len(self.board_array)))
 
 	def play(self):
 		"""Play a complete game."""
-		self.setup_game()
+		print(Display(self.board))
+		self.configure_boards()
+		if self.random_gameplay:
+			self.configure_players_random()
+		else:
+			self.configure_players()
+		print("Game Setup is now complete")
+
 		while True:
-			print("\n\n\nTURN NUMBER {}".format(self.turn))
+			print("\n\n\nTURN NUMBER", self.turn)
 			print(Display(self.board))
 			self.update_players()
 			self.make_move()
@@ -346,11 +394,13 @@ class FullGame(object):
 			if center["has_piece"]:
 				if self.check_for_winner():
 					break
+				print(Display(self.board))
 				self.update_players()
 				self.make_move()
 
 			#check if all pieces are in holes
 			if all([space["has_piece"] for space in flatten(self.board) if space["is_hole"]]):
+				print(Display(self.board))
 				self.imprint_board()
 				self.update_player_status()
 				if self.check_for_winner():
@@ -361,7 +411,7 @@ class FullGame(object):
 	def get_winner(self):
 		print("\n\nThere is a winner...")
 		print(Display(self.board))
-		print("\n\nTHE WINNER IS: {}".format(self.winner))
+		print("\nTHE WINNER IS", self.winner)
 		return self.winner
 
 
@@ -369,15 +419,19 @@ def main():
 	with open("out.txt", "w") as outfile:
 		pass
 
-	top_board = B4
+	top_board = B3
 	player_count = 2
+	random_gameplay = False
+	print_to_console = True
 
+	if top_board not in [B4, B3, B2, B1]:
+		raise ValueError("Only (B4, B3, B2, B1) are allowed")
 	if player_count not in range(2, 19):
 		raise ValueError("Valid input is int in range(2, 19)")
-	if top_board not in [B1, B2, B3, B4]:
-		raise ValueError("Only (B1, B2, B3, B4) are allowed")
+	if type(random_gameplay) != bool:
+		raise ValueError("Valid input for random_gameplay is bool")
 
-	NewGame = FullGame(top_board, player_count)
+	NewGame = FullGame(top_board, player_count, random_gameplay)
 
 	if print_to_console:
 		NewGame.play()
@@ -395,10 +449,9 @@ if __name__ == "__main__":
 """
 TO-DO:
 Expand and clarify docstrings
-Add proper reset method instead of using loop in seperate file to execute file multiple times
+Create GUI
 
 IDEAS:
-Create GUI
 Create move trees and determine winning strategy
 Create AI to learn game, find optimal strategy
 
