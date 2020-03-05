@@ -88,6 +88,7 @@ class Display(object):
 		return self.board_output()
 
 	def retrieve_attr_data(self):
+		"""Retrieves data for board arguments in initialization."""
 		return (*[[[space[attribute] for space in row] for row in self.board] for attribute in self.board_attributes],)
 
 
@@ -144,7 +145,7 @@ class Actions(object):
 	def take_turn_random(self, CP_pieces, CP_name):
 		"""Execute turn for player through random choice."""
 		center_name = "i33"
-		if center_name in CP_pieces: #"i33" is center
+		if center_name in CP_pieces:
 			piece = center_name
 			piece_index = center_name
 			print(CP_name, "has a piece in the center...")
@@ -153,7 +154,7 @@ class Actions(object):
 			print("Available pieces:", CP_pieces)
 			print("Unblocked_pieces:", unblocked_pieces)
 			if len(unblocked_pieces) == 0:
-				print(CP_name, "has no available pieces, all pieces are blocked")
+				print(CP_name, "has no available pieces. All pieces are blocked")
 				return False
 			piece = random.choice(unblocked_pieces)
 			piece_index = self.find_correct_space(piece)
@@ -350,6 +351,20 @@ class NewGame(object):
 			self.players.update_players(self.board)
 			print(Display(self.board))
 
+	def make_move_random(self):
+		"""Make move for player."""
+		center = self.board[3][3]
+		if not center["has_piece"]:
+			print("no piece in center")
+			active_players = self.players.get_active_players()
+			self.CP_name = "P1" if self.turn == 1 else active_players[(active_players.index(self.CP_name)+1)%len(active_players)] #checks index before assignment
+		self.CP_pieces = self.players.players[self.CP_name]["pieces"] #fails if game starts with piece in center
+		print(self.CP_name, "has these pieces:", self.CP_pieces)
+		if len(self.CP_pieces) == 0:
+			print(self.CP_name, "has no valid moves")
+		else:
+			Actions(self.board).take_turn_random(self.CP_pieces, self.CP_name)
+
 	def make_move(self):
 		"""Make move for player."""
 		center = self.board[3][3]
@@ -362,10 +377,7 @@ class NewGame(object):
 		if len(self.CP_pieces) == 0:
 			print(self.CP_name, "has no valid moves")
 		else:
-			if self.random_gameplay:
-				Actions(self.board).take_turn_random(self.CP_pieces, self.CP_name)
-			else:
-				Actions(self.board).take_turn(self.CP_pieces, self.CP_name)
+			Actions(self.board).take_turn(self.CP_pieces, self.CP_name)
 
 	def check_for_winner(self):
 		"""Check for winner."""
@@ -403,7 +415,10 @@ class NewGame(object):
 			print("\n\n\nTURN NUMBER", self.turn)
 			print(Display(self.board))
 			self.players.update_players(self.board)
-			self.make_move()
+			if self.random_gameplay:
+				self.make_move_random()
+			else:
+				self.make_move()
 
 			center = self.board[3][3]
 			if center["has_piece"]:
@@ -411,7 +426,10 @@ class NewGame(object):
 				self.players.update_players(self.board)
 				if self.check_for_winner():
 					break
-				self.make_move()
+				if self.random_gameplay:
+					self.make_move_random()
+				else:
+					self.make_move()
 
 			#check if all pieces are in holes
 			if all([space["has_piece"] for space in flatten(self.board) if space["is_hole"]]):
@@ -467,6 +485,6 @@ Create move trees and determine winning strategy
 Create AI to learn game, find optimal strategy
 
 DIFFERENCES FROM MAIN GAME:
-- supports more than four players
-- allows you to choose a new move if you choose a move where all pieces are blocked
+- can support more than four players
+- has easy mode where player's turn isn't skipped if you choose a blocked piece
 """
