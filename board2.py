@@ -1,12 +1,12 @@
-#data for board 2
-#Copyright Symbol Facing Upwards
-#Unused attributes: starting_space
+# Data for board 2
+# Copyright Symbol Facing Upwards
+# Unused attributes: starting_space
 
 B2_Data = {
 	"i00": {
 		"name": "i00",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -24,7 +24,7 @@ B2_Data = {
 	"i01": {
 		"name": "i01",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -42,7 +42,7 @@ B2_Data = {
 	"i02": {
 		"name": "i02",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -60,7 +60,7 @@ B2_Data = {
 	"i03": {
 		"name": "i03",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -78,7 +78,7 @@ B2_Data = {
 	"i10": {
 		"name": "i10",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -150,7 +150,7 @@ B2_Data = {
 	"i14": {
 		"name": "i14",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -168,7 +168,7 @@ B2_Data = {
 	"i20": {
 		"name": "i20",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -258,7 +258,7 @@ B2_Data = {
 	"i25": {
 		"name": "i25",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -276,7 +276,7 @@ B2_Data = {
 	"i30": {
 		"name": "i30",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -384,7 +384,7 @@ B2_Data = {
 	"i36": {
 		"name": "i36",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -402,7 +402,7 @@ B2_Data = {
 	"i40": {
 		"name": "i40",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -492,7 +492,7 @@ B2_Data = {
 	"i45": {
 		"name": "i45",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -510,7 +510,7 @@ B2_Data = {
 	"i50": {
 		"name": "i50",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -582,7 +582,7 @@ B2_Data = {
 	"i54": {
 		"name": "i54",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -600,7 +600,7 @@ B2_Data = {
 	"i60": {
 		"name": "i60",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -618,7 +618,7 @@ B2_Data = {
 	"i61": {
 		"name": "i61",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -636,7 +636,7 @@ B2_Data = {
 	"i62": {
 		"name": "i62",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -654,7 +654,7 @@ B2_Data = {
 	"i63": {
 		"name": "i63",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -672,11 +672,11 @@ B2_Data = {
 }
 
 B2 = [
-	[B2_Data["i00"], B2_Data["i01"], B2_Data["i02"], B2_Data["i03"]], \
-	[B2_Data["i10"], B2_Data["i11"], B2_Data["i12"], B2_Data["i13"], B2_Data["i14"]], \
-	[B2_Data["i20"], B2_Data["i21"], B2_Data["i22"], B2_Data["i23"], B2_Data["i24"], B2_Data["i25"]], \
-	[B2_Data["i30"], B2_Data["i31"], B2_Data["i32"], B2_Data["i33"], B2_Data["i34"], B2_Data["i35"], B2_Data["i36"]], \
-	[B2_Data["i40"], B2_Data["i41"], B2_Data["i42"], B2_Data["i43"], B2_Data["i44"], B2_Data["i45"]], \
-	[B2_Data["i50"], B2_Data["i51"], B2_Data["i52"], B2_Data["i53"], B2_Data["i54"]], \
+	[B2_Data["i00"], B2_Data["i01"], B2_Data["i02"], B2_Data["i03"]],
+	[B2_Data["i10"], B2_Data["i11"], B2_Data["i12"], B2_Data["i13"], B2_Data["i14"]],
+	[B2_Data["i20"], B2_Data["i21"], B2_Data["i22"], B2_Data["i23"], B2_Data["i24"], B2_Data["i25"]],
+	[B2_Data["i30"], B2_Data["i31"], B2_Data["i32"], B2_Data["i33"], B2_Data["i34"], B2_Data["i35"], B2_Data["i36"]],
+	[B2_Data["i40"], B2_Data["i41"], B2_Data["i42"], B2_Data["i43"], B2_Data["i44"], B2_Data["i45"]],
+	[B2_Data["i50"], B2_Data["i51"], B2_Data["i52"], B2_Data["i53"], B2_Data["i54"]],
 	[B2_Data["i60"], B2_Data["i61"], B2_Data["i62"], B2_Data["i63"]]
 ]

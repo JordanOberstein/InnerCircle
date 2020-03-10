@@ -1,5 +1,5 @@
-#data for board 4
-#Copyright Symbol Facing Upwards
+# Data for board 4
+# Copyright Symbol Facing Upwards
 
 B4_Data = {
 	"i00": {
@@ -671,11 +671,11 @@ B4_Data = {
 }
 
 B4 = [
-	[B4_Data["i00"], B4_Data["i01"], B4_Data["i02"], B4_Data["i03"]], \
-	[B4_Data["i10"], B4_Data["i11"], B4_Data["i12"], B4_Data["i13"], B4_Data["i14"]], \
-	[B4_Data["i20"], B4_Data["i21"], B4_Data["i22"], B4_Data["i23"], B4_Data["i24"], B4_Data["i25"]], \
-	[B4_Data["i30"], B4_Data["i31"], B4_Data["i32"], B4_Data["i33"], B4_Data["i34"], B4_Data["i35"], B4_Data["i36"]], \
-	[B4_Data["i40"], B4_Data["i41"], B4_Data["i42"], B4_Data["i43"], B4_Data["i44"], B4_Data["i45"]], \
-	[B4_Data["i50"], B4_Data["i51"], B4_Data["i52"], B4_Data["i53"], B4_Data["i54"]], \
+	[B4_Data["i00"], B4_Data["i01"], B4_Data["i02"], B4_Data["i03"]],
+	[B4_Data["i10"], B4_Data["i11"], B4_Data["i12"], B4_Data["i13"], B4_Data["i14"]],
+	[B4_Data["i20"], B4_Data["i21"], B4_Data["i22"], B4_Data["i23"], B4_Data["i24"], B4_Data["i25"]],
+	[B4_Data["i30"], B4_Data["i31"], B4_Data["i32"], B4_Data["i33"], B4_Data["i34"], B4_Data["i35"], B4_Data["i36"]],
+	[B4_Data["i40"], B4_Data["i41"], B4_Data["i42"], B4_Data["i43"], B4_Data["i44"], B4_Data["i45"]],
+	[B4_Data["i50"], B4_Data["i51"], B4_Data["i52"], B4_Data["i53"], B4_Data["i54"]],
 	[B4_Data["i60"], B4_Data["i61"], B4_Data["i62"], B4_Data["i63"]]
 ]

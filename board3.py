@@ -1,6 +1,6 @@
-#data for board 3
-#Copyright Symbol Facing Upwards
-#Unused attributes: starting_space
+# Data for board 3
+# Copyright Symbol Facing Upwards
+# Unused attributes: starting_space
 
 B3_Data = {
 	"i00": {
@@ -96,7 +96,7 @@ B3_Data = {
 	"i11": {
 		"name": "i11",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -114,7 +114,7 @@ B3_Data = {
 	"i12": {
 		"name": "i12",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -132,7 +132,7 @@ B3_Data = {
 	"i13": {
 		"name": "i13",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -186,7 +186,7 @@ B3_Data = {
 	"i21": {
 		"name": "i21",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -204,7 +204,7 @@ B3_Data = {
 	"i22": {
 		"name": "i22",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -222,7 +222,7 @@ B3_Data = {
 	"i23": {
 		"name": "i23",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -240,7 +240,7 @@ B3_Data = {
 	"i24": {
 		"name": "i24",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -294,7 +294,7 @@ B3_Data = {
 	"i31": {
 		"name": "i31",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -312,7 +312,7 @@ B3_Data = {
 	"i32": {
 		"name": "i32",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -348,7 +348,7 @@ B3_Data = {
 	"i34": {
 		"name": "i34",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -366,7 +366,7 @@ B3_Data = {
 	"i35": {
 		"name": "i35",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -420,7 +420,7 @@ B3_Data = {
 	"i41": {
 		"name": "i41",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -438,7 +438,7 @@ B3_Data = {
 	"i42": {
 		"name": "i42",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -456,7 +456,7 @@ B3_Data = {
 	"i43": {
 		"name": "i43",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -474,7 +474,7 @@ B3_Data = {
 	"i44": {
 		"name": "i44",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -528,7 +528,7 @@ B3_Data = {
 	"i51": {
 		"name": "i51",
 		"dots": 1,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -546,7 +546,7 @@ B3_Data = {
 	"i52": {
 		"name": "i52",
 		"dots": 3,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -564,7 +564,7 @@ B3_Data = {
 	"i53": {
 		"name": "i53",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -672,11 +672,11 @@ B3_Data = {
 }
 
 B3 = [
-	[B3_Data["i00"], B3_Data["i01"], B3_Data["i02"], B3_Data["i03"]], \
-	[B3_Data["i10"], B3_Data["i11"], B3_Data["i12"], B3_Data["i13"], B3_Data["i14"]], \
-	[B3_Data["i20"], B3_Data["i21"], B3_Data["i22"], B3_Data["i23"], B3_Data["i24"], B3_Data["i25"]], \
-	[B3_Data["i30"], B3_Data["i31"], B3_Data["i32"], B3_Data["i33"], B3_Data["i34"], B3_Data["i35"], B3_Data["i36"]], \
-	[B3_Data["i40"], B3_Data["i41"], B3_Data["i42"], B3_Data["i43"], B3_Data["i44"], B3_Data["i45"]], \
-	[B3_Data["i50"], B3_Data["i51"], B3_Data["i52"], B3_Data["i53"], B3_Data["i54"]], \
+	[B3_Data["i00"], B3_Data["i01"], B3_Data["i02"], B3_Data["i03"]],
+	[B3_Data["i10"], B3_Data["i11"], B3_Data["i12"], B3_Data["i13"], B3_Data["i14"]],
+	[B3_Data["i20"], B3_Data["i21"], B3_Data["i22"], B3_Data["i23"], B3_Data["i24"], B3_Data["i25"]],
+	[B3_Data["i30"], B3_Data["i31"], B3_Data["i32"], B3_Data["i33"], B3_Data["i34"], B3_Data["i35"], B3_Data["i36"]],
+	[B3_Data["i40"], B3_Data["i41"], B3_Data["i42"], B3_Data["i43"], B3_Data["i44"], B3_Data["i45"]],
+	[B3_Data["i50"], B3_Data["i51"], B3_Data["i52"], B3_Data["i53"], B3_Data["i54"]],
 	[B3_Data["i60"], B3_Data["i61"], B3_Data["i62"], B3_Data["i63"]]
 ]

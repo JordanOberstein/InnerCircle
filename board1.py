@@ -1,6 +1,6 @@
-#data for board 1
-#Copyright Symbol Facing Upwards
-#Unused attributes: starting_space
+# Data for board 1
+# Copyright Symbol Facing Upwards
+# Unused attributes: starting_space
 
 B1_Data = {
 	"i00": {
@@ -114,7 +114,7 @@ B1_Data = {
 	"i12": {
 		"name": "i12",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -186,7 +186,7 @@ B1_Data = {
 	"i21": {
 		"name": "i21",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -240,7 +240,7 @@ B1_Data = {
 	"i24": {
 		"name": "i24",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -420,7 +420,7 @@ B1_Data = {
 	"i41": {
 		"name": "i41",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -474,7 +474,7 @@ B1_Data = {
 	"i44": {
 		"name": "i44",
 		"dots": 4,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -546,7 +546,7 @@ B1_Data = {
 	"i52": {
 		"name": "i52",
 		"dots": 2,
-		"starting_space": True, #is potential starting space
+		"starting_space": True,  # Is potential starting space
 		"has_piece": False,
 		"is_hole": False,
 		"sub_dots": False,
@@ -672,11 +672,11 @@ B1_Data = {
 }
 
 B1 = [
-	[B1_Data["i00"], B1_Data["i01"], B1_Data["i02"], B1_Data["i03"]], \
-	[B1_Data["i10"], B1_Data["i11"], B1_Data["i12"], B1_Data["i13"], B1_Data["i14"]], \
-	[B1_Data["i20"], B1_Data["i21"], B1_Data["i22"], B1_Data["i23"], B1_Data["i24"], B1_Data["i25"]], \
-	[B1_Data["i30"], B1_Data["i31"], B1_Data["i32"], B1_Data["i33"], B1_Data["i34"], B1_Data["i35"], B1_Data["i36"]], \
-	[B1_Data["i40"], B1_Data["i41"], B1_Data["i42"], B1_Data["i43"], B1_Data["i44"], B1_Data["i45"]], \
-	[B1_Data["i50"], B1_Data["i51"], B1_Data["i52"], B1_Data["i53"], B1_Data["i54"]], \
+	[B1_Data["i00"], B1_Data["i01"], B1_Data["i02"], B1_Data["i03"]],
+	[B1_Data["i10"], B1_Data["i11"], B1_Data["i12"], B1_Data["i13"], B1_Data["i14"]],
+	[B1_Data["i20"], B1_Data["i21"], B1_Data["i22"], B1_Data["i23"], B1_Data["i24"], B1_Data["i25"]],
+	[B1_Data["i30"], B1_Data["i31"], B1_Data["i32"], B1_Data["i33"], B1_Data["i34"], B1_Data["i35"], B1_Data["i36"]],
+	[B1_Data["i40"], B1_Data["i41"], B1_Data["i42"], B1_Data["i43"], B1_Data["i44"], B1_Data["i45"]],
+	[B1_Data["i50"], B1_Data["i51"], B1_Data["i52"], B1_Data["i53"], B1_Data["i54"]],
 	[B1_Data["i60"], B1_Data["i61"], B1_Data["i62"], B1_Data["i63"]]
 ]
